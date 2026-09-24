@@ -1,0 +1,11 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { CONFIG, ENTITIES } from '../src/config';
+import { BrowserPlatform } from '../src/platform';
+import { isWater, moveInWater, progressFor, stageFor } from '../src/rules';
+test('growth unlocks each class at its threshold, not before', () => { CONFIG.stages.forEach((s, i) => { assert.equal(stageFor(s.xp), i); if (i) assert.equal(stageFor(s.xp - 1), i - 1); }); assert.equal(stageFor(99999), 5); });
+test('progress resets at milestones and caps at the final class', () => { assert.equal(progressFor(0), 0); assert.equal(progressFor(11), 0.5); assert.equal(progressFor(22), 0); assert.equal(progressFor(10000), 1); });
+test('water checks reject docks, islands and world edges', () => { assert.equal(isWater(790, 620, 25), true); for (const [x,y] of [[-10,200],[1590,500],[253,795],[1348,241],[160,300],[1450,700]]) assert.equal(isWater(x,y,20),false); });
+test('movement cannot tunnel through an island or exit harbor at high speed', () => { const result = moveInWater(450,795,-350,0,24); assert.ok(result.x >= 375); assert.ok(isWater(result.x,result.y,24)); const edge = moveInWater(800,600,5000,0,24); assert.ok(edge.x < 1540); });
+test('larger classes are more rewarding and have reachable progression', () => { const ladder = ['driftwood','crate','rowboat','fishing','tug','cargo'] as const; for(let i=1;i<ladder.length;i++) assert.ok(ENTITIES[ladder[i]].score > ENTITIES[ladder[i-1]].score); assert.ok(Object.values(ENTITIES).reduce((sum,e)=>sum+e.xp*e.count,0) > CONFIG.stages[5].xp); });
+test('storage is optional and never prevents a round', () => { const platform = new BrowserPlatform(); assert.equal(platform.loadBest(), 0); assert.doesNotThrow(() => platform.saveBest(100)); });

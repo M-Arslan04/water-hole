@@ -1,0 +1,58 @@
+import { CONFIG, ENTITIES, OBSTACLES, type EntityKind } from './config';
+import { entityIcon } from './art';
+import type { HarborScene, Snapshot } from './game';
+const icon = (name: 'sound' | 'mute' | 'pause' | 'arrow' | 'wave' | 'trophy') => {
+  const paths = { sound: '<path d="m11 4-5 4H3v8h3l5 4z"/><path d="M15 8a6 6 0 0 1 0 8M18 5a10 10 0 0 1 0 14"/>', mute: '<path d="m11 4-5 4H3v8h3l5 4z"/><path d="m16 9 6 6m0-6-6 6"/>', pause: '<path d="M8 5v14M16 5v14"/>', arrow: '<path d="M4 12h16m-6-6 6 6-6 6"/>', wave: '<path d="M2 8c4-5 6 5 10 0s6 5 10 0M2 16c4-5 6 5 10 0s6 5 10 0"/>', trophy: '<path d="M7 3h10v7a5 5 0 0 1-10 0zM7 5H3v3a4 4 0 0 0 4 4m10-7h4v3a4 4 0 0 1-4 4M12 15v5m-5 1h10"/>' };
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]}</svg>`;
+};
+export function mountUI() {
+  document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
+    <main class="shell">
+      <header class="topbar"><a class="brand" href="./" aria-label="Water Hole home"><span class="brand-mark">${icon('wave')}</span>WATER HOLE<span class="brand-dot">✳</span></a><span class="edition">SMALL GAME. BIG APPETITE.</span><div class="top-actions"><span class="local-badge"><i></i> PLAY IT YOUR WAY</span><button id="sound" class="icon-button" aria-label="Mute sound" aria-pressed="false">${icon('sound')}</button></div></header>
+      <section class="intro"><div><div class="eyebrow"><span></span> A LITTLE HARBOR HAVOC</div><h1>Make a little <em>chaos.</em></h1></div><p>Start small. Get carried away.<br>Your next 90 seconds are looking nautical.</p></section>
+      <section id="game-frame" class="game-frame" aria-label="Water Hole arcade game">
+        <div id="game" role="application" aria-label="Harbor. Hold and drag to steer, or use WASD or arrow keys."></div>
+        <div id="loading" class="loading"><div class="loading-wave">${icon('wave')}</div>Filling the harbor…</div>
+        <div class="harbor-label" id="harbor-label"><span class="live-dot"></span> SUNBREAK HARBOR <span class="location-divider">/</span> 01</div>
+        <div id="hud" class="hud" hidden><div class="score-box"><span class="hud-label">SCORE</span><strong id="score">0</strong></div><div class="timer-box"><span class="timer-dot"></span><strong id="timer">1:30</strong></div><button id="pause" class="icon-button" aria-label="Pause game">${icon('pause')}</button></div>
+        <div id="welcome" class="welcome overlay"><div class="start-card"><div class="card-kicker"><span class="mini-wave">${icon('wave')}</span> GOOD TIDES. BAD INTENTIONS.</div><h2>A little whirlpool.<br>A <em>big appetite.</em></h2><p>Swallow the small stuff. Grow your whirlpool.<br>See how much harbor you can handle.</p><button id="play" class="primary-button" disabled>Loading harbor… ${icon('arrow')}</button><div class="play-details"><span>90-SECOND ROUNDS</span><i></i><span>NO SIGN-UP. JUST PLAY.</span></div><div class="best-line">${icon('trophy')} PERSONAL BEST <strong id="welcome-best">—</strong></div></div><div class="world-note"><span>YOU, BUT HUNGRIER.</span><svg viewBox="0 0 100 70" fill="none"><path d="M10 5Q85-8 85 47m-9-5 9 12 8-13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><div class="map-caption">A SMALL SLICE OF PARADISE.<br>UNTIL YOU SHOW UP.</div><div class="round-badge"><strong>90</strong><span>SECONDS<br>OF GOOD CHAOS</span></div></div>
+        <div id="pause-overlay" class="center-overlay overlay" hidden><div class="modal-card"><span class="eyebrow">TAKE A BREATHER</span><h2>Calm waters.</h2><p>Your harbor is right where you left it.</p><button id="resume" class="primary-button">Keep making waves ${icon('arrow')}</button></div></div>
+        <div id="result" class="center-overlay overlay" hidden><div class="modal-card result-card"><span id="result-kicker" class="eyebrow">THAT WAS A GOOD RUN</span><h2>Quite the appetite.</h2><div class="final-score"><strong id="final-score">0</strong><span>POINTS SCOOPED UP</span></div><div class="result-stats"><div><span>BIGGEST CATCH</span><strong id="largest">—</strong></div><div><span>OBJECTS CAPTURED</span><strong id="captured">0</strong></div></div><button id="again" class="primary-button">One more round ${icon('arrow')}</button><div class="result-best">${icon('trophy')} PERSONAL BEST <strong id="result-best">0</strong></div></div></div>
+        <div id="toast" class="toast" role="status"></div>
+        <div id="hint" class="hint" hidden><span class="hint-symbol">↔</span><span id="hint-text">Hold & drag to steer · or use WASD</span></div>
+        <div id="growth" class="growth" hidden><div class="growth-top"><span id="stage-name">Little ripple</span><strong id="stage-number">01 / 06</strong></div><div class="growth-track"><div id="growth-fill"></div></div><div class="growth-caption"><span id="current-target">Collect driftwood & bottles</span><span id="next-target">NEXT: CRATES</span></div></div>
+        <canvas id="minimap" class="minimap" width="160" height="110" aria-label="Harbor map. Your whirlpool is the yellow dot." hidden></canvas>
+      </section>
+      <section class="field-guide" aria-label="How to play"><div class="guide-heading"><span class="eyebrow">THE ART OF GETTING CARRIED AWAY</span><h3>Small beginnings. <span>Ship-sized endings.</span></h3></div><div class="guide-steps"><article><span class="step-number">01</span><div><h4>Go with the flow</h4><p>Hold & drag to steer. Small things first.</p></div></article><article><span class="step-number">02</span><div><h4>Feed your ambition</h4><p>Every catch makes a bigger catch possible.</p></div></article><article><span class="step-number">03</span><div><h4>Make the harbor yours</h4><p>Dodge the shallows. Chase the big ships.</p></div></article></div></section>
+      <section class="ladder" aria-label="Growth progression"><span class="ladder-label">ON THE MENU</span>${(['driftwood','crate','rowboat','fishing','tug','cargo'] as EntityKind[]).map((k, i) => `<div class="ladder-item" data-tier="${i}"><img src="${entityIcon(k)}" alt=""/><span>${['Little things','Crates & buoys','Rowboats','Fishing boats','Tugboats','Cargo ships'][i]}</span></div>${i < 5 ? '<span class="ladder-arrow">›</span>' : ''}`).join('')}</section>
+      <footer><span>WATER HOLE <span class="footer-divider">/</span> AN ORIGINAL LITTLE ESCAPE</span><span>Built for a little downtime. <span class="footer-wave">≈</span></span></footer>
+    </main>`;
+}
+const get = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
+export function bindUI(scene: HarborScene) {
+  let toastTimeout = 0, previousMode = '', previousScore = 0, bestAtStart = scene.best;
+  const hud = get('hud'), welcome = get('welcome'), pauseOverlay = get('pause-overlay'), result = get('result'), growth = get('growth'), hint = get('hint'), mini = get<HTMLCanvasElement>('minimap'), ctx = mini.getContext('2d')!;
+  const focusButton = (id: string) => requestAnimationFrame(() => get<HTMLButtonElement>(id).focus({ preventScroll: true }));
+  get('play').onclick = () => scene.startRound(); get('again').onclick = () => scene.startRound(); get('pause').onclick = () => scene.pauseRound(); get('resume').onclick = () => scene.resumeRound();
+  get('sound').onclick = () => { scene.audio.setMuted(!scene.audio.muted); const muted = scene.audio.muted; get('sound').innerHTML = icon(muted ? 'mute' : 'sound'); get('sound').setAttribute('aria-label', muted ? 'Unmute sound' : 'Mute sound'); get('sound').setAttribute('aria-pressed', String(muted)); };
+  scene.onToast = (message, type = '') => { const toast = get('toast'); toast.textContent = message; toast.className = `toast visible toast-${type}`; window.clearTimeout(toastTimeout); toastTimeout = window.setTimeout(() => { toast.className = 'toast'; }, 2400); };
+  scene.onReady = () => { get('loading').hidden = true; const play = get<HTMLButtonElement>('play'); play.disabled = false; play.innerHTML = `Let's make waves ${icon('arrow')}`; };
+  scene.onSnapshot = (s: Snapshot) => {
+    const active = s.mode === 'playing' || s.mode === 'paused';
+    if (s.mode !== previousMode) { welcome.hidden = s.mode !== 'welcome'; pauseOverlay.hidden = s.mode !== 'paused'; result.hidden = s.mode !== 'finished'; hud.hidden = !active; growth.hidden = !active; mini.hidden = !active; get('harbor-label').hidden = s.mode !== 'welcome'; document.body.classList.toggle('in-round', s.mode !== 'welcome'); get('game-frame').dataset.mode = s.mode;
+      if (s.mode === 'playing' && previousMode !== 'paused') { bestAtStart = s.best; get('toast').className = 'toast'; get('game').focus({ preventScroll: true }); }
+      if (s.mode !== 'welcome' && matchMedia('(max-width: 650px), (max-height: 550px)').matches) window.scrollTo(0, 0);
+      if (s.mode === 'paused') focusButton('resume'); if (s.mode === 'finished') focusButton('again'); previousMode = s.mode;
+    }
+    get('welcome-best').textContent = s.best ? s.best.toLocaleString() : 'SET THE FIRST';
+    get('score').textContent = s.score.toLocaleString(); if (s.score !== previousScore) { get('score').animate([{ transform: 'scale(1.12)' }, { transform: 'scale(1)' }], { duration: 180 }); previousScore = s.score; }
+    get('timer').textContent = `${Math.floor(s.time / 60)}:${String(s.time % 60).padStart(2, '0')}`; get('timer').parentElement!.classList.toggle('urgent', s.time <= 15);
+    get('stage-name').textContent = CONFIG.stages[s.stage].name; get('stage-number').textContent = `0${s.stage + 1} / 06`; get('growth-fill').style.width = `${Math.max(3, s.progress * 100)}%`;
+    get('current-target').textContent = `Collect ${CONFIG.stages[s.stage].target.toLowerCase()}`; get('next-target').textContent = s.stage === 5 ? 'THE HARBOR IS YOURS' : `NEXT: ${CONFIG.stages[s.stage + 1].target.toUpperCase()}`;
+    hint.hidden = s.mode !== 'playing' || (s.moved && s.captured >= 3); get('hint-text').textContent = !s.moved ? (navigator.maxTouchPoints > 0 ? 'Drag anywhere to steer your whirlpool' : 'Hold & drag to steer · or use WASD') : 'Pull in the little things to grow';
+    document.querySelectorAll<HTMLElement>('.ladder-item').forEach(el => { el.classList.toggle('unlocked', Number(el.dataset.tier) <= s.stage); el.classList.toggle('current', Number(el.dataset.tier) === s.stage); });
+    if (s.mode === 'finished') { get('final-score').textContent = s.score.toLocaleString(); get('largest').textContent = s.largest; get('captured').textContent = String(s.captured); get('result-best').textContent = s.best.toLocaleString(); get('result-kicker').textContent = s.score > bestAtStart ? 'A NEW PERSONAL BEST' : 'THAT WAS A GOOD RUN'; }
+    if (active) { ctx.clearRect(0, 0, 160, 110); ctx.fillStyle = '#a9b69d'; OBSTACLES.forEach(o => { if (o.kind === 'circle') { ctx.beginPath(); ctx.arc(o.x / 10, o.y / 10, o.radius / 10, 0, Math.PI * 2); ctx.fill(); } else ctx.fillRect(o.x / 10, o.y / 10, o.width / 10, o.height / 10); }); scene.entities.forEach(e => { if (!e.captured && ENTITIES[e.kind].tier >= 2) { ctx.fillStyle = ENTITIES[e.kind].tier <= s.stage ? '#c5e697' : '#9cb4b7'; ctx.fillRect(e.x / 10 - 1, e.y / 10 - 1, 2, 2); } }); ctx.fillStyle = '#ffe3a0'; ctx.beginPath(); ctx.arc(scene.player.x / 10, scene.player.y / 10, 4, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = '#ffe3a077'; ctx.beginPath(); ctx.arc(scene.player.x / 10, scene.player.y / 10, 7, 0, Math.PI * 2); ctx.stroke(); }
+  };
+  get('game').tabIndex = 0;
+}
