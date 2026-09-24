@@ -1,31 +1,54 @@
 # Tuning notes
 
-The game uses world pixels independently of viewport size. Edit `src/config.ts` for gameplay tuning. Rendering scales to the display with a maximum pixel ratio of 2.
+All distances are world pixels unless explicitly described as CSS pixels. `src/config.ts` is the tuning source. The round remains **90 seconds**, with the original six growth thresholds/radii and per-object XP/score values. No attraction, swirl or capture timing values changed in this pass.
 
-| Setting | Current | Effect |
+## Steering
+
+| Setting | Before → current | Purpose |
 | --- | --- | --- |
-| `roundSeconds` | 90 s | Active play duration; paused time is excluded |
-| `movement.speed` | 285 px/s | Full-stick/key movement speed |
-| `movement.acceleration` | 11 | Exponential response; larger values feel more immediate |
-| `movement.joystickRadius` | 58 CSS px | Touch travel required for full speed |
-| `movement.navigationRadius` | 24 px | Navigation body; decorative outer suction rings may overlap shore |
-| `suction.extraRadius` | 68 px | Attraction zone added to current whirlpool radius |
-| `suction.force` | 170 px/s | Base pull speed, strengthened near the center |
-| `suction.swirl` | 0.6 | Tangential curve on the inward pull |
-| `suction.captureFraction` | 0.58 | Capture distance relative to whirlpool radius, plus object allowance |
-| Stage XP thresholds | 0, 22, 85, 220, 520, 1050 | Unlock debris, crates/buoys, rowboats, fishing boats, tugs, cargo |
-| Stage radii | 25, 32, 42, 54, 69, 88 px | Visible growth; interpolated to prevent abrupt jumps |
-| `reef.speedMultiplier` | 0.48 | Shallow water movement penalty; immediate recovery outside reef |
-| `reef.warningCooldown` | 4 s | Prevents repeated hazard messages/audio |
-| `spawn.interval` | 1.1 s | Attempts one replacement object while below the population cap |
-| `spawn.maxObjects` | 100 | Active-object cap; failed safe-placement attempts are skipped |
-| `spawn.playerClearance` | 115 px + radii | Replenishment avoids appearing inside the player |
-| `spawn.vesselFootprint` | 1.5 × radius | Conservative ship spawn and passing clearance |
-| `spawn.vesselExcursion` | 64 px | Half-length of predictable ship travel |
-| `effects.maxParticles` | 95 | Visual effect cap |
+| `movement.speed` | 285 → 285 px/s | Desktop mouse/keyboard top speed |
+| `movement.acceleration` | 11 → 11 /s | Desktop response |
+| `movement.joystickRadius` | 58 → 36 CSS px | Full touch-stick travel; still proportional for short movements |
+| `movement.touchSpeed` | shared 285 → 340 px/s | Phone traversal (+19.3%); independent of suction |
+| `movement.touchAcceleration` | shared 11 → 24 /s | Touch acceleration/braking; exponential 95% response ≈125 ms instead of ≈272 ms |
+| `movement.touchDeadzone` | shared 0.08 → 0.06 | Approximately 2.2 CSS px; avoids stationary finger jitter |
+| `movement.touchCameraResponse` | shared 5 → 10 /s | Less camera lag while touching; desktop remains 5 |
+| `movement.navigationRadius` | 24 → 24 px | Compact collision body at every growth stage |
+| `reef.speedMultiplier` | 0.48 → 0.48 | Intentional shallow-water penalty; unchanged |
 
-Each entity definition also sets `tier`, `radius`, `xp`, `score`, `count` and `speed`. The opening ring contains 14 small objects outside the capture center. Initial positioning uses a fixed seed for a learnable map; moving vessels and choices change the capture sequence. Replacements are drawn from already unlocked classes up to fishing boats. Large vessels remain limited, encouraging exploration rather than farming one place.
+The main bug was geometric: touch movement was normalized from the initial touch-down forever. A 220px drag followed by an 80px reversal still commanded movement in the old direction. `floatingOrigin` now trails the finger once it exceeds the stick radius. Short drags retain an anchored proportional region; long drags no longer require retracing their whole distance. Touch-end/outside, pause and restart clear input. Keyboard input takes precedence and uses the original response.
 
-After the first measured playthrough, later thresholds were raised from 155/310/550 to 220/520/1050. The first version let an efficient automated player unlock cargo within roughly 15 seconds. The revised ladder keeps fishing boats accessible and makes the biggest captures require a more sustained run. Automated pathfinding is more efficient than an unfamiliar human; tune with real first-time player sessions before release.
+Phaser pointer coordinates use the backing canvas scale. Multiplying the CSS stick radius by the capped rendering pixel ratio is correct, not a double-scaling bug. DPR 1/2/3 emulation confirmed comparable response. Movement was never reduced by growth size. Shared 285px/s speed, gentle response and the fixed origin together caused the perceived lag; no render bottleneck was reproduced on this desktop host. Actual phone performance remains unmeasured.
 
-For a gentler game, lower the fishing/tug thresholds before increasing suction radius, because excessively large suction removes navigation choices. For more replay challenge, vary object placement between rounds only after testing fairness; the prototype intentionally retains one predictable handcrafted harbor.
+## Suction and progression — preserved
+
+`extraRadius=68`, `force=170`, `swirl=0.6`, `captureFraction=0.58`. Growth XP: **0, 22, 85, 220, 520, 1050**. Radii: **25, 32, 42, 54, 69, 88**. Bottle/driftwood/crate/buoy/rowboat/fishing/tug/cargo scores remain **15/20/40/35/100/230/450/900**. Opening placements and seeded art/map stay intact.
+
+## Harbor supply
+
+The old system attempted one uniformly chosen replacement every 1.1s, with eligible classes capped at tier 3 (fishing). Initial tugs and cargo were finite: **none could ever respawn**. No entity lifetime or off-screen entry queue exists. Ships oscillate ±64px around safe origins rather than entering from outside the map. The 100-object cap includes live debris, not just useful ships. Captured ships leave supply counts immediately, even while their 260ms effect finishes.
+
+The new `shipNeeded` policy counts **capturable fishing/tug/cargo only**. Locked vessels and low-value objects do not satisfy the targets.
+
+| Spawn setting | Current behavior |
+| --- | --- |
+| `valuableMinimum` | Stages 1–3: 0; stage 4: 2; stage 5: 3; stage 6: 3 |
+| `valuableCap` | Do not add a valuable replacement when 5 valuable ships already remain. Opening population can exceed this; this is a replenishment ceiling, not deletion. |
+| `shipDelay` | At most one valuable arrival per 2 active seconds; unused time cannot release a batch |
+| `cargoDelay` | After stage 6 loses its last cargo ship, wait 8 active seconds before prioritizing one replacement; the 2s shared spacing can extend this to <10s |
+| `tugDelay` | After stage 5/6 loses its last tug, wait 5 active seconds before prioritizing one; shared spacing and cargo priority can extend this to about 9s |
+| Composition | Cargo deficit first when due, then tug, then fishing to fill the minimum. Fishing keeps the harbor useful during big-ship cooldowns. No replacement before its tier is unlocked. |
+| `retryDelay` | If safe placement fails, retry after 0.5s; never force an unsafe spawn |
+| `shipMinDistance`, `shipMaxDistance` | 500–950px from the player at arrival, with a sampled clear navigation path; ≈1.8–3.3s desktop travel in open water |
+| `arrivalFade` | 650ms visual arrival at a safe in-map location; no long off-screen journey or invisible queue |
+| `playerClearance` | Existing 115px plus player/object radii, in addition to arrival distance |
+| `vesselFootprint`, `vesselExcursion` | Existing 1.5× hull clearance and 64px half-route; check route endpoints ±85px in water |
+| `maxObjects`, `reservedShipSlots` | Hard cap 100; ambient spawning stops at 92, reserving 8 slots |
+| `ambientCaps` | Stages 1–3: 100; stage 4: 45; stage 5: 32; stage 6: 24 low-value live objects. Stop adding excess; never delete a player's targets. |
+| `interval` | Ambient attempts remain 1.1s. Original eligible choices through stage 4; stages 5/6 ambient draws stop at rowboats, leaving valuable supply to the population policy. |
+
+Tugs/cargo reuse established clear shipping lanes. Replacements cycle candidate lanes instead of repeatedly selecting one based on a depleted fleet's count. Each arrival rejects land, docks, overlapping hull footprints and routes that obstruct immediate player pursuit. Safe locations are deliberately used instead of off-screen entrances: this keeps targets chaseable before the timer expires. Placement may defer in crowded water; the population target is a replenishment objective, not an inviolable floor during captures. Ships remain useful while the player travels elsewhere, even if a later pursuit needs navigation around an island.
+
+An initial experiment replaced missing cargo every three seconds. A ship-focused bot scored 24,635 against 11,940 on the original game: rejected as excessive inflation. Current pacing separates fishing availability from tug/cargo replacement. See `docs/TESTING.md` for final complete-round counts, delays and score comparisons. Automated navigation is more efficient than a new human player; final phone feel and score economy still need human review before deploying.
+
+The final-stage HUD now says **CHASE SHIPS · BEAT YOUR BEST**. It does not promise another growth level. Particle cap remains 95; no unlimited spawner or late-round rate multiplier was introduced.

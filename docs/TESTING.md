@@ -1,3 +1,89 @@
+# Gameplay improvement verification — 2026-09-24
+
+This report covers the local revision after the initial Vercel launch. **Not deployed.** The 90-second round, six growth stages, art, object scores/XP and suction constants are unchanged. Baseline code was read from Git commit `eb49fb6` and served separately; all playthroughs used ordinary browser input in real time, with read-only diagnostics. No test injected score, XP, position or clock changes.
+
+## Diagnoses and fixes
+
+- **Touch:** a fixed touch-down origin made fast reversals keep steering in the old direction. 58 CSS px of travel, shared 11/s smoothing, 285px/s speed and 5/s camera response compounded the delay. Coordinate conversion is correct; there is no size slowdown. A floating origin plus touch-only tuning resolves this without touching capture force/time.
+- **Empty harbor:** the old random replacement pool stops at fishing boats. Consumed tugs/cargo never return. It counts debris toward its 100-object cap and has no target-population policy. There are no entity lifetimes, spawn queues or outside-map entry delays. Population-based fishing/tug/cargo supply now shares a 2s spacing, with separate big-ship delays, safe placements and reserved slots.
+
+Implementation files: `src/config.ts`, `src/input.ts`, `src/steering-rules.ts`, `src/spawning.ts`, `src/game.ts`, and the final-stage objective in `src/ui.ts`. New regression files: `tests/controls.mjs`, `tests/balance.mjs`; additional rules tests in `tests/rules.test.ts`. Exact values are in [TUNING.md](TUNING.md).
+
+## Full rounds and score balance
+
+| Scenario | Score | Captures | Final stage reached | Median FPS | Final 30s valuable ships min / median / max |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Original game, desktop ship hunter | 11,940 | 160 | 35s | 57.71 | 0 / 0 / 2 |
+| Revised game, desktop ship hunter | 18,575 | 155 | 32s | 57.48 | 1 / 2 / 3 |
+| Revised game, 390×844 touch ship hunter | 19,320 | 155 | 30s | 55.76 | 1 / 2 / 3 |
+| Original existing general-play regression | 12,125 | 162 | 34s | 57.53 | Not instrumented |
+| Revised existing general-play regression | 13,760 | 166 | 45s | 58.49 | Not instrumented |
+| Revised desktop hunter repeat / final assertions | 18,035 | 151 | 32s | 58.80 | 1 / 2 / 3 |
+
+The final independent desktop repeat passed the arrival-distance, two-second spacing, population-cap, cargo/tug-delay and late-capture assertions as well. Its 18,035 score was 51.0% above the baseline hunter. The production layout round used a fixed-direction touch pattern, finished at 1,940 points / 43 captures / Fishing boat, and successfully replayed; it is not a score-optimized run.
+
+**Material balance change:** dedicated desktop ship chasing increased score **55.6%** compared with the same baseline strategy; the general-play regression increased **13.5%**. These are bots, not predicted human scores. Existing approximate 10,000-point results will become easier to beat, especially for players who reach maximum size early. Existing personal best storage is retained. Review this economy on a real phone before release; this change is not score-neutral.
+
+The first 40 seconds still matter: the revised desktop hunter had 7,240 points at 40 seconds and 12,415 at 60 seconds; only 6,160 of its 18,575 points came in the final 30 seconds. The revised mobile hunter had 8,760 at 40 seconds and 13,600 at 60 seconds; it added 5,720 in the last 30. Early growth unlocks the supply; no free score or round-time multiplier was added.
+
+The initial three-second cargo replacement experiment scored 24,635 and was rejected. The first simple pathfinding test also got stuck behind an island: that result is excluded from balance acceptance. The final driver navigates around obstacles and verifies continued scoring in the last 30 seconds. Frame-dependent capture timing makes repeated seeded-map runs vary; values are observations, not deterministic golden scores.
+
+## Ship supply evidence
+
+The original hunter spent **70/132 sampled late-round states (53%)** with zero fishing-or-larger targets. Both revised hunters had **zero empty samples**, with at least one directly reachable valuable ship in every final-30-second sample (132 desktop samples / 90 touch samples). Sampling was roughly every 220–350ms; this does not claim the absence of every sub-frame gap.
+
+- Final-30-second population never exceeded **27 total objects** or **3 valuable ships** in either revised run. Overall population peaked at 88, below the unchanged hard cap of 100. Open water remains readable.
+- Desktop cargo appeared at **61.2, 73.3 and 85.3 seconds elapsed** during the last 30 seconds. Touch cargo arrived at **64.9 and 78.9 seconds**. These are in-map targets, not queued off-screen.
+- Cargo absence-to-replacement delays were **8.04–9.81 seconds** across the two runs. Tug delays were **5.00–8.67 seconds**, including shared-slot/cargo priority. Fishing filled supply between them; shortage waits were generally ≤2.02 seconds.
+- Every valuable arrival was separated from the previous one by at least **2.000 seconds**. Ships spawned **500–950 world pixels** away with a clear pursuit path, water/route checks, hull spacing and the existing player clearance. Failed placement retries do not bypass those checks.
+- The general-play regression reported **zero severe vessel overlaps away from suction**, while reaching and capturing cargo. Locked-cargo resistance passed separately.
+
+Checked-in [compact evidence](PLAYTEST-EVIDENCE.json) contains summaries, late-round checkpoints, every measured arrival, control measurements and smoke inventory. Full sampled trajectories and screenshots are generated under `tests/artifacts/` (Git-ignored):
+
+- [Desktop raw round](../tests/artifacts/balance-paced-ships/results.json), [desktop at 15 seconds](../tests/artifacts/balance-paced-ships/15-seconds-left.png)
+- [Touch raw round](../tests/artifacts/balance-mobile-ships/results.json), [touch at 15 seconds](../tests/artifacts/balance-mobile-ships/15-seconds-left.png)
+- [Baseline raw round](../tests/artifacts/balance-baseline-ship-chase/results.json)
+
+On a narrow phone some ships lie outside the camera and are visible on the minimap; reachable is not synonymous with currently on-screen. The measured pursuit range is about 1.5–2.8 seconds at full touch speed in open water. This preserves exploration rather than spawning ships directly into the whirlpool.
+
+## Controls and performance
+
+`test:controls` passed at **390×844 with DPR 1, 2 and 3**, plus 844×390 rotation. It exercises a 12px short drag, a 220px long drag, an 80px quick reversal, release and reversal away from the south map boundary. At DPR 2:
+
+| Measurement | Original | Revised |
+| --- | ---: | ---: |
+| 12px drag velocity | +56.3px/s | +113.2px/s (still proportional) |
+| Long drag velocity | +263.9px/s | +338.7px/s |
+| 100ms after reversing | **+281.6px/s, wrong direction** | **−278.3px/s, correct direction** |
+| 180ms after release | +38.1px/s residual | −4.2px/s residual |
+| Reversing away from boundary | Stays pinned | Moves ~84px away within 300ms |
+
+Desktop mouse/keyboard tuning is unchanged. Their existing input, pause, audio, blur, restart and persistence checks pass. Touch capture/movement in the original regression moved 497 world pixels and collected 11 objects. These measurements identify a steering-response issue; desktop FPS was effectively unchanged (~57.5), but they cannot exclude low-end physical-phone rendering problems.
+
+## Checks and production build
+
+- `npm test`: **9 rules tests pass**, including floating reversal, tier gating, supply composition/cooldowns and obstructed arrival rejection.
+- `npm run build`: strict TypeScript and Vite production build pass.
+- `npm run test:browser`: complete 90-second desktop round; controls, audio, pauses, growth, reef, restart, best persistence, denied storage and mobile orientation pass. Zero browser errors.
+- `npm run test:controls`: all three DPR profiles pass; zero errors.
+- `npm run test:balance`: real-time desktop/touch scenarios and final-stage-by-40s scenario; population, arrival spacing/delays, late scoring and browser-error checks.
+- `npm run test:responsive`: production 90-second touch round at 360×800, results/replay at 11 viewport sizes (320px phone through 1440px desktop), short landscape, browser-height change, rotation, scrolled start and nine-digit display pass. No horizontal overflow or inaccessible replay controls; zero browser errors.
+- `npm run test:smoke`: production nested-path serving, no diagnostic global, local/inline requests only, offline play after load, 320px layout, locked cargo and visibility pause pass. Zero browser errors.
+
+Production inventory: **1,267,918 bytes raw / 350,844 bytes summed gzip**, six files. Interactive in **568ms** on localhost. Sampled JS heap **40,812,929 bytes (~38.9 MiB)** and render cadence **58.57 FPS** in the smoke check; this is not peak-device memory measurement. Relative paths and dependency notices are preserved. No new external runtime requests or dependencies.
+
+## Limits and platform separation
+
+No physical Android/iPhone was available. Safari/Firefox/Edge, actual YouTube WebViews, touch latency under thermal load, throttled networks and novice human enjoyment remain unverified. Chrome phone emulation is not physical-phone certification. General-play and skilled-hunter bots are different strategies, not a representative player study.
+
+The SDK is deliberately **not integrated or certified** in this revision. The [YouTube assessment and concrete implementation plan](YOUTUBE-READINESS.md) cover access, packaging, SDK-first loading, readiness signals, full execution pause, host audio, versioned cloud bests, external access, device coverage, metadata, rights and certification. The deployed title is unchanged and remains provisional.
+
+---
+
+# Historical initial-release checks
+
+The following report predates this gameplay revision and is retained for comparison. Its statements about initial deployment status and older settings apply to that earlier build.
+
 # Test report
 
 Tested on 2026-09-24 in local Chrome through Playwright, with visual inspection in the Codex in-app browser. Automated runs use ordinary mouse, keyboard and Chrome touch events. Development diagnostics are read-only: tests never set score, XP, player position or the round clock.

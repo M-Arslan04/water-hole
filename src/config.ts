@@ -3,10 +3,15 @@ export const CONFIG = {
   roundSeconds: 90,
   world: { width: 1600, height: 1100, margin: 38 },
   start: { x: 790, y: 620 },
-  movement: { speed: 285, acceleration: 11, joystickRadius: 58, navigationRadius: 24 },
+  movement: { speed: 285, acceleration: 11, joystickRadius: 36, navigationRadius: 24,
+    touchSpeed: 340, touchAcceleration: 24, touchDeadzone: 0.06, touchCameraResponse: 10 },
   suction: { extraRadius: 68, force: 170, swirl: 0.6, captureFraction: 0.58 },
   reef: { speedMultiplier: 0.48, warningCooldown: 4 },
-  spawn: { interval: 1.1, maxObjects: 100, playerClearance: 115, vesselFootprint: 1.5, vesselExcursion: 64 },
+  spawn: { interval: 1.1, maxObjects: 100, playerClearance: 115, vesselFootprint: 1.5, vesselExcursion: 64,
+    // Population targets are deficits, not unconditional spawn rates. One vessel per delay.
+    valuableMinimum: [0, 0, 0, 2, 3, 3], valuableCap: 5, shipDelay: 2, cargoDelay: 8, tugDelay: 5, retryDelay: 0.5,
+    reservedShipSlots: 8, ambientCaps: [100, 100, 100, 45, 32, 24],
+    shipMinDistance: 500, shipMaxDistance: 950, arrivalFade: 650 },
   effects: { maxParticles: 95, lifetime: 0.65 },
   stages: [
     { name: 'Little ripple', target: 'Driftwood', xp: 0, radius: 25 },

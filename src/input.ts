@@ -1,14 +1,19 @@
 import Phaser from 'phaser';
 import { CONFIG } from './config';
+import { floatingOrigin } from './steering-rules';
 export class Steering {
   private keys: Record<string, Phaser.Input.Keyboard.Key>;
   private pointer?: Phaser.Input.Pointer;
   private origin = { x: 0, y: 0 };
   private touch = false;
+  usingTouch = false;
   moved = false;
   constructor(private scene: Phaser.Scene, private pixelRatio = 1) {
     this.keys = scene.input.keyboard!.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT') as Record<string, Phaser.Input.Keyboard.Key>;
     scene.input.on('pointerdown', (p: Phaser.Input.Pointer) => { if (this.pointer) return; this.pointer = p; this.touch = p.wasTouch; this.origin = { x: p.x, y: p.y }; });
+    scene.input.on('pointermove', (p: Phaser.Input.Pointer) => {
+      if (this.touch && p.id === this.pointer?.id && p.isDown) this.origin = floatingOrigin(this.origin, p, CONFIG.movement.joystickRadius * this.pixelRatio);
+    });
     const release = (p: Phaser.Input.Pointer) => { if (p.id === this.pointer?.id) this.pointer = undefined; };
     scene.input.on('pointerup', release); scene.input.on('pointerupoutside', release);
     scene.input.keyboard!.addCapture(['UP', 'DOWN', 'LEFT', 'RIGHT', 'SPACE']);
@@ -17,12 +22,13 @@ export class Steering {
   vector(x: number, y: number): { x: number; y: number } {
     let dx = Number(this.keys.D.isDown || this.keys.RIGHT.isDown) - Number(this.keys.A.isDown || this.keys.LEFT.isDown);
     let dy = Number(this.keys.S.isDown || this.keys.DOWN.isDown) - Number(this.keys.W.isDown || this.keys.UP.isDown);
-    if (dx || dy) { const d = Math.hypot(dx, dy); this.moved = true; return { x: dx / d, y: dy / d }; }
+    if (dx || dy) { this.usingTouch = false; const d = Math.hypot(dx, dy); this.moved = true; return { x: dx / d, y: dy / d }; }
+    this.usingTouch = this.touch;
     if (!this.pointer?.isDown) return { x: 0, y: 0 };
     if (this.touch) { dx = (this.pointer.x - this.origin.x) / (CONFIG.movement.joystickRadius * this.pixelRatio); dy = (this.pointer.y - this.origin.y) / (CONFIG.movement.joystickRadius * this.pixelRatio); }
     else { const world = this.scene.cameras.main.getWorldPoint(this.pointer.x, this.pointer.y); dx = (world.x - x) / 45; dy = (world.y - y) / 45; }
-    const d = Math.hypot(dx, dy); if (d > 0.08) this.moved = true;
-    if (d < 0.08) return { x: 0, y: 0 }; return { x: dx / Math.max(1, d), y: dy / Math.max(1, d) };
+    const d = Math.hypot(dx, dy), deadzone = this.touch ? CONFIG.movement.touchDeadzone : 0.08; if (d > deadzone) this.moved = true;
+    if (d < deadzone) return { x: 0, y: 0 }; return { x: dx / Math.max(1, d), y: dy / Math.max(1, d) };
   }
   draw(g: Phaser.GameObjects.Graphics) {
     if (!this.touch || !this.pointer?.isDown) return;

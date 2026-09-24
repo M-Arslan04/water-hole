@@ -1,0 +1,1688 @@
+{
+  "date": "2026-09-24",
+  "baselineCommit": "eb49fb6",
+  "method": "Real 90-second browser rounds; read-only diagnostics, ordinary keyboard/touch events; no XP, time, score or position injection. Bot hunts ships after stage 6.",
+  "runs": [
+    {
+      "summary": {
+        "label": "baseline-ship-chase",
+        "mobile": false,
+        "score": 11940,
+        "captures": 160,
+        "unlocks": {
+          "1": 0,
+          "2": 0,
+          "3": 4,
+          "4": 10,
+          "5": 18,
+          "6": 35
+        },
+        "seconds": 90.533,
+        "scoreAt60Remaining": 5055,
+        "scoreAt30Remaining": 9215,
+        "lateValuableMin": 0,
+        "lateValuableMedian": 0,
+        "lateCargoMin": 0,
+        "lateZeroSamples": 70,
+        "lateSamples": 132,
+        "maxObjects": 88,
+        "medianFps": 57.71450557898615,
+        "errors": []
+      },
+      "lateReachableMin": 0,
+      "lateObjectsMax": 13,
+      "lateValuableMax": 2,
+      "checkpoints": [
+        {
+          "time": 50,
+          "score": 7935,
+          "stage": 6,
+          "objects": 16,
+          "valuable": 1,
+          "cargo": 0,
+          "reachable": 1,
+          "fps": 58.04953560363148
+        },
+        {
+          "time": 30,
+          "score": 9215,
+          "stage": 6,
+          "objects": 12,
+          "valuable": 2,
+          "cargo": 0,
+          "reachable": 2,
+          "fps": 58.331713007887494
+        },
+        {
+          "time": 25,
+          "score": 9895,
+          "stage": 6,
+          "objects": 11,
+          "valuable": 1,
+          "cargo": 0,
+          "reachable": 1,
+          "fps": 58.272228427219765
+        },
+        {
+          "time": 20,
+          "score": 10715,
+          "stage": 6,
+          "objects": 8,
+          "valuable": 0,
+          "cargo": 0,
+          "reachable": 0,
+          "fps": 57.41352088392263
+        },
+        {
+          "time": 15,
+          "score": 11065,
+          "stage": 6,
+          "objects": 7,
+          "valuable": 0,
+          "cargo": 0,
+          "reachable": 0,
+          "fps": 57.80625270950212
+        },
+        {
+          "time": 10,
+          "score": 11155,
+          "stage": 6,
+          "objects": 9,
+          "valuable": 1,
+          "cargo": 0,
+          "reachable": 1,
+          "fps": 58.05796119818041
+        },
+        {
+          "time": 5,
+          "score": 11675,
+          "stage": 6,
+          "objects": 7,
+          "valuable": 1,
+          "cargo": 0,
+          "reachable": 1,
+          "fps": 57.62304921968788
+        },
+        {
+          "time": 1,
+          "score": 11940,
+          "stage": 6,
+          "objects": 8,
+          "valuable": 0,
+          "cargo": 0,
+          "reachable": 0,
+          "fps": 58.14516910561745
+        }
+      ],
+      "arrivals": []
+    },
+    {
+      "summary": {
+        "label": "paced-ships",
+        "mobile": false,
+        "score": 18575,
+        "captures": 155,
+        "unlocks": {
+          "1": 0,
+          "2": 0,
+          "3": 3,
+          "4": 9,
+          "5": 16,
+          "6": 32
+        },
+        "seconds": 90.284,
+        "scoreAt60Remaining": 5210,
+        "scoreAt30Remaining": 12415,
+        "lateValuableMin": 1,
+        "lateValuableMedian": 2,
+        "lateCargoMin": 0,
+        "lateZeroSamples": 0,
+        "lateSamples": 132,
+        "maxObjects": 88,
+        "medianFps": 57.47952291987771,
+        "errors": []
+      },
+      "lateReachableMin": 1,
+      "lateObjectsMax": 27,
+      "lateValuableMax": 3,
+      "checkpoints": [
+        {
+          "time": 50,
+          "score": 7240,
+          "stage": 6,
+          "objects": 21,
+          "valuable": 3,
+          "cargo": 1,
+          "reachable": 3,
+          "fps": 57.85641965206347
+        },
+        {
+          "time": 30,
+          "score": 12415,
+          "stage": 6,
+          "objects": 22,
+          "valuable": 1,
+          "cargo": 0,
+          "reachable": 1,
+          "fps": 57.04235394772544
+        },
+        {
+          "time": 25,
+          "score": 13580,
+          "stage": 6,
+          "objects": 25,
+          "valuable": 1,
+          "cargo": 0,
+          "reachable": 1,
+          "fps": 57.95421616939314
+        },
+        {
+          "time": 20,
+          "score": 14580,
+          "stage": 6,
+          "objects": 24,
+          "valuable": 1,
+          "cargo": 0,
+          "reachable": 1,
+          "fps": 57.70340450103094
+        },
+        {
+          "time": 15,
+          "score": 15310,
+          "stage": 6,
+          "objects": 25,
+          "valuable": 1,
+          "cargo": 1,
+          "reachable": 1,
+          "fps": 57.94022500137383
+        },
+        {
+          "time": 10,
+          "score": 16460,
+          "stage": 6,
+          "objects": 26,
+          "valuable": 2,
+          "cargo": 0,
+          "reachable": 2,
+          "fps": 57.62581636597926
+        },
+        {
+          "time": 5,
+          "score": 17180,
+          "stage": 6,
+          "objects": 26,
+          "valuable": 2,
+          "cargo": 0,
+          "reachable": 2,
+          "fps": 58.235465398174966
+        },
+        {
+          "time": 1,
+          "score": 18325,
+          "stage": 6,
+          "objects": 26,
+          "valuable": 2,
+          "cargo": 0,
+          "reachable": 2,
+          "fps": 57.73672055410694
+        }
+      ],
+      "arrivals": [
+        {
+          "time": 27.507190000060163,
+          "kind": "fishing",
+          "x": 836.6380161559209,
+          "y": 930.1905171945691,
+          "wait": 0.017090000000596045,
+          "distance": 592.6795532411901,
+          "valuable": 3,
+          "objects": 30
+        },
+        {
+          "time": 29.723790000061634,
+          "kind": "fishing",
+          "x": 416.6380928712897,
+          "y": 978.6384936771356,
+          "wait": 0.017079999999701976,
+          "distance": 862.9199130569381,
+          "valuable": 3,
+          "objects": 29
+        },
+        {
+          "time": 31.724190000063096,
+          "kind": "fishing",
+          "x": 674.5689114253037,
+          "y": 363.19271547719836,
+          "wait": 0.10187999999970197,
+          "distance": 747.3867756505139,
+          "valuable": 3,
+          "objects": 22
+        },
+        {
+          "time": 33.73652000006282,
+          "kind": "tug",
+          "x": 402.81404928769916,
+          "y": 400,
+          "wait": 6.246420000003277,
+          "distance": 731.234179904675,
+          "valuable": 4,
+          "objects": 22
+        },
+        {
+          "time": 37.1040500000625,
+          "kind": "fishing",
+          "x": 856.3637739489786,
+          "y": 803.9096810505725,
+          "wait": 0.0173,
+          "distance": 579.8840705193925,
+          "valuable": 3,
+          "objects": 22
+        },
+        {
+          "time": 39.11042000006133,
+          "kind": "fishing",
+          "x": 570.2768918452784,
+          "y": 816.6379813337699,
+          "wait": 0.9326099999979136,
+          "distance": 570.4502625950139,
+          "valuable": 3,
+          "objects": 21
+        },
+        {
+          "time": 41.12068000006223,
+          "kind": "fishing",
+          "x": 1129.2844479205087,
+          "y": 792.5938269286416,
+          "wait": 0.85070000000149,
+          "distance": 529.6935493355975,
+          "valuable": 3,
+          "objects": 21
+        },
+        {
+          "time": 43.13621000006346,
+          "kind": "tug",
+          "x": 1110.3493765275925,
+          "y": 400,
+          "wait": 6.049460000000891,
+          "distance": 533.6728011584757,
+          "valuable": 3,
+          "objects": 22
+        },
+        {
+          "time": 45.14935000005956,
+          "kind": "fishing",
+          "x": 844.7851388878189,
+          "y": 333.80306356586516,
+          "wait": 1.6325799999982122,
+          "distance": 505.8868970982523,
+          "valuable": 3,
+          "objects": 24
+        },
+        {
+          "time": 47.16269000006165,
+          "kind": "fishing",
+          "x": 375.91150018619373,
+          "y": 385.996760269627,
+          "wait": 1.9960100000023844,
+          "distance": 762.5712328494255,
+          "valuable": 2,
+          "objects": 22
+        },
+        {
+          "time": 49.175530000063716,
+          "kind": "cargo",
+          "x": 576.7698741471395,
+          "y": 960,
+          "wait": 8.905550000002984,
+          "distance": 594.3905105956051,
+          "valuable": 2,
+          "objects": 22
+        },
+        {
+          "time": 51.19130000006253,
+          "kind": "fishing",
+          "x": 1276.4113502390683,
+          "y": 845.4625329142436,
+          "wait": 2.0157699999988075,
+          "distance": 713.2696371454547,
+          "valuable": 2,
+          "objects": 24
+        },
+        {
+          "time": 53.201430000060725,
+          "kind": "tug",
+          "x": 1028.5646481625736,
+          "y": 400,
+          "wait": 6.250460000000899,
+          "distance": 517.7509845042537,
+          "valuable": 2,
+          "objects": 24
+        },
+        {
+          "time": 55.205430000063686,
+          "kind": "fishing",
+          "x": 776.9882900780067,
+          "y": 914.4405781826936,
+          "wait": 2.0040000000029803,
+          "distance": 511.68179857969795,
+          "valuable": 2,
+          "objects": 25
+        },
+        {
+          "time": 57.21138000006367,
+          "kind": "fishing",
+          "x": 630.080904068891,
+          "y": 680.8504316303879,
+          "wait": 2.005950000000001,
+          "distance": 674.2023150452751,
+          "valuable": 2,
+          "objects": 24
+        },
+        {
+          "time": 59.227640000060106,
+          "kind": "fishing",
+          "x": 1097.2417668439448,
+          "y": 318.11904914677143,
+          "wait": 2.0162599999964237,
+          "distance": 584.6257701338337,
+          "valuable": 2,
+          "objects": 23
+        },
+        {
+          "time": 61.24285000005948,
+          "kind": "cargo",
+          "x": 868.9942940045148,
+          "y": 960,
+          "wait": 8.951989999999105,
+          "distance": 562.3432384593334,
+          "valuable": 1,
+          "objects": 22
+        },
+        {
+          "time": 63.25575000006246,
+          "kind": "tug",
+          "x": 393.0821552686393,
+          "y": 270,
+          "wait": 8.101809999997913,
+          "distance": 671.9052889722988,
+          "valuable": 2,
+          "objects": 25
+        },
+        {
+          "time": 65.25718000005918,
+          "kind": "fishing",
+          "x": 1055.6943760393187,
+          "y": 858.1289404025301,
+          "wait": 2.001429999996722,
+          "distance": 594.5435902874111,
+          "valuable": 2,
+          "objects": 26
+        },
+        {
+          "time": 67.27319000006155,
+          "kind": "fishing",
+          "x": 872.97180947382,
+          "y": 860.5135814915411,
+          "wait": 2.016010000002385,
+          "distance": 500.808821959788,
+          "valuable": 2,
+          "objects": 25
+        },
+        {
+          "time": 69.28361000006036,
+          "kind": "fishing",
+          "x": 334.0333390654996,
+          "y": 575.4199178004637,
+          "wait": 2.0104199999988075,
+          "distance": 669.2644107120483,
+          "valuable": 2,
+          "objects": 26
+        },
+        {
+          "time": 71.28615000005948,
+          "kind": "tug",
+          "x": 1054.1361761838198,
+          "y": 915,
+          "wait": 5.004309999997914,
+          "distance": 565.0226035538619,
+          "valuable": 2,
+          "objects": 26
+        },
+        {
+          "time": 73.29921000006185,
+          "kind": "cargo",
+          "x": 853.0574417416938,
+          "y": 160,
+          "wait": 9.803630000001204,
+          "distance": 697.808544030614,
+          "valuable": 2,
+          "objects": 26
+        },
+        {
+          "time": 75.29964000006154,
+          "kind": "fishing",
+          "x": 1063.107737635728,
+          "y": 261.8820583471097,
+          "wait": 2.000429999999702,
+          "distance": 593.8973244096684,
+          "valuable": 2,
+          "objects": 26
+        },
+        {
+          "time": 77.31438000006067,
+          "kind": "fishing",
+          "x": 880.6906452146359,
+          "y": 816.0252745309845,
+          "wait": 2.014739999999106,
+          "distance": 547.3438913275148,
+          "valuable": 2,
+          "objects": 25
+        },
+        {
+          "time": 79.31564000006304,
+          "kind": "fishing",
+          "x": 247.614578071516,
+          "y": 115.2492040884681,
+          "wait": 2.0012600000023832,
+          "distance": 680.955771880464,
+          "valuable": 2,
+          "objects": 26
+        },
+        {
+          "time": 81.32679000006155,
+          "kind": "tug",
+          "x": 1030.6742242584005,
+          "y": 915,
+          "wait": 6.576979999998212,
+          "distance": 554.5277549705512,
+          "valuable": 2,
+          "objects": 26
+        },
+        {
+          "time": 83.32981000006185,
+          "kind": "fishing",
+          "x": 533.9323597447947,
+          "y": 561.6945971758105,
+          "wait": 2.0030200000002987,
+          "distance": 541.323828085073,
+          "valuable": 3,
+          "objects": 27
+        },
+        {
+          "time": 85.33887000005977,
+          "kind": "cargo",
+          "x": 1058.9624530286528,
+          "y": 160,
+          "wait": 8.041389999999103,
+          "distance": 592.0462799936724,
+          "valuable": 3,
+          "objects": 27
+        },
+        {
+          "time": 87.34585000006395,
+          "kind": "fishing",
+          "x": 781.178328525275,
+          "y": 878.9347146474756,
+          "wait": 1.7826099999994032,
+          "distance": 643.2523664313534,
+          "valuable": 3,
+          "objects": 27
+        },
+        {
+          "time": 89.34675000005947,
+          "kind": "tug",
+          "x": 1046.1744971992448,
+          "y": 270,
+          "wait": 5.915189999999106,
+          "distance": 521.859477078097,
+          "valuable": 3,
+          "objects": 27
+        }
+      ]
+    },
+    {
+      "summary": {
+        "label": "mobile-ships",
+        "mobile": true,
+        "score": 19320,
+        "captures": 155,
+        "unlocks": {
+          "1": 0,
+          "2": 0,
+          "3": 3,
+          "4": 10,
+          "5": 18,
+          "6": 30
+        },
+        "seconds": 90.504,
+        "scoreAt60Remaining": 6115,
+        "scoreAt30Remaining": 13600,
+        "lateValuableMin": 1,
+        "lateValuableMedian": 2,
+        "lateCargoMin": 0,
+        "lateZeroSamples": 0,
+        "lateSamples": 90,
+        "maxObjects": 88,
+        "medianFps": 55.75689991667348,
+        "errors": []
+      },
+      "lateReachableMin": 1,
+      "lateObjectsMax": 27,
+      "lateValuableMax": 3,
+      "checkpoints": [
+        {
+          "time": 50,
+          "score": 8760,
+          "stage": 6,
+          "objects": 23,
+          "valuable": 1,
+          "cargo": 0,
+          "reachable": 1,
+          "fps": 55.96492864463819
+        },
+        {
+          "time": 30,
+          "score": 13600,
+          "stage": 6,
+          "objects": 24,
+          "valuable": 1,
+          "cargo": 0,
+          "reachable": 1,
+          "fps": 55.751719011567765
+        },
+        {
+          "time": 25,
+          "score": 14295,
+          "stage": 6,
+          "objects": 26,
+          "valuable": 2,
+          "cargo": 1,
+          "reachable": 2,
+          "fps": 56.796667928894955
+        },
+        {
+          "time": 20,
+          "score": 15425,
+          "stage": 6,
+          "objects": 26,
+          "valuable": 2,
+          "cargo": 0,
+          "reachable": 2,
+          "fps": 56.882821387699764
+        },
+        {
+          "time": 15,
+          "score": 16105,
+          "stage": 6,
+          "objects": 27,
+          "valuable": 3,
+          "cargo": 0,
+          "reachable": 3,
+          "fps": 56.11147479675229
+        },
+        {
+          "time": 10,
+          "score": 17120,
+          "stage": 6,
+          "objects": 23,
+          "valuable": 2,
+          "cargo": 1,
+          "reachable": 2,
+          "fps": 55.48363232853956
+        },
+        {
+          "time": 5,
+          "score": 18820,
+          "stage": 6,
+          "objects": 25,
+          "valuable": 2,
+          "cargo": 0,
+          "reachable": 2,
+          "fps": 55.84252408232085
+        },
+        {
+          "time": 1,
+          "score": 19090,
+          "stage": 6,
+          "objects": 27,
+          "valuable": 3,
+          "cargo": 0,
+          "reachable": 3,
+          "fps": 57.19460464205169
+        }
+      ],
+      "arrivals": [
+        {
+          "time": 24.68154333330598,
+          "kind": "fishing",
+          "x": 1268.0398185760714,
+          "y": 493.5883703804575,
+          "wait": 0.021280000001192092,
+          "distance": 651.8644051674512,
+          "valuable": 3,
+          "objects": 25
+        },
+        {
+          "time": 26.681663333306275,
+          "kind": "fishing",
+          "x": 1135.4488051799126,
+          "y": 626.5338235115632,
+          "wait": 1.346360000002384,
+          "distance": 735.77378165819,
+          "valuable": 2,
+          "objects": 26
+        },
+        {
+          "time": 28.684733333305083,
+          "kind": "fishing",
+          "x": 334.362858759705,
+          "y": 162.7761383447796,
+          "wait": 2.003069999998808,
+          "distance": 660.4249888457966,
+          "valuable": 3,
+          "objects": 27
+        },
+        {
+          "time": 30.68773333330811,
+          "kind": "tug",
+          "x": 535.0915408367291,
+          "y": 270,
+          "wait": 5.352430000004169,
+          "distance": 772.7292849271362,
+          "valuable": 3,
+          "objects": 24
+        },
+        {
+          "time": 32.701363333306304,
+          "kind": "fishing",
+          "x": 815.4706527828239,
+          "y": 966.9020348670892,
+          "wait": 0.6070800000011922,
+          "distance": 743.9336726917461,
+          "valuable": 3,
+          "objects": 26
+        },
+        {
+          "time": 34.7100133333063,
+          "kind": "fishing",
+          "x": 1086.8712027254514,
+          "y": 525.4088623821735,
+          "wait": 0.6314700000017883,
+          "distance": 703.2540235449906,
+          "valuable": 3,
+          "objects": 26
+        },
+        {
+          "time": 36.71702333330574,
+          "kind": "fishing",
+          "x": 1164.3304977426305,
+          "y": 702.8799595148303,
+          "wait": 1.955390000000596,
+          "distance": 530.5947444755759,
+          "valuable": 3,
+          "objects": 26
+        },
+        {
+          "time": 38.7261033333054,
+          "kind": "fishing",
+          "x": 278.90689698280767,
+          "y": 456.90147440880537,
+          "wait": 1.186839999999106,
+          "distance": 898.496813088334,
+          "valuable": 2,
+          "objects": 26
+        },
+        {
+          "time": 40.72855333330539,
+          "kind": "cargo",
+          "x": 1032.9585376218893,
+          "y": 160,
+          "wait": 8.6342700000003,
+          "distance": 769.1929867821324,
+          "valuable": 2,
+          "objects": 24
+        },
+        {
+          "time": 42.744043333304525,
+          "kind": "tug",
+          "x": 941.3997157802805,
+          "y": 400,
+          "wait": 8.6655,
+          "distance": 552.245350904562,
+          "valuable": 2,
+          "objects": 19
+        },
+        {
+          "time": 44.7534233333072,
+          "kind": "fishing",
+          "x": 268.4820995479822,
+          "y": 199.3300976837054,
+          "wait": 2.009380000002682,
+          "distance": 538.1276617792004,
+          "valuable": 3,
+          "objects": 20
+        },
+        {
+          "time": 46.76775333330541,
+          "kind": "fishing",
+          "x": 1228.1286508543417,
+          "y": 467.0375522482209,
+          "wait": 1.8773099999979133,
+          "distance": 571.0173060863409,
+          "valuable": 2,
+          "objects": 21
+        },
+        {
+          "time": 48.7678433333075,
+          "kind": "fishing",
+          "x": 1163.212595472578,
+          "y": 582.9223885480314,
+          "wait": 2.000090000002087,
+          "distance": 899.9205153399806,
+          "valuable": 2,
+          "objects": 22
+        },
+        {
+          "time": 50.78233333330514,
+          "kind": "tug",
+          "x": 938.0542474240065,
+          "y": 915,
+          "wait": 5.891889999997617,
+          "distance": 566.1559961176928,
+          "valuable": 3,
+          "objects": 25
+        },
+        {
+          "time": 52.795703333305454,
+          "kind": "fishing",
+          "x": 544.9588418309577,
+          "y": 218.6142329731956,
+          "wait": 0.9698599999994035,
+          "distance": 686.2213803628525,
+          "valuable": 2,
+          "objects": 25
+        },
+        {
+          "time": 54.80996333330632,
+          "kind": "cargo",
+          "x": 814.9469994846731,
+          "y": 160,
+          "wait": 9.12501999999732,
+          "distance": 592.39310019908,
+          "valuable": 2,
+          "objects": 24
+        },
+        {
+          "time": 56.810643333307496,
+          "kind": "fishing",
+          "x": 276.56322579365224,
+          "y": 392.9723234567791,
+          "wait": 2.0006800000011924,
+          "distance": 590.1672992227956,
+          "valuable": 2,
+          "objects": 25
+        },
+        {
+          "time": 58.82219333330454,
+          "kind": "fishing",
+          "x": 612.1082385000773,
+          "y": 826.0502631496638,
+          "wait": 2.0115499999970208,
+          "distance": 537.4803680699625,
+          "valuable": 2,
+          "objects": 26
+        },
+        {
+          "time": 60.8307733333087,
+          "kind": "tug",
+          "x": 1033.0849304096773,
+          "y": 270,
+          "wait": 6.909270000001786,
+          "distance": 671.347217011441,
+          "valuable": 2,
+          "objects": 25
+        },
+        {
+          "time": 62.84860333330394,
+          "kind": "fishing",
+          "x": 376.11940392060205,
+          "y": 187.87962279748172,
+          "wait": 2.017829999995232,
+          "distance": 535.2053179945437,
+          "valuable": 2,
+          "objects": 26
+        },
+        {
+          "time": 64.86274333330603,
+          "kind": "cargo",
+          "x": 900.8847258822061,
+          "y": 960,
+          "wait": 8.12137000000029,
+          "distance": 752.3432475206293,
+          "valuable": 2,
+          "objects": 26
+        },
+        {
+          "time": 66.87066333330782,
+          "kind": "fishing",
+          "x": 1265.993358322885,
+          "y": 436.2652127374895,
+          "wait": 2.0079200000017874,
+          "distance": 699.7703047241836,
+          "valuable": 2,
+          "objects": 26
+        },
+        {
+          "time": 68.87278333330515,
+          "kind": "tug",
+          "x": 663.5609972616658,
+          "y": 270,
+          "wait": 5.506209999999405,
+          "distance": 563.4400407197262,
+          "valuable": 3,
+          "objects": 27
+        },
+        {
+          "time": 70.88526333330485,
+          "kind": "fishing",
+          "x": 241.6691799205728,
+          "y": 214.90200251108035,
+          "wait": 1.7883199999973172,
+          "distance": 586.9477248194966,
+          "valuable": 3,
+          "objects": 27
+        },
+        {
+          "time": 72.89076333330783,
+          "kind": "fishing",
+          "x": 924.8636221559718,
+          "y": 966.256263346877,
+          "wait": 1.335090000000596,
+          "distance": 835.7781936976643,
+          "valuable": 3,
+          "objects": 27
+        },
+        {
+          "time": 74.89080333330395,
+          "kind": "fishing",
+          "x": 1374.5163504290394,
+          "y": 932.9655150021426,
+          "wait": 1.724059999996423,
+          "distance": 848.0469952826644,
+          "valuable": 3,
+          "objects": 27
+        },
+        {
+          "time": 76.89394333330901,
+          "kind": "tug",
+          "x": 554.8700975021347,
+          "y": 270,
+          "wait": 5.33827000000179,
+          "distance": 656.6639870634763,
+          "valuable": 3,
+          "objects": 27
+        },
+        {
+          "time": 78.90852333330722,
+          "kind": "cargo",
+          "x": 965.2382196765393,
+          "y": 160,
+          "wait": 9.811579999999708,
+          "distance": 805.4810396163925,
+          "valuable": 3,
+          "objects": 24
+        },
+        {
+          "time": 80.91746333330482,
+          "kind": "fishing",
+          "x": 743.9639950799756,
+          "y": 138.64202845841646,
+          "wait": 0.7544699999988077,
+          "distance": 688.7754919535464,
+          "valuable": 3,
+          "objects": 24
+        },
+        {
+          "time": 83.05688333330662,
+          "kind": "fishing",
+          "x": 186.68601584155113,
+          "y": 525.5006643780507,
+          "wait": 0.01701000000089407,
+          "distance": 759.1657959328755,
+          "valuable": 3,
+          "objects": 25
+        },
+        {
+          "time": 85.07005333330692,
+          "kind": "fishing",
+          "x": 1081.1170220561326,
+          "y": 793.1260926788673,
+          "wait": 1.724620000000298,
+          "distance": 728.7857847852505,
+          "valuable": 2,
+          "objects": 25
+        },
+        {
+          "time": 87.07285333330542,
+          "kind": "fishing",
+          "x": 663.9721750468016,
+          "y": 225.76967956963927,
+          "wait": 2.0027999999985098,
+          "distance": 516.330434554933,
+          "valuable": 2,
+          "objects": 25
+        },
+        {
+          "time": 89.07914333330602,
+          "kind": "fishing",
+          "x": 1067.8824924584478,
+          "y": 640.7465896732174,
+          "wait": 2.006290000000596,
+          "distance": 591.4100809158012,
+          "valuable": 3,
+          "objects": 27
+        }
+      ]
+    },
+    {
+      "summary": {
+        "label": "final-desktop",
+        "mobile": false,
+        "score": 18035,
+        "captures": 151,
+        "unlocks": {
+          "1": 0,
+          "2": 0,
+          "3": 3,
+          "4": 8,
+          "5": 17,
+          "6": 32
+        },
+        "seconds": 90.026,
+        "scoreAt60Remaining": 5825,
+        "scoreAt30Remaining": 12530,
+        "lateValuableMin": 1,
+        "lateValuableMedian": 2,
+        "lateCargoMin": 0,
+        "lateZeroSamples": 0,
+        "lateSamples": 131,
+        "maxObjects": 88,
+        "medianFps": 58.80335179139559,
+        "errors": []
+      },
+      "lateReachableMin": 1,
+      "lateObjectsMax": 27,
+      "lateValuableMax": 3,
+      "arrivals": [
+        {
+          "time": 22.802763333375268,
+          "kind": "fishing",
+          "x": 760.9525389806367,
+          "y": 873.5403658077121,
+          "wait": 0.017029999999701978,
+          "distance": 747.7476721753446,
+          "valuable": 3,
+          "objects": 32
+        },
+        {
+          "time": 24.81212333337622,
+          "kind": "fishing",
+          "x": 395.23794886190444,
+          "y": 273.31329298438504,
+          "wait": 1.675020000003278,
+          "distance": 598.5027239337496,
+          "valuable": 3,
+          "objects": 32
+        },
+        {
+          "time": 26.820683333377104,
+          "kind": "fishing",
+          "x": 734.6242870064452,
+          "y": 373.358475768473,
+          "wait": 1.8565800000026815,
+          "distance": 640.3492373206105,
+          "valuable": 3,
+          "objects": 29
+        },
+        {
+          "time": 28.834033333377143,
+          "kind": "tug",
+          "x": 541.425923849456,
+          "y": 400,
+          "wait": 5.696930000004171,
+          "distance": 804.6949742756208,
+          "valuable": 4,
+          "objects": 27
+        },
+        {
+          "time": 34.72342333337626,
+          "kind": "fishing",
+          "x": 979.078342076391,
+          "y": 819.480439259205,
+          "wait": 0.01695,
+          "distance": 544.5385985864751,
+          "valuable": 3,
+          "objects": 23
+        },
+        {
+          "time": 36.73486333337537,
+          "kind": "fishing",
+          "x": 618.8389775529504,
+          "y": 1001.7076425044797,
+          "wait": 0.676990000000596,
+          "distance": 819.8697020060655,
+          "valuable": 3,
+          "objects": 24
+        },
+        {
+          "time": 38.74640333337597,
+          "kind": "fishing",
+          "x": 1402.8015607083216,
+          "y": 479.8493517609313,
+          "wait": 0.711679999998212,
+          "distance": 516.1188181802829,
+          "valuable": 3,
+          "objects": 24
+        },
+        {
+          "time": 40.74861333337538,
+          "kind": "tug",
+          "x": 419.23387640621513,
+          "y": 270,
+          "wait": 6.365630000001192,
+          "distance": 685.0563895769078,
+          "valuable": 3,
+          "objects": 25
+        },
+        {
+          "time": 42.757773333376285,
+          "kind": "fishing",
+          "x": 609.4761918438599,
+          "y": 251.12832181155682,
+          "wait": 1.2742400000020861,
+          "distance": 504.5558444043895,
+          "valuable": 3,
+          "objects": 26
+        },
+        {
+          "time": 44.770993333375074,
+          "kind": "fishing",
+          "x": 1120.3971274918877,
+          "y": 623.789250284899,
+          "wait": 0.4583900000005961,
+          "distance": 749.6479371511373,
+          "valuable": 3,
+          "objects": 24
+        },
+        {
+          "time": 46.7861233333733,
+          "kind": "cargo",
+          "x": 420.6977914390154,
+          "y": 160,
+          "wait": 8.751399999995527,
+          "distance": 596.2206565267142,
+          "valuable": 3,
+          "objects": 24
+        },
+        {
+          "time": 48.78891333337388,
+          "kind": "fishing",
+          "x": 757.148448463995,
+          "y": 119.51204574899748,
+          "wait": 1.1830799999997021,
+          "distance": 666.521372658457,
+          "valuable": 3,
+          "objects": 23
+        },
+        {
+          "time": 50.80618333337412,
+          "kind": "tug",
+          "x": 501.35050774086267,
+          "y": 400,
+          "wait": 6.493579999999706,
+          "distance": 614.1170667384016,
+          "valuable": 3,
+          "objects": 21
+        },
+        {
+          "time": 52.81765333337443,
+          "kind": "fishing",
+          "x": 676.9829487474635,
+          "y": 871.8724971660413,
+          "wait": 1.4125399999976151,
+          "distance": 717.2200070353447,
+          "valuable": 3,
+          "objects": 22
+        },
+        {
+          "time": 54.82401333337534,
+          "kind": "fishing",
+          "x": 1055.9987895167433,
+          "y": 795.2320448867977,
+          "wait": 1.9720700000002978,
+          "distance": 594.7671579519039,
+          "valuable": 2,
+          "objects": 21
+        },
+        {
+          "time": 56.82530333337596,
+          "kind": "fishing",
+          "x": 493.7943896604702,
+          "y": 269.6394339366816,
+          "wait": 2.001290000000596,
+          "distance": 629.8889788876705,
+          "valuable": 2,
+          "objects": 23
+        },
+        {
+          "time": 58.841203333374494,
+          "kind": "tug",
+          "x": 1084.3077123211697,
+          "y": 915,
+          "wait": 5.137939999997616,
+          "distance": 618.7207976929324,
+          "valuable": 2,
+          "objects": 25
+        },
+        {
+          "time": 60.84788333337569,
+          "kind": "fishing",
+          "x": 1163.2249329565093,
+          "y": 476.0972834681161,
+          "wait": 2.0066800000011913,
+          "distance": 549.856828528534,
+          "valuable": 2,
+          "objects": 26
+        },
+        {
+          "time": 62.86384333337658,
+          "kind": "cargo",
+          "x": 624.1246461984701,
+          "y": 160,
+          "wait": 10.011900000001477,
+          "distance": 593.5098136343743,
+          "valuable": 2,
+          "objects": 26
+        },
+        {
+          "time": 64.86961333337689,
+          "kind": "fishing",
+          "x": 440.8987533953041,
+          "y": 119.6717737824656,
+          "wait": 2.005770000000297,
+          "distance": 802.4088783592953,
+          "valuable": 2,
+          "objects": 25
+        },
+        {
+          "time": 66.88591333337541,
+          "kind": "fishing",
+          "x": 1154.7342455061153,
+          "y": 773.5578143340535,
+          "wait": 2.0162999999985094,
+          "distance": 717.841229302968,
+          "valuable": 3,
+          "objects": 27
+        },
+        {
+          "time": 68.88652333337629,
+          "kind": "fishing",
+          "x": 686.3728826027364,
+          "y": 984.6285074530169,
+          "wait": 1.9834900000005964,
+          "distance": 627.3506070192931,
+          "valuable": 2,
+          "objects": 26
+        },
+        {
+          "time": 70.8872233333748,
+          "kind": "tug",
+          "x": 679.4527173181996,
+          "y": 270,
+          "wait": 6.867089999999112,
+          "distance": 639.9423468813081,
+          "valuable": 2,
+          "objects": 26
+        },
+        {
+          "time": 72.8946833333757,
+          "kind": "fishing",
+          "x": 974.2286337958649,
+          "y": 203.87394088553265,
+          "wait": 2.007460000000894,
+          "distance": 818.3086695211906,
+          "valuable": 3,
+          "objects": 27
+        },
+        {
+          "time": 74.89915333337451,
+          "kind": "fishing",
+          "x": 1313.4477384015918,
+          "y": 513.1334947957657,
+          "wait": 1.9023099999994044,
+          "distance": 589.9350029360321,
+          "valuable": 3,
+          "objects": 27
+        },
+        {
+          "time": 76.9041933333751,
+          "kind": "cargo",
+          "x": 470.4185923631303,
+          "y": 490,
+          "wait": 10.001159999999404,
+          "distance": 599.8223649495027,
+          "valuable": 2,
+          "objects": 23
+        },
+        {
+          "time": 78.91021333337393,
+          "kind": "fishing",
+          "x": 695.4938937397674,
+          "y": 846.4111854578368,
+          "wait": 2.0060199999988075,
+          "distance": 545.9894787078698,
+          "valuable": 2,
+          "objects": 24
+        },
+        {
+          "time": 80.91358333337423,
+          "kind": "tug",
+          "x": 1054.4710486242548,
+          "y": 915,
+          "wait": 5.364089999999109,
+          "distance": 642.4356766937763,
+          "valuable": 3,
+          "objects": 27
+        },
+        {
+          "time": 82.92115333337304,
+          "kind": "fishing",
+          "x": 1235.9562544175424,
+          "y": 558.072834413033,
+          "wait": 1.8537999999985106,
+          "distance": 568.9280502849589,
+          "valuable": 2,
+          "objects": 26
+        },
+        {
+          "time": 84.93192333337333,
+          "kind": "fishing",
+          "x": 521.29915576661,
+          "y": 780.1612140308134,
+          "wait": 2.010770000000297,
+          "distance": 583.3062554658977,
+          "valuable": 2,
+          "objects": 26
+        },
+        {
+          "time": 86.93442333337632,
+          "kind": "fishing",
+          "x": 922.2256536991335,
+          "y": 219.51410667970777,
+          "wait": 2.002500000002981,
+          "distance": 570.3408786738651,
+          "valuable": 2,
+          "objects": 26
+        },
+        {
+          "time": 88.94716333337394,
+          "kind": "tug",
+          "x": 1052.0918677886948,
+          "y": 270,
+          "wait": 5.272309999997914,
+          "distance": 505.9366488751001,
+          "valuable": 2,
+          "objects": 26
+        }
+      ]
+    }
+  ],
+  "controls": {
+    "baseline": {
+      "results": [
+        {
+          "dpr": 1,
+          "shortVelocity": 56.77772523398602,
+          "longVelocity": 263.970165753935,
+          "reversedVelocityAfter100ms": 283.06015363902503,
+          "releaseVelocityAfter180ms": 45.40402934868327,
+          "fps": 53.25112107612199,
+          "boundaryY": 1034.319678232266,
+          "afterBoundaryReverseY": 1034.319678232266
+        },
+        {
+          "dpr": 2,
+          "shortVelocity": 56.31369735756715,
+          "longVelocity": 263.85386152269166,
+          "reversedVelocityAfter100ms": 281.5705931676575,
+          "releaseVelocityAfter180ms": 38.096838172554044,
+          "fps": 57.4067140898179,
+          "boundaryY": 1036.0126673596114,
+          "afterBoundaryReverseY": 1036.0126673596114
+        },
+        {
+          "dpr": 3,
+          "shortVelocity": 56.344245791778235,
+          "longVelocity": 263.8702477917286,
+          "reversedVelocityAfter100ms": 282.1327918930116,
+          "releaseVelocityAfter180ms": 54.72400096765734,
+          "fps": 56.54983842892833,
+          "boundaryY": 1037.3990783724632,
+          "afterBoundaryReverseY": 1037.3990783724632
+        }
+      ],
+      "errors": []
+    },
+    "updated": {
+      "results": [
+        {
+          "dpr": 1,
+          "shortVelocity": 113.24760283736137,
+          "longVelocity": 338.7404467268678,
+          "reversedVelocityAfter100ms": -297.9635164331059,
+          "releaseVelocityAfter180ms": -3.934739453032762,
+          "fps": 56.987436860400315,
+          "boundaryY": 1036.877863027722,
+          "afterBoundaryReverseY": 951.6718370925167
+        },
+        {
+          "dpr": 2,
+          "shortVelocity": 113.24858478581307,
+          "longVelocity": 338.73472295136804,
+          "reversedVelocityAfter100ms": -278.29708492088474,
+          "releaseVelocityAfter180ms": -4.179165766533111,
+          "fps": 55.964474724537034,
+          "boundaryY": 1037.6983870677655,
+          "afterBoundaryReverseY": 954.1643151282371
+        },
+        {
+          "dpr": 3,
+          "shortVelocity": 113.24769195074428,
+          "longVelocity": 338.72717744713367,
+          "reversedVelocityAfter100ms": -277.81013433896464,
+          "releaseVelocityAfter180ms": -4.029653734008248,
+          "fps": 56.63674157970188,
+          "boundaryY": 1037.3657743393,
+          "afterBoundaryReverseY": 952.819135603703
+        }
+      ],
+      "errors": []
+    }
+  },
+  "browserRegression": {
+    "date": "2026-09-24T07:16:30.380Z",
+    "results": [
+      {
+        "name": "Start and locked cargo present",
+        "details": {
+          "time": 90,
+          "objects": 83
+        }
+      },
+      {
+        "name": "Mute toggles audio",
+        "details": true
+      },
+      {
+        "name": "Mouse steering changes position",
+        "details": true
+      },
+      {
+        "name": "Pause and window blur freeze the clock",
+        "details": true
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 89,
+          "score": 175,
+          "stage": 2,
+          "caught": 9,
+          "fps": 57
+        }
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 76,
+          "score": 1900,
+          "stage": 4,
+          "caught": 39,
+          "fps": 57
+        }
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 63,
+          "score": 4085,
+          "stage": 5,
+          "caught": 79,
+          "fps": 57
+        }
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 50,
+          "score": 4650,
+          "stage": 5,
+          "caught": 88,
+          "fps": 56
+        }
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 36,
+          "score": 6545,
+          "stage": 6,
+          "caught": 111,
+          "fps": 59
+        }
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 23,
+          "score": 10055,
+          "stage": 6,
+          "caught": 134,
+          "fps": 59
+        }
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 10,
+          "score": 12305,
+          "stage": 6,
+          "caught": 153,
+          "fps": 59
+        }
+      },
+      {
+        "name": "Complete real-time keyboard round",
+        "details": {
+          "score": 13760,
+          "captured": 166,
+          "largest": "Cargo ship",
+          "stages": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fpsMedian": 58.48808305299298,
+          "hazardEncountered": true,
+          "vesselCrowding": 0,
+          "unlockTimes": {
+            "2": 1,
+            "3": 4,
+            "4": 11,
+            "5": 19,
+            "6": 45
+          }
+        }
+      },
+      {
+        "name": "Restart clears progress without refreshing",
+        "details": true
+      },
+      {
+        "name": "Best survives reload",
+        "details": 13760
+      },
+      {
+        "name": "390px phone: touch steering, capture, no horizontal overflow",
+        "details": {
+          "moved": 497,
+          "captures": 11
+        }
+      },
+      {
+        "name": "Landscape resize and resume",
+        "details": true
+      },
+      {
+        "name": "Storage-denied browser remains playable",
+        "details": true
+      },
+      {
+        "name": "Console errors",
+        "details": []
+      }
+    ],
+    "errors": []
+  },
+  "productionSmoke": {
+    "date": "2026-09-24T07:28:31.186Z",
+    "results": [
+      {
+        "test": "Production nested-path load",
+        "details": {
+          "milliseconds": 568
+        }
+      },
+      {
+        "test": "Production diagnostics removed; only local asset requests",
+        "details": [
+          "http://127.0.0.1:51808/harbor/",
+          "http://127.0.0.1:51808/harbor/assets/index-C77GXbyb.js",
+          "http://127.0.0.1:51808/harbor/assets/phaser-DFK5Ua9d.js",
+          "http://127.0.0.1:51808/harbor/assets/index-kJ3ILS-V.css"
+        ]
+      },
+      {
+        "test": "Production continues with network disconnected",
+        "details": {
+          "score": "250"
+        }
+      },
+      {
+        "test": "320px phone: play, pause and resume controls fit",
+        "details": true
+      },
+      {
+        "test": "Locked cargo resists capture at close range",
+        "details": {
+          "stage": 2,
+          "cargoStillPresent": true
+        }
+      },
+      {
+        "test": "Desktop camera keeps outer-lane player visible",
+        "details": {
+          "worldY": 943.1121081621116,
+          "screenY": 442.06016855273356,
+          "canvasHeight": 556
+        }
+      },
+      {
+        "test": "Visibility pause plus live rendering measurement",
+        "details": {
+          "fps": 58.565153733528554,
+          "particles": 0,
+          "memory": 40812929
+        }
+      },
+      {
+        "test": "Bundle inventory",
+        "details": [
+          {
+            "name": "favicon.svg",
+            "bytes": 285,
+            "gzip": 225
+          },
+          {
+            "name": "index.html",
+            "bytes": 1160,
+            "gzip": 657
+          },
+          {
+            "name": "third-party-licenses.txt",
+            "bytes": 2202,
+            "gzip": 793
+          },
+          {
+            "name": "assets/index-C77GXbyb.js",
+            "bytes": 37036,
+            "gzip": 14180
+          },
+          {
+            "name": "assets/index-kJ3ILS-V.css",
+            "bytes": 19179,
+            "gzip": 4913
+          },
+          {
+            "name": "assets/phaser-DFK5Ua9d.js",
+            "bytes": 1208056,
+            "gzip": 330076
+          }
+        ]
+      },
+      {
+        "test": "Console errors",
+        "details": []
+      }
+    ]
+  },
+  "responsive": {
+    "url": "http://127.0.0.1:4180/",
+    "checks": [
+      "360x800 welcome",
+      "360x800 playing",
+      "360x800 paused",
+      "360x660 browser chrome expanded",
+      "800x360 paused landscape",
+      "Real mobile round",
+      "Real mobile round",
+      "Real mobile round",
+      "Real mobile round",
+      "Real mobile round",
+      "Real mobile round",
+      "360x800 finished",
+      "320x568 finished",
+      "390x844 finished",
+      "430x932 finished",
+      "640x800 finished",
+      "568x320 finished",
+      "800x360 finished",
+      "844x390 finished",
+      "768x1024 finished",
+      "1024x768 finished",
+      "1440x900 finished",
+      "360x800 long-score presentation",
+      "360x800 restarted",
+      "Console errors"
+    ],
+    "errors": []
+  },
+  "productionTouchResult": {
+    "score": 1940,
+    "captured": 43,
+    "largest": "Fishing boat",
+    "purpose": "Fixed-direction input pattern for production layout/replay verification, not a score-optimization strategy."
+  }
+}

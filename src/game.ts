@@ -3,6 +3,7 @@ import { CONFIG, ENTITIES, REEFS, type EntityKind } from './config';
 import { clamp, isWater, moveInWater, progressFor, randomGenerator, stageFor } from './rules';
 import { createArt } from './art';
 import { Steering } from './input';
+import { reachableArrival, shipNeeded } from './spawning';
 import { GameAudio } from './audio';
 import type { PlatformAdapter } from './platform';
 export type Mode = 'welcome' | 'playing' | 'paused' | 'finished';
@@ -15,6 +16,9 @@ export class HarborScene extends Phaser.Scene {
   entities: Entity[] = []; private particles: Particle[] = []; private feedback: Phaser.GameObjects.Text[] = [];
   private vortex!: Phaser.GameObjects.Image; private foam!: Phaser.GameObjects.Image; private effects!: Phaser.GameObjects.Graphics; private wakes!: Phaser.GameObjects.Graphics; private steering!: Steering;
   private nextId = 0; private rng = randomGenerator(23891); private spawnClock = 0; private clock = 0; private hazardCooldown = 0; private growthPulse = 0; private lastUi = 0; private largestTier = -1;
+  private shipClock = 0; private shipWait = 0; private shipRetry = 0;
+  private missingShips = { cargo: 0, tug: 0 };
+  private spawnEvents: { time: number; kind: EntityKind; x: number; y: number; wait: number; distance: number; valuable: number; objects: number }[] = [];
   private frameDurations: number[] = []; private previousFrame = 0;
   private unsubscribe?: () => void;
   onSnapshot: (s: Snapshot) => void = () => {}; onToast: (text: string, type?: string) => void = () => {}; onReady: () => void = () => {};
@@ -37,6 +41,7 @@ export class HarborScene extends Phaser.Scene {
   snapshot(): Snapshot { const stage = stageFor(this.xp); return { mode: this.mode, score: this.score, best: this.best, xp: this.xp, stage, progress: progressFor(this.xp), time: Math.ceil(this.remaining), captured: this.captured, largest: this.largest ? ENTITIES[this.largest].name : 'No catches yet', largestKind: this.largest, moved: this.steering?.moved ?? false, slowed: this.isSlowed() }; }
   private emitSnapshot() { this.onSnapshot(this.snapshot()); }
   startRound() {
+    this.shipClock = 0; this.shipWait = 0; this.shipRetry = 0; this.missingShips = { cargo: 0, tug: 0 }; this.spawnEvents = [];
     this.audio.resume(); this.mode = 'playing'; this.score = 0; this.xp = 0; this.remaining = CONFIG.roundSeconds; this.captured = 0; this.largest = null; this.largestTier = -1; this.spawnClock = 0; this.hazardCooldown = 0; this.growthPulse = 0;
     this.player = { x: CONFIG.start.x, y: CONFIG.start.y, vx: 0, vy: 0, radius: 25 }; this.steering.reset(); this.steering.moved = false; this.clearEffects(); this.populate(); this.resize(); this.emitSnapshot();
   }
@@ -50,21 +55,51 @@ export class HarborScene extends Phaser.Scene {
     for (let i = 0; i < 14; i++) { const a = i * Math.PI * 2 / 14, r = 76 + (i % 3) * 27; this.spawn(i % 2 ? 'driftwood' : 'bottle', this.player.x + Math.cos(a) * r, this.player.y + Math.sin(a) * r); }
     (Object.keys(ENTITIES) as EntityKind[]).forEach(kind => { const amount = ENTITIES[kind].count - (ENTITIES[kind].tier === 0 ? 7 : 0); for (let i = 0; i < amount; i++) this.spawn(kind); });
   }
-  private spawn(kind: EntityKind, forceX?: number, forceY?: number) {
+  private spawn(kind: EntityKind, forceX?: number, forceY?: number, arrival = false) {
     const def = ENTITIES[kind], footprint = def.radius * (def.speed ? CONFIG.spawn.vesselFootprint : 1); let x = forceX ?? 0, y = forceY ?? 0, valid = forceX !== undefined;
     if (!valid) for (let tries = 0; tries < 160; tries++) { x = 65 + this.rng() * 1470; y = 65 + this.rng() * 970;
       // Vessels stay in separated, unobstructed horizontal shipping lanes.
-      if (kind === 'cargo') { x = 410 + this.rng() * 670; y = [160, 490, 960][this.entities.filter(e => e.kind === kind && !e.captured).length % 3]; }
-      if (kind === 'tug') { x = 360 + this.rng() * 780; y = [270, 400, 760, 915][this.entities.filter(e => e.kind === kind && !e.captured).length % 4]; }
+      if (kind === 'cargo') { x = 410 + this.rng() * 670; y = [160, 490, 960][(arrival ? tries : this.entities.filter(e => e.kind === kind && !e.captured).length) % 3]; }
+      if (kind === 'tug') { x = 360 + this.rng() * 780; y = [270, 400, 760, 915][(arrival ? tries : this.entities.filter(e => e.kind === kind && !e.captured).length) % 4]; }
       const motionClearance = def.speed > 0 ? 85 : 0;
       if (!isWater(x, y, footprint + 8) || !isWater(x - motionClearance, y, footprint + 8) || !isWater(x + motionClearance, y, footprint + 8)) continue;
       if (Math.hypot(x - this.player.x, y - this.player.y) < CONFIG.spawn.playerClearance + this.player.radius + def.radius) continue;
+      if (arrival && !reachableArrival(this.player, x, y)) continue;
       if (this.entities.some(e => !e.captured && Math.hypot(x - e.x, y - e.y) < footprint + ENTITIES[e.kind].radius * (ENTITIES[e.kind].speed ? CONFIG.spawn.vesselFootprint : 1) + 12)) continue;
       valid = true; break;
     }
-    if (!valid) return;
+    if (!valid) return false;
     const angle = def.speed ? 0 : this.rng() * Math.PI * 2; const sprite = this.add.image(x, y, kind).setScale(0.5).setRotation(angle).setDepth(3);
     this.entities.push({ id: this.nextId++, kind, x, y, originX: x, originY: y, sprite, angle, phase: this.rng() * Math.PI * 2, captured: false });
+    if (arrival) {
+      sprite.setAlpha(0); this.tweens.add({ targets: sprite, alpha: 1, duration: CONFIG.spawn.arrivalFade });
+      if (import.meta.env.DEV) this.spawnEvents.push({ time: CONFIG.roundSeconds - this.remaining, kind, x, y, wait: kind === 'cargo' ? this.missingShips.cargo : kind === 'tug' ? this.missingShips.tug : this.shipWait, distance: Math.hypot(x - this.player.x, y - this.player.y), valuable: this.entities.filter(e => !e.captured && ENTITIES[e.kind].tier >= 3 && ENTITIES[e.kind].tier <= stageFor(this.xp)).length, objects: this.entities.filter(e => !e.captured).length });
+    }
+    return true;
+  }
+  private replenish(dt: number) {
+    const stage = stageFor(this.xp), live = this.entities.filter(e => !e.captured);
+    this.missingShips.cargo = stage === 5 && !live.some(e => e.kind === 'cargo') ? this.missingShips.cargo + dt : 0;
+    this.missingShips.tug = stage >= 4 && !live.some(e => e.kind === 'tug') ? this.missingShips.tug + dt : 0;
+    const needed = shipNeeded(stage, live.map(e => e.kind), this.missingShips);
+    this.shipClock += dt; this.shipRetry = Math.max(0, this.shipRetry - dt);
+    if (needed) {
+      this.shipWait += dt;
+      if (this.shipClock >= CONFIG.spawn.shipDelay && !this.shipRetry) {
+        if (live.length < CONFIG.spawn.maxObjects && this.spawn(needed, undefined, undefined, true)) {
+          this.shipClock = 0; this.shipWait = 0;
+        } else this.shipRetry = CONFIG.spawn.retryDelay;
+      }
+    } else this.shipWait = 0;
+    this.spawnClock += dt;
+    if (this.spawnClock < CONFIG.spawn.interval) return;
+    this.spawnClock = 0;
+    this.entities = this.entities.filter(e => !e.captured || e.sprite.active);
+    const ambient = live.filter(e => ENTITIES[e.kind].tier < 3).length;
+    // Keep slots for ship deficits; low-value objects do not crowd out valuable arrivals.
+    if (live.length >= CONFIG.spawn.maxObjects - CONFIG.spawn.reservedShipSlots || ambient >= CONFIG.spawn.ambientCaps[stage]) return;
+    const kinds = (Object.keys(ENTITIES) as EntityKind[]).filter(k => ENTITIES[k].tier <= Math.min(stage, stage < 4 ? 3 : 2));
+    this.spawn(kinds[Math.floor(this.rng() * kinds.length)]);
   }
   private isSlowed() { return REEFS.some(r => Math.hypot(this.player.x - r.x, (this.player.y - r.y) / 0.72) < r.radius); }
   private capture(e: Entity) {
@@ -84,13 +119,14 @@ export class HarborScene extends Phaser.Scene {
     this.wakes.clear(); this.effects.clear();
     if (this.mode === 'playing') {
       this.remaining = Math.max(0, this.remaining - dt); if (this.remaining === 0) { this.finishRound(); return; }
-      const steer = this.steering.vector(this.player.x, this.player.y), slow = this.isSlowed(), speed = CONFIG.movement.speed * (slow ? CONFIG.reef.speedMultiplier : 1);
-      const smooth = 1 - Math.exp(-CONFIG.movement.acceleration * dt); this.player.vx += (steer.x * speed - this.player.vx) * smooth; this.player.vy += (steer.y * speed - this.player.vy) * smooth;
+      const steer = this.steering.vector(this.player.x, this.player.y), slow = this.isSlowed(), touch = this.steering.usingTouch;
+      const speed = (touch ? CONFIG.movement.touchSpeed : CONFIG.movement.speed) * (slow ? CONFIG.reef.speedMultiplier : 1);
+      const smooth = 1 - Math.exp(-(touch ? CONFIG.movement.touchAcceleration : CONFIG.movement.acceleration) * dt); this.player.vx += (steer.x * speed - this.player.vx) * smooth; this.player.vy += (steer.y * speed - this.player.vy) * smooth;
       const newRadius = CONFIG.stages[stageFor(this.xp)].radius; this.player.radius += (newRadius - this.player.radius) * (1 - Math.exp(-5 * dt));
       // The compact navigation body keeps even the largest whirlpool out of docks without trapping it when it grows.
       const moved = moveInWater(this.player.x, this.player.y, this.player.vx * dt, this.player.vy * dt, CONFIG.movement.navigationRadius); this.player.x = moved.x; this.player.y = moved.y;
       this.hazardCooldown -= dt; if (slow && this.hazardCooldown <= 0) { this.audio.hazard(); this.onToast('Shallow water · steer into the blue', 'hazard'); this.hazardCooldown = CONFIG.reef.warningCooldown; }
-      this.spawnClock += dt; if (this.spawnClock > CONFIG.spawn.interval) { this.spawnClock = 0; this.entities = this.entities.filter(e => !e.captured || e.sprite.active); if (this.entities.filter(e => !e.captured).length < CONFIG.spawn.maxObjects) { const kinds = (Object.keys(ENTITIES) as EntityKind[]).filter(k => ENTITIES[k].tier <= Math.min(stageFor(this.xp), 3)); this.spawn(kinds[Math.floor(this.rng() * kinds.length)]); } }
+      this.replenish(dt);
     }
     const stage = stageFor(this.xp), radius = this.player.radius, suction = radius + CONFIG.suction.extraRadius;
     for (const e of this.entities) {
@@ -118,9 +154,9 @@ export class HarborScene extends Phaser.Scene {
     this.growthPulse = Math.max(0, this.growthPulse - dt); const visualRadius = this.mode === 'welcome' ? 58 : radius; const scale = visualRadius * 2.6 / 384 * (1 + Math.sin(this.growthPulse * 8) * 0.11);
     this.vortex.setPosition(this.player.x, this.player.y).setScale(scale).setRotation(-this.clock * 1.15); this.foam.setPosition(this.player.x, this.player.y).setScale(scale).setRotation(this.clock * 0.65);
     if (this.mode === 'playing') { this.effects.lineStyle(1, this.isSlowed() ? 0xffd19a : 0xc0f7d7, 0.2).strokeCircle(this.player.x, this.player.y, suction); this.steering.draw(this.effects); }
-    const camera = this.cameras.main; if (this.mode === 'playing') { const focusX = camera.midPoint.x + (this.player.x - camera.midPoint.x) * (1 - Math.exp(-5 * dt)), focusY = camera.midPoint.y + (this.player.y - camera.midPoint.y) * (1 - Math.exp(-5 * dt)); camera.centerOn(focusX, focusY); }
+    const camera = this.cameras.main; if (this.mode === 'playing') { const response = this.steering.usingTouch ? CONFIG.movement.touchCameraResponse : 5; const focusX = camera.midPoint.x + (this.player.x - camera.midPoint.x) * (1 - Math.exp(-response * dt)), focusY = camera.midPoint.y + (this.player.y - camera.midPoint.y) * (1 - Math.exp(-response * dt)); camera.centerOn(focusX, focusY); }
     this.lastUi += dt; if (this.lastUi > 0.1) { this.lastUi = 0; this.emitSnapshot(); }
   }
   /** Read-only diagnostic snapshot for repeatable browser tests; no score/position mutation API. */
-  diagnostics() { const c = this.cameras.main; return { ...this.snapshot(), player: { ...this.player }, entities: this.entities.filter(e => !e.captured).map(e => ({ id: e.id, kind: e.kind, x: e.x, y: e.y, tier: ENTITIES[e.kind].tier, radius: ENTITIES[e.kind].radius })), camera: { scrollX: c.scrollX, scrollY: c.scrollY, zoom: c.zoom, width: c.width, height: c.height, midpoint: { x: c.midPoint.x, y: c.midPoint.y } }, fps: this.frameDurations.length ? 1000 * this.frameDurations.length / this.frameDurations.reduce((a, b) => a + b, 0) : 0, particles: this.particles.length, audio: { contextState: this.audio.contextState, muted: this.audio.muted, suspended: this.audio.suspended } }; }
+  diagnostics() { const c = this.cameras.main; return { ...this.snapshot(), player: { ...this.player }, spawning: { needed: shipNeeded(stageFor(this.xp), this.entities.filter(e => !e.captured).map(e => e.kind), this.missingShips), missing: { ...this.missingShips }, wait: this.shipWait, events: this.spawnEvents.map(e => ({ ...e })) }, entities: this.entities.filter(e => !e.captured).map(e => ({ id: e.id, kind: e.kind, x: e.x, y: e.y, tier: ENTITIES[e.kind].tier, radius: ENTITIES[e.kind].radius })), camera: { scrollX: c.scrollX, scrollY: c.scrollY, zoom: c.zoom, width: c.width, height: c.height, midpoint: { x: c.midPoint.x, y: c.midPoint.y } }, fps: this.frameDurations.length ? 1000 * this.frameDurations.length / this.frameDurations.reduce((a, b) => a + b, 0) : 0, particles: this.particles.length, audio: { contextState: this.audio.contextState, muted: this.audio.muted, suspended: this.audio.suspended } }; }
 }

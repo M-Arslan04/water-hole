@@ -29,7 +29,7 @@ Open http://127.0.0.1:4178. Deploy the **contents of `dist/`** to any static HTT
 
 - **Mouse:** hold the primary button anywhere in the water. The whirlpool steers toward the cursor; release to stop. Mere hovering does not move the player. This avoids accidental motion when reaching for pause or mute.
 - **Keyboard:** WASD or arrow keys. Escape pauses/resumes.
-- **Touch:** press anywhere on the water and drag from that point. A floating joystick controls direction and speed; lift to stop. Begin your gesture below or beside the whirlpool to keep it visible.
+- **Touch:** press anywhere on the water and drag from that point. A floating joystick follows long drags and controls direction and speed; lift to stop. Begin your gesture below or beside the whirlpool to keep it visible.
 - **Pause:** upper-right pause button. Losing window focus or hiding the tab pauses the round, including audio. Resume explicitly.
 - **Sound:** top navigation speaker button. Synthesis starts only after interaction. All essential feedback also appears visually.
 
@@ -42,7 +42,8 @@ Collect bottles and driftwood first. A padlock above a vessel means it is too bi
 | `src/config.ts` | Documented tuning, growth ladder, entity definitions, map obstacles and reefs |
 | `src/rules.ts` | Pure growth, water boundaries, collision-safe movement and seeded randomness |
 | `src/game.ts` | Round lifecycle, spawning, simulation, capture effects and camera |
-| `src/input.ts` | Mouse, keyboard and relative touch steering |
+| `src/input.ts`, `src/steering-rules.ts` | Mouse, keyboard and floating touch steering |
+| `src/spawning.ts` | Stage-aware valuable-ship deficits and reachable arrival checks |
 | `src/art.ts` | Original Canvas-drawn harbor, boats, whirlpool, icons and particle textures |
 | `src/audio.ts` | Original Web Audio sound effects, gesture initialization and mute/pause |
 | `src/ui.ts`, `src/style.css`, `src/responsive.css` | Responsive HTML interface, HUD, minimap and accessible buttons |
@@ -51,7 +52,7 @@ Collect bottles and driftwood first. A padlock above a vessel means it is too bi
 | `tests/` | Rules, real-time browser playthrough and production checks |
 | `docs/` | Initial plan, tuning, actual test report, and separate Playables readiness |
 
-The platform adapter, scene lifecycle methods and audio controller are the extension points for a later SDK integration. The prototype deliberately does not import, simulate or claim compliance with the YouTube SDK. The adapter still needs SDK-specific lifecycle/audio wiring and initialization work; game rules and rendering can stay unchanged.
+The platform adapter, scene lifecycle methods and audio controller are the extension points for a later SDK integration. The current readiness report includes a concrete separate-build implementation plan, including Phaser visibility hooks and cloud-save load gating. The prototype deliberately does not import, simulate or claim compliance with the YouTube SDK. The adapter still needs SDK-specific lifecycle/audio wiring and initialization work; game rules and rendering can stay unchanged.
 
 ## Tests
 
@@ -61,6 +62,10 @@ npm test
 npm run test:browser
 # After npm run build, with npm run dev still running:
 npm run test:smoke
+npm run test:controls
+npm run test:balance
+# With npm run preview serving the production build:
+npm run test:responsive
 ```
 
 Browser tests use Playwright with installed Google Chrome on macOS. On other systems, set `CHROME_PATH` to your Chrome/Chromium executable. `TEST_URL` overrides the development URL; `PRODUCTION_URL` overrides the production smoke URL. The smoke test serves the production bundle on a temporary local port by default and closes that server afterward. Tests save screenshots and JSON results in `tests/artifacts/`. The full gameplay test uses real pointer, keyboard and touch events for an actual 90-second round; it never modifies score, player position or time. Read-only diagnostics are present in development and removed from production.
@@ -68,6 +73,8 @@ Browser tests use Playwright with installed Google Chrome on macOS. On other sys
 ## Vercel deployment
 
 The repository includes `vercel.json` and `.vercelignore`. Import the directory containing this game's `package.json` into Vercel; it builds with `npm run build` and publishes `dist`. No environment variables or backend are required. See [the Vercel launch guide](docs/VERCEL.md) for root-directory selection, preview deployment and release checks. This preparation does not publish a deployment.
+
+Advanced stages replenish capturable ships at safe, reachable locations, with separate tug/cargo delays to preserve scoring balance. The final stage becomes a ship-chasing score challenge. See the tuning notes and measured full-round comparisons before releasing this revision.
 
 The mobile layout keeps play, pause, results and replay inside the same viewport. Cards wrap within the available width, short screens allow internal scrolling, and the shell follows dynamic browser height and safe areas. Run `npm run test:responsive` against the production preview to exercise a full mobile round and the result-screen viewport matrix.
 
