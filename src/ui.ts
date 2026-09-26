@@ -31,11 +31,11 @@ export function mountUI() {
     </main>`;
 }
 const get = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
-export function bindUI(scene: HarborScene, hooks: { beforePlay?: () => Promise<void>; beforeReplay?: () => Promise<void> } = {}) {
+export function bindUI(scene: HarborScene, hooks: { beforePlay?: () => Promise<void>; beforeReplay?: () => Promise<void>; canInteract?: () => boolean } = {}) {
   let toastTimeout = 0, previousMode = '', previousScore = 0, bestAtStart = scene.best;
   const hud = get('hud'), welcome = get('welcome'), pauseOverlay = get('pause-overlay'), result = get('result'), growth = get('growth'), hint = get('hint'), mini = get<HTMLCanvasElement>('minimap'), ctx = mini.getContext('2d')!;
-  const focusButton = (id: string) => requestAnimationFrame(() => get<HTMLButtonElement>(id).focus({ preventScroll: true }));
-  const start = async (id: string, hook?: () => Promise<void>) => { const button = get<HTMLButtonElement>(id); button.disabled = true; try { await hook?.(); scene.startRound(); } catch { scene.onToast('Return to the game and try Play again.'); } finally { button.disabled = false; } };
+  const focusButton = (id: string) => requestAnimationFrame(() => { if (hooks.canInteract?.() !== false) get<HTMLButtonElement>(id).focus({ preventScroll: true }); });
+  const start = async (id: string, hook?: () => Promise<void>) => { const button = get<HTMLButtonElement>(id); button.disabled = true; try { await hook?.(); if (hooks.canInteract?.() !== false) scene.startRound(); } catch { scene.onToast('Return to the game and try Play again.'); } finally { button.disabled = false; } };
   get('play').onclick = () => { void start('play', hooks.beforePlay); }; get('again').onclick = () => { void start('again', hooks.beforeReplay); }; get('pause').onclick = () => scene.pauseRound(); get('resume').onclick = () => scene.resumeRound();
   get('sound').onclick = () => { scene.audio.setMuted(!scene.audio.muted); const muted = scene.audio.muted; get('sound').innerHTML = icon(muted ? 'mute' : 'sound'); get('sound').setAttribute('aria-label', muted ? 'Unmute sound' : 'Mute sound'); get('sound').setAttribute('aria-pressed', String(muted)); };
   scene.onToast = (message, type = '') => { const toast = get('toast'); toast.textContent = message; toast.className = `toast visible toast-${type}`; window.clearTimeout(toastTimeout); toastTimeout = window.setTimeout(() => { toast.className = 'toast'; }, 2400); };

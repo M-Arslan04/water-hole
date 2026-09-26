@@ -3,7 +3,7 @@ import { entityIcon } from './art';
 import type { HarborScene } from './game';
 import type { PlatformAdapter } from './platform';
 export interface Settings { highContrast: boolean; motion: 'system' | 'reduce'; muted: boolean; }
-export function attachAccessibility(scene: HarborScene, platform: PlatformAdapter) {
+export function attachAccessibility(scene: HarborScene, platform: PlatformAdapter, options: { preserveEscape?: boolean; hostOwnsAudio?: boolean } = {}) {
   document.querySelector('#app')!.insertAdjacentHTML('beforeend', `
     <div id="announcer" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
     <dialog id="preferences" aria-labelledby="preferences-title">
@@ -65,7 +65,7 @@ export function attachAccessibility(scene: HarborScene, platform: PlatformAdapte
     if (edited || !value || typeof value !== 'object') return;
     const stored = value as Partial<Settings>;
     settings = { highContrast: stored.highContrast === true, motion: stored.motion === 'reduce' ? 'reduce' : 'system', muted: stored.muted === true };
-    if (settings.muted !== scene.audio.muted) sound.click();
+    if (!options.hostOwnsAudio && settings.muted !== scene.audio.muted) sound.click();
     apply();
   }).catch(() => {});
   contrast.onchange = () => { settings.highContrast = contrast.checked; apply(); save(); };
@@ -91,7 +91,7 @@ export function attachAccessibility(scene: HarborScene, platform: PlatformAdapte
   });
   for (const target of [dialog, help]) {
   target.addEventListener('keydown', event => {
-    if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); target.close(); return; }
+    if (event.key === 'Escape') { if (!options.preserveEscape) event.preventDefault(); event.stopPropagation(); target.close(); return; }
     if (event.key !== 'Tab') return;
     const controls = [...target.querySelectorAll<HTMLElement>('button:not([disabled]):not([hidden]), input, select, summary')].filter(el => el.getClientRects().length > 0);
     const first = controls[0], last = controls[controls.length - 1];

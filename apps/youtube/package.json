@@ -1,0 +1,14 @@
+{
+  "name": "water-hole-youtube",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit && vite build",
+    "dev": "vite --host 127.0.0.1 --port 5190",
+    "package": "npm run build && python3 scripts/package.py",
+    "test": "tsx --test tests/*.test.ts",
+    "test:browser": "node tests/browser.mjs",
+    "test:host": "node tests/host.mjs"
+  }
+}

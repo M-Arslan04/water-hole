@@ -1,0 +1,147 @@
+{
+  "date": "2026-09-26",
+  "scope": "Local Chrome; no YouTube portal or physical device certification",
+  "youtubeBrowser": {
+    "passed": true,
+    "sampledHeapMaxBytes": 37081868,
+    "heapSamples": 93,
+    "viewports": [
+      "288x1024",
+      "360x840",
+      "360x640",
+      "600x800",
+      "700x700",
+      "800x600",
+      "960x540",
+      "1260x540",
+      "1600x450"
+    ],
+    "readiness": [
+      {
+        "name": "first",
+        "loading": true
+      },
+      {
+        "name": "load"
+      },
+      {
+        "name": "ready",
+        "milliseconds": 343,
+        "play": true,
+        "canvas": true
+      }
+    ],
+    "saves": [
+      {
+        "version": 1,
+        "best": 100,
+        "settings": {
+          "highContrast": true,
+          "motion": "system"
+        }
+      },
+      {
+        "version": 1,
+        "best": 100,
+        "settings": {
+          "highContrast": true,
+          "motion": "reduce"
+        }
+      },
+      {
+        "version": 1,
+        "best": 235,
+        "settings": {
+          "highContrast": true,
+          "motion": "reduce"
+        }
+      }
+    ],
+    "scores": [
+      100,
+      235
+    ],
+    "errors": [],
+    "external": [],
+    "scope": "Production Chromium, official CSP, local SDK mock; not official certification or physical device"
+  },
+  "host": {
+    "passed": true,
+    "errors": [],
+    "audio": {
+      "contextState": "suspended",
+      "muted": true,
+      "suspended": true
+    }
+  },
+  "balance": {
+    "label": "youtube",
+    "mobile": false,
+    "score": 18305,
+    "captures": 132,
+    "unlocks": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 10,
+      "5": 18,
+      "6": 36
+    },
+    "seconds": 90.138,
+    "scoreAt60Remaining": 5825,
+    "scoreAt30Remaining": 11940,
+    "lateValuableMin": 1,
+    "lateValuableMedian": 2,
+    "lateCargoMin": 0,
+    "lateZeroSamples": 0,
+    "lateSamples": 129,
+    "maxObjects": 88,
+    "medianFps": 59.24755603813906,
+    "errors": []
+  },
+  "package": {
+    "archive": "/Users/codingcops/Documents/AAA/water-hole/release/water-hole-youtube.zip",
+    "sha256": "beb6f2daaf27fbb6f698f6af1648d5e69a30342de82a73961fbdc73f393ee9fd",
+    "uncompressedBytes": 1392148,
+    "zipBytes": 366343,
+    "fileCount": 7,
+    "files": [
+      {
+        "name": "assets/bootstrap-Bf-j93wq.css",
+        "bytes": 26490
+      },
+      {
+        "name": "assets/bootstrap-C9KPqV9K.js",
+        "bytes": 45576
+      },
+      {
+        "name": "assets/index-o8vjs-fE.js",
+        "bytes": 7391
+      },
+      {
+        "name": "assets/phaser-CIsPQPIM.js",
+        "bytes": 1208149
+      },
+      {
+        "name": "assets/youtube-sIOc-hCI.css",
+        "bytes": 1609
+      },
+      {
+        "name": "index.html",
+        "bytes": 584
+      },
+      {
+        "name": "third-party-licenses.txt",
+        "bytes": 102349
+      }
+    ]
+  },
+  "officialInteractiveSuite": {
+    "url": "https://developers.google.com/youtube/gaming/playables/test_suite",
+    "result": "No usable test controls/empty article in this session"
+  },
+  "officialBundleAnalyzer": {
+    "url": "https://developers.google.com/youtube/gaming/playables/samples/bundle_analyzer",
+    "result": "Executed locally; no violations reported"
+  }
+}

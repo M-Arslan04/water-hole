@@ -98,3 +98,7 @@ The browser entry remains independent of native dependencies. Settings provides 
 - [Later iOS assessment](docs/IOS-ASSESSMENT.md)
 
 Run `npm run test:accessibility` against the development server. Android is an independent package in `apps/android`: run `npm ci --prefix apps/android`, then `npm run sync --prefix apps/android`. It requires Node 22+; native compilation additionally needs Android SDK 36 and JDK 21. No Android dependencies are required for root `npm ci && npm run build` or Vercel.
+
+## YouTube Playables preparation
+
+The independent `apps/youtube` target shares gameplay with web/Android and packages via `npm run package --prefix apps/youtube`. It has local SDK contract tests but is not certified or uploaded. See [current audit](docs/YOUTUBE-AUDIT.md) and [target instructions](apps/youtube/README.md).
