@@ -64,5 +64,11 @@ export function createArt(scene: Phaser.Scene) {
   texture(scene, 'foam', 384, 384, c => { c.translate(192, 192); for (let i = 0; i < 25; i++) { const a = i * 2.4, r = 128 + rng() * 37; ellipse(c, Math.cos(a) * r, Math.sin(a) * r, 2 + rng() * 3, 2, '#d8fae2bb'); } });
   texture(scene, 'particle', 12, 12, c => ellipse(c, 6, 6, 5, 5, '#f8f3c4'));
 }
-export function entityIcon(kind: EntityKind): string { const canvas = document.createElement('canvas'); canvas.width = 220; canvas.height = 100; const c = canvas.getContext('2d')!; c.translate(110, 50); paintEntity(c, kind); return canvas.toDataURL(); }
+export function entityIcon(kind: EntityKind): string {
+  const canvas = document.createElement('canvas'); canvas.width = 220; canvas.height = 100;
+  const c = canvas.getContext('2d')!;
+  // Explicitly clear recycled canvas backing storage in Android WebViews.
+  c.clearRect(0, 0, canvas.width, canvas.height);
+  c.translate(110, 50); paintEntity(c, kind); return canvas.toDataURL();
+}
 export const WORLD_SIZE = CONFIG.world;

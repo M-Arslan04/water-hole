@@ -1,0 +1,28 @@
+
+> water-hole-android@0.1.0 test
+> node --test tests/*.test.mjs && ../../node_modules/.bin/tsx --test tests/platform.test.ts
+
+PASS: real Java policy blocks active/incomplete rounds, enforces 3 completions + 5 minutes, resets after showing
+
+✔ native interstitial frequency policy executes on JVM (481.268542ms)
+✔ web production assets have no native or advertising boundary (6.313417ms)
+✔ Android sync contains local assets and no remote game URL (3.952125ms)
+✔ CLI xcode parser still generates UUIDs with patched dependency (112.343333ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 735.576292
+✔ Android best score and settings persist across adapter instances via Preferences (2.954667ms)
+✔ native host pauses audio and simulation; back closes menus then pauses; returning never resumes a round (0.239916ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 175.203709

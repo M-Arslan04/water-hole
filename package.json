@@ -12,7 +12,9 @@
     "test:smoke": "node tests/smoke.mjs",
     "test:responsive": "node tests/responsive.mjs",
     "test:controls": "node tests/controls.mjs",
-    "test:balance": "node tests/balance.mjs"
+    "test:balance": "node tests/balance.mjs",
+    "test:accessibility": "node tests/accessibility.mjs",
+    "test:welcome": "node tests/welcome.mjs"
   },
   "dependencies": {
     "phaser": "^3.90.0"

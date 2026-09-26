@@ -1,0 +1,1 @@
+{"extends":"../../tsconfig.json","include":["src","capacitor.config.ts","vite.config.ts","../../src"],"compilerOptions":{"types":["vite/client","node"]}}

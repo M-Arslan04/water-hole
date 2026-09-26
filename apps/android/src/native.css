@@ -1,0 +1,4 @@
+/* Native window insets are applied by MainActivity; do not count them twice. */
+body { overscroll-behavior:none; }
+
+#platform-settings summary { min-height:48px; padding-block:12px; cursor:pointer; }

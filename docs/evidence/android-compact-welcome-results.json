@@ -1,0 +1,24 @@
+{
+  "serial": "emulator-5554",
+  "checks": [
+    "Existing production game bundle launches inside the Android WebView",
+    "Compact welcome fits; touch-first help opens and Android Back closes it",
+    "Native settings and bundled license notices open",
+    "Round starts, timer runs, and touch drag moves the player marker",
+    "Status dock occupies separate space below the canvas",
+    "Help during a paused round closes with Android Back and preserves the timer",
+    "Pause freezes the timer; background/foreground returns to a paused round",
+    "Android Back pauses gameplay and closes settings without resuming",
+    "Portrait/landscape rotation retains the round and avoids horizontal overflow",
+    "Complete timed round, captures, and result screen (4,465 points; 127s wall time including pauses)",
+    "Replay starts a fresh round",
+    "Offline cold start and Play work; best score and settings survive process restart"
+  ],
+  "errors": [],
+  "limitations": [
+    "Emulator only; not physical-device or screen-reader validation",
+    "Software graphics; not a hardware performance benchmark",
+    "Emulator audio output disabled; mute persistence tested, audible output untested",
+    "Ad rendering and consent depend on owner AdMob configuration"
+  ]
+}

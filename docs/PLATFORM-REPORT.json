@@ -1,0 +1,2032 @@
+{
+  "date": "2026-09-25",
+  "baselineCommit": "bde0d09",
+  "branch": "accessibility-android-preparation",
+  "baselineBrowser": {
+    "date": "2026-09-25T12:42:41.152Z",
+    "results": [
+      {
+        "name": "Start and locked cargo present",
+        "details": {
+          "time": 90,
+          "objects": 83
+        }
+      },
+      {
+        "name": "Mute toggles audio",
+        "details": true
+      },
+      {
+        "name": "Mouse steering changes position",
+        "details": true
+      },
+      {
+        "name": "Pause and window blur freeze the clock",
+        "details": true
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 89,
+          "score": 175,
+          "stage": 2,
+          "caught": 9,
+          "fps": 59
+        }
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 75,
+          "score": 2385,
+          "stage": 4,
+          "caught": 44,
+          "fps": 59
+        }
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 61,
+          "score": 5080,
+          "stage": 5,
+          "caught": 74,
+          "fps": 59
+        }
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 48,
+          "score": 6305,
+          "stage": 6,
+          "caught": 98,
+          "fps": 59
+        }
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 35,
+          "score": 7955,
+          "stage": 6,
+          "caught": 121,
+          "fps": 59
+        }
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 21,
+          "score": 10680,
+          "stage": 6,
+          "caught": 143,
+          "fps": 59
+        }
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 8,
+          "score": 13690,
+          "stage": 6,
+          "caught": 158,
+          "fps": 59
+        }
+      },
+      {
+        "name": "Complete real-time keyboard round",
+        "details": {
+          "score": 15205,
+          "captured": 166,
+          "largest": "Cargo ship",
+          "stages": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "fpsMedian": 58.898596249950394,
+          "hazardEncountered": true,
+          "vesselCrowding": 0,
+          "unlockTimes": {
+            "2": 1,
+            "3": 4,
+            "4": 9,
+            "5": 19,
+            "6": 40
+          }
+        }
+      },
+      {
+        "name": "Restart clears progress without refreshing",
+        "details": true
+      },
+      {
+        "name": "Best survives reload",
+        "details": 15205
+      },
+      {
+        "name": "390px phone: touch steering, capture, no horizontal overflow",
+        "details": {
+          "moved": 492,
+          "captures": 11
+        }
+      },
+      {
+        "name": "Landscape resize and resume",
+        "details": true
+      },
+      {
+        "name": "Storage-denied browser remains playable",
+        "details": true
+      },
+      {
+        "name": "Console errors",
+        "details": []
+      }
+    ],
+    "errors": []
+  },
+  "afterBrowser": {
+    "date": "2026-09-25T13:39:33.342Z",
+    "results": [
+      {
+        "name": "Start and locked cargo present",
+        "details": {
+          "time": 90,
+          "objects": 83
+        }
+      },
+      {
+        "name": "Mute toggles audio",
+        "details": true
+      },
+      {
+        "name": "Mouse steering changes position",
+        "details": true
+      },
+      {
+        "name": "Pause and window blur freeze the clock",
+        "details": true
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 89,
+          "score": 175,
+          "stage": 2,
+          "caught": 9,
+          "fps": 59
+        }
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 75,
+          "score": 2615,
+          "stage": 4,
+          "caught": 54,
+          "fps": 60
+        }
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 62,
+          "score": 3805,
+          "stage": 5,
+          "caught": 65,
+          "fps": 58
+        }
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 48,
+          "score": 3805,
+          "stage": 5,
+          "caught": 65,
+          "fps": 59
+        }
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 35,
+          "score": 3805,
+          "stage": 5,
+          "caught": 65,
+          "fps": 58
+        }
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 22,
+          "score": 3805,
+          "stage": 5,
+          "caught": 65,
+          "fps": 58
+        }
+      },
+      {
+        "name": "Round progress",
+        "details": {
+          "time": 8,
+          "score": 3805,
+          "stage": 5,
+          "caught": 65,
+          "fps": 58
+        }
+      },
+      {
+        "name": "Complete real-time keyboard round",
+        "details": {
+          "score": 3805,
+          "captured": 65,
+          "largest": "Tugboat",
+          "stages": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "fpsMedian": 58.55943782888585,
+          "hazardEncountered": true,
+          "vesselCrowding": 0,
+          "unlockTimes": {
+            "2": 1,
+            "3": 4,
+            "4": 8,
+            "5": 15
+          }
+        }
+      },
+      {
+        "name": "Restart clears progress without refreshing",
+        "details": true
+      },
+      {
+        "name": "Best survives reload",
+        "details": 3805
+      },
+      {
+        "name": "390px phone: touch steering, capture, no horizontal overflow",
+        "details": {
+          "moved": 503,
+          "captures": 11
+        }
+      },
+      {
+        "name": "Landscape resize and resume",
+        "details": true
+      },
+      {
+        "name": "Storage-denied browser remains playable",
+        "details": true
+      },
+      {
+        "name": "Console errors",
+        "details": []
+      }
+    ],
+    "errors": []
+  },
+  "accessibility": {
+    "browser": "149.0.7827.156",
+    "checks": [
+      "Keyboard open, checkbox/select, modal focus trap and Escape restoration",
+      "No repeated score/time live-region announcements",
+      "Keyboard steering; settings and Escape preserve paused round",
+      "All settings survive reload",
+      "OS reduced-motion preference",
+      "200% root text scaling, 320/360/390/768px: settings reflow and Done reachable",
+      "Chrome accessibility tree exposes named controls (not a screen-reader test)"
+    ],
+    "errors": [],
+    "screenReader": "Untested: computer-use access to Safari denied"
+  },
+  "touch": {
+    "results": [
+      {
+        "dpr": 1,
+        "shortVelocity": 113.24627585175111,
+        "longVelocity": 338.7404205050553,
+        "reversedVelocityAfter100ms": -277.3948658227093,
+        "releaseVelocityAfter180ms": -3.807989581162615,
+        "fps": 59.10257407236,
+        "boundaryY": 1034.3792629326022,
+        "afterBoundaryReverseY": 957.8143035810293
+      },
+      {
+        "dpr": 2,
+        "shortVelocity": 113.24394692775977,
+        "longVelocity": 338.7293801952747,
+        "reversedVelocityAfter100ms": -277.05409776356464,
+        "releaseVelocityAfter180ms": -3.769522705979579,
+        "fps": 58.73936290356946,
+        "boundaryY": 1036.6713937056852,
+        "afterBoundaryReverseY": 953.609279986834
+      },
+      {
+        "dpr": 3,
+        "shortVelocity": 113.24348090788769,
+        "longVelocity": 338.7420206179087,
+        "reversedVelocityAfter100ms": -298.1282630791626,
+        "releaseVelocityAfter180ms": -3.785900634511292,
+        "fps": 58.84151001096647,
+        "boundaryY": 1036.9476807937338,
+        "afterBoundaryReverseY": 952.3816010820926
+      }
+    ],
+    "errors": []
+  },
+  "productionSmoke": {
+    "date": "2026-09-25T13:38:11.628Z",
+    "results": [
+      {
+        "test": "Production nested-path load",
+        "details": {
+          "milliseconds": 360
+        }
+      },
+      {
+        "test": "Production diagnostics removed; only local asset requests",
+        "details": [
+          "http://127.0.0.1:53529/harbor/",
+          "http://127.0.0.1:53529/harbor/assets/index-Ca-w76aP.js",
+          "http://127.0.0.1:53529/harbor/assets/phaser-DFK5Ua9d.js",
+          "http://127.0.0.1:53529/harbor/assets/index-fMiFLx9T.css"
+        ]
+      },
+      {
+        "test": "Production continues with network disconnected",
+        "details": {
+          "score": "250"
+        }
+      },
+      {
+        "test": "320px phone: play, pause and resume controls fit",
+        "details": true
+      },
+      {
+        "test": "Locked cargo resists capture at close range",
+        "details": {
+          "stage": 2,
+          "cargoStillPresent": true
+        }
+      },
+      {
+        "test": "Desktop camera keeps outer-lane player visible",
+        "details": {
+          "worldY": 929.0343335738477,
+          "screenY": 431.83618475800694,
+          "canvasHeight": 556
+        }
+      },
+      {
+        "test": "Visibility pause plus live rendering measurement",
+        "details": {
+          "fps": 59.026069847515984,
+          "particles": 0,
+          "memory": 34049078
+        }
+      },
+      {
+        "test": "Bundle inventory",
+        "details": [
+          {
+            "name": "favicon.svg",
+            "bytes": 285,
+            "gzip": 225
+          },
+          {
+            "name": "index.html",
+            "bytes": 1160,
+            "gzip": 656
+          },
+          {
+            "name": "third-party-licenses.txt",
+            "bytes": 2202,
+            "gzip": 793
+          },
+          {
+            "name": "assets/index-Ca-w76aP.js",
+            "bytes": 44025,
+            "gzip": 16485
+          },
+          {
+            "name": "assets/index-fMiFLx9T.css",
+            "bytes": 22297,
+            "gzip": 5624
+          },
+          {
+            "name": "assets/phaser-DFK5Ua9d.js",
+            "bytes": 1208056,
+            "gzip": 330076
+          }
+        ]
+      },
+      {
+        "test": "Console errors",
+        "details": []
+      }
+    ]
+  },
+  "android": {
+    "nativeCompilation": "Blocked: Android SDK location not found",
+    "apkProduced": false,
+    "emulatorTested": false,
+    "physicalPhoneTested": false,
+    "hostTestsPassed": 6,
+    "npmAudit": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    }
+  },
+  "balance": {
+    "label": "platform-final",
+    "mobile": false,
+    "score": 17505,
+    "captures": 149,
+    "unlocks": {
+      "1": 0,
+      "2": 0,
+      "3": 3,
+      "4": 9,
+      "5": 18,
+      "6": 35
+    },
+    "seconds": 90.213,
+    "scoreAt60Remaining": 5580,
+    "scoreAt30Remaining": 10840,
+    "lateValuableMin": 1,
+    "lateValuableMedian": 2,
+    "lateCargoMin": 0,
+    "lateZeroSamples": 0,
+    "lateSamples": 130,
+    "maxObjects": 88,
+    "medianFps": 58.66249511077502,
+    "errors": []
+  },
+  "responsive": {
+    "date": "2026-09-25T13:40:36.600Z",
+    "url": "http://127.0.0.1:5189/",
+    "results": [
+      {
+        "test": "360x800 welcome",
+        "details": {
+          "viewport": {
+            "width": 360,
+            "height": 800
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "width": 360,
+            "height": 1342
+          },
+          "frame": {
+            "x": 12,
+            "y": 157.515625,
+            "width": 336,
+            "height": 626,
+            "right": 348,
+            "bottom": 783.515625
+          },
+          "canvas": {
+            "x": 13,
+            "y": 158.515625,
+            "width": 334,
+            "height": 624,
+            "right": 347,
+            "bottom": 782.515625
+          },
+          "card": null,
+          "children": [],
+          "audio": {
+            "x": 304,
+            "y": 9.5,
+            "width": 44,
+            "height": 44,
+            "right": 348,
+            "bottom": 53.5
+          },
+          "inSession": false,
+          "mode": "welcome"
+        }
+      },
+      {
+        "test": "360x800 playing",
+        "details": {
+          "viewport": {
+            "width": 360,
+            "height": 800
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "width": 360,
+            "height": 800
+          },
+          "frame": {
+            "x": 12,
+            "y": 74,
+            "width": 336,
+            "height": 716,
+            "right": 348,
+            "bottom": 790
+          },
+          "canvas": {
+            "x": 13,
+            "y": 75,
+            "width": 334,
+            "height": 714,
+            "right": 347,
+            "bottom": 789
+          },
+          "card": null,
+          "children": [],
+          "audio": {
+            "x": 304,
+            "y": 9.5,
+            "width": 44,
+            "height": 44,
+            "right": 348,
+            "bottom": 53.5
+          },
+          "inSession": true,
+          "mode": "playing"
+        }
+      },
+      {
+        "test": "360x800 paused",
+        "details": {
+          "viewport": {
+            "width": 360,
+            "height": 800
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "width": 360,
+            "height": 800
+          },
+          "frame": {
+            "x": 12,
+            "y": 74,
+            "width": 336,
+            "height": 716,
+            "right": 348,
+            "bottom": 790
+          },
+          "canvas": {
+            "x": 13,
+            "y": 75,
+            "width": 334,
+            "height": 714,
+            "right": 347,
+            "bottom": 789
+          },
+          "card": {
+            "x": 25,
+            "y": 325.140625,
+            "width": 310,
+            "height": 213.71875,
+            "right": 335,
+            "bottom": 538.859375,
+            "clientWidth": 310,
+            "scrollWidth": 310,
+            "scrollHeight": 214,
+            "clientHeight": 214
+          },
+          "children": [
+            {
+              "x": 43,
+              "y": 371.140625,
+              "width": 274,
+              "height": 34.71875,
+              "right": 317,
+              "bottom": 405.859375
+            },
+            {
+              "x": 43,
+              "y": 466.859375,
+              "width": 274,
+              "height": 54,
+              "right": 317,
+              "bottom": 520.859375
+            }
+          ],
+          "audio": {
+            "x": 304,
+            "y": 9.5,
+            "width": 44,
+            "height": 44,
+            "right": 348,
+            "bottom": 53.5
+          },
+          "inSession": true,
+          "mode": "paused"
+        }
+      },
+      {
+        "test": "360x660 browser chrome expanded",
+        "details": {
+          "viewport": {
+            "width": 360,
+            "height": 660
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "width": 360,
+            "height": 660
+          },
+          "frame": {
+            "x": 12,
+            "y": 74,
+            "width": 336,
+            "height": 576,
+            "right": 348,
+            "bottom": 650
+          },
+          "canvas": {
+            "x": 13,
+            "y": 75,
+            "width": 334,
+            "height": 574,
+            "right": 347,
+            "bottom": 649
+          },
+          "card": {
+            "x": 25,
+            "y": 255.140625,
+            "width": 310,
+            "height": 213.71875,
+            "right": 335,
+            "bottom": 468.859375,
+            "clientWidth": 310,
+            "scrollWidth": 310,
+            "scrollHeight": 214,
+            "clientHeight": 214
+          },
+          "children": [
+            {
+              "x": 43,
+              "y": 301.140625,
+              "width": 274,
+              "height": 34.71875,
+              "right": 317,
+              "bottom": 335.859375
+            },
+            {
+              "x": 43,
+              "y": 396.859375,
+              "width": 274,
+              "height": 54,
+              "right": 317,
+              "bottom": 450.859375
+            }
+          ],
+          "audio": {
+            "x": 304,
+            "y": 9.5,
+            "width": 44,
+            "height": 44,
+            "right": 348,
+            "bottom": 53.5
+          },
+          "inSession": true,
+          "mode": "paused"
+        }
+      },
+      {
+        "test": "800x360 paused landscape",
+        "details": {
+          "viewport": {
+            "width": 800,
+            "height": 360
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "width": 800,
+            "height": 360
+          },
+          "frame": {
+            "x": 12,
+            "y": 54,
+            "width": 776,
+            "height": 298,
+            "right": 788,
+            "bottom": 352
+          },
+          "canvas": {
+            "x": 13,
+            "y": 55,
+            "width": 774,
+            "height": 296,
+            "right": 787,
+            "bottom": 351
+          },
+          "card": {
+            "x": 205,
+            "y": 109.765625,
+            "width": 390,
+            "height": 186.46875,
+            "right": 595,
+            "bottom": 296.234375,
+            "clientWidth": 390,
+            "scrollWidth": 390,
+            "scrollHeight": 186,
+            "clientHeight": 186
+          },
+          "children": [
+            {
+              "x": 227,
+              "y": 143.765625,
+              "width": 346,
+              "height": 32.46875,
+              "right": 573,
+              "bottom": 176.234375
+            },
+            {
+              "x": 227,
+              "y": 226.234375,
+              "width": 346,
+              "height": 54,
+              "right": 573,
+              "bottom": 280.234375
+            }
+          ],
+          "audio": {
+            "x": 744,
+            "y": 1.5,
+            "width": 44,
+            "height": 44,
+            "right": 788,
+            "bottom": 45.5
+          },
+          "inSession": true,
+          "mode": "paused"
+        }
+      },
+      {
+        "test": "Real mobile round",
+        "details": {
+          "seconds": 0,
+          "timer": "1:29",
+          "score": "215"
+        }
+      },
+      {
+        "test": "Real mobile round",
+        "details": {
+          "seconds": 15,
+          "timer": "1:14",
+          "score": "395"
+        }
+      },
+      {
+        "test": "Real mobile round",
+        "details": {
+          "seconds": 30,
+          "timer": "0:59",
+          "score": "815"
+        }
+      },
+      {
+        "test": "Real mobile round",
+        "details": {
+          "seconds": 45,
+          "timer": "0:43",
+          "score": "1,440"
+        }
+      },
+      {
+        "test": "Real mobile round",
+        "details": {
+          "seconds": 60,
+          "timer": "0:28",
+          "score": "1,710"
+        }
+      },
+      {
+        "test": "Real mobile round",
+        "details": {
+          "seconds": 75,
+          "timer": "0:13",
+          "score": "1,750"
+        }
+      },
+      {
+        "test": "360x800 finished",
+        "details": {
+          "viewport": {
+            "width": 360,
+            "height": 800
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "width": 360,
+            "height": 800
+          },
+          "frame": {
+            "x": 12,
+            "y": 74,
+            "width": 336,
+            "height": 716,
+            "right": 348,
+            "bottom": 790
+          },
+          "canvas": {
+            "x": 13,
+            "y": 75,
+            "width": 334,
+            "height": 714,
+            "right": 347,
+            "bottom": 789
+          },
+          "card": {
+            "x": 25,
+            "y": 214.796875,
+            "width": 310,
+            "height": 434.390625,
+            "right": 335,
+            "bottom": 649.1875,
+            "clientWidth": 310,
+            "scrollWidth": 310,
+            "scrollHeight": 434,
+            "clientHeight": 434
+          },
+          "children": [
+            {
+              "x": 43,
+              "y": 261.796875,
+              "width": 274,
+              "height": 28,
+              "right": 317,
+              "bottom": 289.796875
+            },
+            {
+              "x": 43,
+              "y": 305.796875,
+              "width": 274,
+              "height": 103.40625,
+              "right": 317,
+              "bottom": 409.203125
+            },
+            {
+              "x": 43,
+              "y": 409.203125,
+              "width": 274,
+              "height": 99.59375,
+              "right": 317,
+              "bottom": 508.796875
+            },
+            {
+              "x": 43,
+              "y": 602.796875,
+              "width": 274,
+              "height": 22.390625,
+              "right": 317,
+              "bottom": 625.1875
+            },
+            {
+              "x": 43,
+              "y": 528.796875,
+              "width": 274,
+              "height": 54,
+              "right": 317,
+              "bottom": 582.796875
+            }
+          ],
+          "audio": {
+            "x": 304,
+            "y": 9.5,
+            "width": 44,
+            "height": 44,
+            "right": 348,
+            "bottom": 53.5
+          },
+          "inSession": true,
+          "mode": "finished"
+        }
+      },
+      {
+        "test": "320x568 finished",
+        "details": {
+          "viewport": {
+            "width": 320,
+            "height": 568
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 568
+          },
+          "frame": {
+            "x": 12,
+            "y": 74,
+            "width": 296,
+            "height": 484,
+            "right": 308,
+            "bottom": 558
+          },
+          "canvas": {
+            "x": 13,
+            "y": 75,
+            "width": 294,
+            "height": 482,
+            "right": 307,
+            "bottom": 557
+          },
+          "card": {
+            "x": 25,
+            "y": 101.609375,
+            "width": 270,
+            "height": 428.78125,
+            "right": 295,
+            "bottom": 530.390625,
+            "clientWidth": 270,
+            "scrollWidth": 270,
+            "scrollHeight": 429,
+            "clientHeight": 429
+          },
+          "children": [
+            {
+              "x": 43,
+              "y": 148.609375,
+              "width": 234,
+              "height": 28,
+              "right": 277,
+              "bottom": 176.609375
+            },
+            {
+              "x": 43,
+              "y": 192.609375,
+              "width": 234,
+              "height": 97.796875,
+              "right": 277,
+              "bottom": 290.40625
+            },
+            {
+              "x": 43,
+              "y": 290.40625,
+              "width": 234,
+              "height": 99.59375,
+              "right": 277,
+              "bottom": 390
+            },
+            {
+              "x": 43,
+              "y": 484,
+              "width": 234,
+              "height": 22.390625,
+              "right": 277,
+              "bottom": 506.390625
+            },
+            {
+              "x": 43,
+              "y": 410,
+              "width": 234,
+              "height": 54,
+              "right": 277,
+              "bottom": 464
+            }
+          ],
+          "audio": {
+            "x": 264,
+            "y": 9.5,
+            "width": 44,
+            "height": 44,
+            "right": 308,
+            "bottom": 53.5
+          },
+          "inSession": true,
+          "mode": "finished"
+        }
+      },
+      {
+        "test": "390x844 finished",
+        "details": {
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          },
+          "frame": {
+            "x": 12,
+            "y": 74,
+            "width": 366,
+            "height": 760,
+            "right": 378,
+            "bottom": 834
+          },
+          "canvas": {
+            "x": 13,
+            "y": 75,
+            "width": 364,
+            "height": 758,
+            "right": 377,
+            "bottom": 833
+          },
+          "card": {
+            "x": 25,
+            "y": 242.859375,
+            "width": 340,
+            "height": 422.265625,
+            "right": 365,
+            "bottom": 665.125,
+            "clientWidth": 340,
+            "scrollWidth": 340,
+            "scrollHeight": 422,
+            "clientHeight": 422
+          },
+          "children": [
+            {
+              "x": 43,
+              "y": 289.859375,
+              "width": 304,
+              "height": 29.6875,
+              "right": 347,
+              "bottom": 319.546875
+            },
+            {
+              "x": 43,
+              "y": 335.546875,
+              "width": 304,
+              "height": 107.59375,
+              "right": 347,
+              "bottom": 443.140625
+            },
+            {
+              "x": 43,
+              "y": 443.140625,
+              "width": 304,
+              "height": 81.59375,
+              "right": 347,
+              "bottom": 524.734375
+            },
+            {
+              "x": 43,
+              "y": 618.734375,
+              "width": 304,
+              "height": 22.390625,
+              "right": 347,
+              "bottom": 641.125
+            },
+            {
+              "x": 43,
+              "y": 544.734375,
+              "width": 304,
+              "height": 54,
+              "right": 347,
+              "bottom": 598.734375
+            }
+          ],
+          "audio": {
+            "x": 334,
+            "y": 9.5,
+            "width": 44,
+            "height": 44,
+            "right": 378,
+            "bottom": 53.5
+          },
+          "inSession": true,
+          "mode": "finished"
+        }
+      },
+      {
+        "test": "430x932 finished",
+        "details": {
+          "viewport": {
+            "width": 430,
+            "height": 932
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          },
+          "frame": {
+            "x": 12,
+            "y": 74,
+            "width": 406,
+            "height": 848,
+            "right": 418,
+            "bottom": 922
+          },
+          "canvas": {
+            "x": 13,
+            "y": 75,
+            "width": 404,
+            "height": 846,
+            "right": 417,
+            "bottom": 921
+          },
+          "card": {
+            "x": 25.890625,
+            "y": 282.53125,
+            "width": 378.21875,
+            "height": 430.921875,
+            "right": 404.109375,
+            "bottom": 713.453125,
+            "clientWidth": 378,
+            "scrollWidth": 378,
+            "scrollHeight": 431,
+            "clientHeight": 431
+          },
+          "children": [
+            {
+              "x": 43.890625,
+              "y": 329.53125,
+              "width": 342.21875,
+              "height": 32.734375,
+              "right": 386.109375,
+              "bottom": 362.265625
+            },
+            {
+              "x": 43.890625,
+              "y": 378.265625,
+              "width": 342.21875,
+              "height": 113.203125,
+              "right": 386.109375,
+              "bottom": 491.46875
+            },
+            {
+              "x": 43.890625,
+              "y": 491.46875,
+              "width": 342.21875,
+              "height": 81.59375,
+              "right": 386.109375,
+              "bottom": 573.0625
+            },
+            {
+              "x": 43.890625,
+              "y": 667.0625,
+              "width": 342.21875,
+              "height": 22.390625,
+              "right": 386.109375,
+              "bottom": 689.453125
+            },
+            {
+              "x": 43.890625,
+              "y": 593.0625,
+              "width": 342.21875,
+              "height": 54,
+              "right": 386.109375,
+              "bottom": 647.0625
+            }
+          ],
+          "audio": {
+            "x": 374,
+            "y": 9.5,
+            "width": 44,
+            "height": 44,
+            "right": 418,
+            "bottom": 53.5
+          },
+          "inSession": true,
+          "mode": "finished"
+        }
+      },
+      {
+        "test": "640x800 finished",
+        "details": {
+          "viewport": {
+            "width": 640,
+            "height": 800
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "width": 640,
+            "height": 800
+          },
+          "frame": {
+            "x": 12,
+            "y": 74,
+            "width": 616,
+            "height": 716,
+            "right": 628,
+            "bottom": 790
+          },
+          "canvas": {
+            "x": 13,
+            "y": 75,
+            "width": 614,
+            "height": 714,
+            "right": 627,
+            "bottom": 789
+          },
+          "card": {
+            "x": 125,
+            "y": 210.640625,
+            "width": 390,
+            "height": 442.703125,
+            "right": 515,
+            "bottom": 653.34375,
+            "clientWidth": 390,
+            "scrollWidth": 390,
+            "scrollHeight": 443,
+            "clientHeight": 443
+          },
+          "children": [
+            {
+              "x": 143,
+              "y": 257.640625,
+              "width": 354,
+              "height": 34.71875,
+              "right": 497,
+              "bottom": 292.359375
+            },
+            {
+              "x": 143,
+              "y": 308.359375,
+              "width": 354,
+              "height": 123,
+              "right": 497,
+              "bottom": 431.359375
+            },
+            {
+              "x": 143,
+              "y": 431.359375,
+              "width": 354,
+              "height": 81.59375,
+              "right": 497,
+              "bottom": 512.953125
+            },
+            {
+              "x": 143,
+              "y": 606.953125,
+              "width": 354,
+              "height": 22.390625,
+              "right": 497,
+              "bottom": 629.34375
+            },
+            {
+              "x": 143,
+              "y": 532.953125,
+              "width": 354,
+              "height": 54,
+              "right": 497,
+              "bottom": 586.953125
+            }
+          ],
+          "audio": {
+            "x": 584,
+            "y": 9.5,
+            "width": 44,
+            "height": 44,
+            "right": 628,
+            "bottom": 53.5
+          },
+          "inSession": true,
+          "mode": "finished"
+        }
+      },
+      {
+        "test": "568x320 finished",
+        "details": {
+          "viewport": {
+            "width": 568,
+            "height": 320
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "width": 568,
+            "height": 320
+          },
+          "frame": {
+            "x": 12,
+            "y": 74,
+            "width": 544,
+            "height": 236,
+            "right": 556,
+            "bottom": 310
+          },
+          "canvas": {
+            "x": 13,
+            "y": 75,
+            "width": 542,
+            "height": 234,
+            "right": 555,
+            "bottom": 309
+          },
+          "card": {
+            "x": 89,
+            "y": 85,
+            "width": 390,
+            "height": 214,
+            "right": 479,
+            "bottom": 299,
+            "clientWidth": 390,
+            "scrollWidth": 390,
+            "scrollHeight": 324,
+            "clientHeight": 214
+          },
+          "children": [
+            {
+              "x": 109,
+              "y": 115,
+              "width": 350,
+              "height": 34.71875,
+              "right": 459,
+              "bottom": 149.71875
+            },
+            {
+              "x": 109,
+              "y": 158.71875,
+              "width": 350,
+              "height": 72,
+              "right": 459,
+              "bottom": 230.71875
+            },
+            {
+              "x": 109,
+              "y": 230.71875,
+              "width": 350,
+              "height": 59.59375,
+              "right": 459,
+              "bottom": 290.3125
+            },
+            {
+              "x": 109,
+              "y": 372.3125,
+              "width": 350,
+              "height": 22.390625,
+              "right": 459,
+              "bottom": 394.703125
+            },
+            {
+              "x": 109,
+              "y": 310.3125,
+              "width": 350,
+              "height": 54,
+              "right": 459,
+              "bottom": 364.3125
+            }
+          ],
+          "audio": {
+            "x": 512,
+            "y": 9.5,
+            "width": 44,
+            "height": 44,
+            "right": 556,
+            "bottom": 53.5
+          },
+          "inSession": true,
+          "mode": "finished"
+        }
+      },
+      {
+        "test": "800x360 finished",
+        "details": {
+          "viewport": {
+            "width": 800,
+            "height": 360
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "width": 800,
+            "height": 360
+          },
+          "frame": {
+            "x": 12,
+            "y": 54,
+            "width": 776,
+            "height": 298,
+            "right": 788,
+            "bottom": 352
+          },
+          "canvas": {
+            "x": 13,
+            "y": 55,
+            "width": 774,
+            "height": 296,
+            "right": 787,
+            "bottom": 351
+          },
+          "card": {
+            "x": 130,
+            "y": 69,
+            "width": 540,
+            "height": 268,
+            "right": 670,
+            "bottom": 337,
+            "clientWidth": 540,
+            "scrollWidth": 540,
+            "scrollHeight": 268,
+            "clientHeight": 268
+          },
+          "children": [
+            {
+              "x": 150,
+              "y": 99,
+              "width": 500,
+              "height": 28,
+              "right": 650,
+              "bottom": 127
+            },
+            {
+              "x": 150,
+              "y": 136,
+              "width": 500,
+              "height": 61,
+              "right": 650,
+              "bottom": 197
+            },
+            {
+              "x": 150,
+              "y": 197,
+              "width": 500,
+              "height": 48,
+              "right": 650,
+              "bottom": 245
+            },
+            {
+              "x": 150,
+              "y": 307,
+              "width": 500,
+              "height": 16,
+              "right": 650,
+              "bottom": 323
+            },
+            {
+              "x": 150,
+              "y": 255,
+              "width": 500,
+              "height": 44,
+              "right": 650,
+              "bottom": 299
+            }
+          ],
+          "audio": {
+            "x": 744,
+            "y": 1.5,
+            "width": 44,
+            "height": 44,
+            "right": 788,
+            "bottom": 45.5
+          },
+          "inSession": true,
+          "mode": "finished"
+        }
+      },
+      {
+        "test": "844x390 finished",
+        "details": {
+          "viewport": {
+            "width": 844,
+            "height": 390
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "width": 844,
+            "height": 390
+          },
+          "frame": {
+            "x": 12,
+            "y": 54,
+            "width": 820,
+            "height": 328,
+            "right": 832,
+            "bottom": 382
+          },
+          "canvas": {
+            "x": 13,
+            "y": 55,
+            "width": 818,
+            "height": 326,
+            "right": 831,
+            "bottom": 381
+          },
+          "card": {
+            "x": 152,
+            "y": 84,
+            "width": 540,
+            "height": 268,
+            "right": 692,
+            "bottom": 352,
+            "clientWidth": 540,
+            "scrollWidth": 540,
+            "scrollHeight": 268,
+            "clientHeight": 268
+          },
+          "children": [
+            {
+              "x": 172,
+              "y": 114,
+              "width": 500,
+              "height": 28,
+              "right": 672,
+              "bottom": 142
+            },
+            {
+              "x": 172,
+              "y": 151,
+              "width": 500,
+              "height": 61,
+              "right": 672,
+              "bottom": 212
+            },
+            {
+              "x": 172,
+              "y": 212,
+              "width": 500,
+              "height": 48,
+              "right": 672,
+              "bottom": 260
+            },
+            {
+              "x": 172,
+              "y": 322,
+              "width": 500,
+              "height": 16,
+              "right": 672,
+              "bottom": 338
+            },
+            {
+              "x": 172,
+              "y": 270,
+              "width": 500,
+              "height": 44,
+              "right": 672,
+              "bottom": 314
+            }
+          ],
+          "audio": {
+            "x": 788,
+            "y": 1.5,
+            "width": 44,
+            "height": 44,
+            "right": 832,
+            "bottom": 45.5
+          },
+          "inSession": true,
+          "mode": "finished"
+        }
+      },
+      {
+        "test": "768x1024 finished",
+        "details": {
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "width": 768,
+            "height": 1170
+          },
+          "frame": {
+            "x": 28,
+            "y": 231.59375,
+            "width": 712,
+            "height": 634.875,
+            "right": 740,
+            "bottom": 866.46875
+          },
+          "canvas": {
+            "x": 29,
+            "y": 231.59375,
+            "width": 710,
+            "height": 633,
+            "right": 739,
+            "bottom": 864.59375
+          },
+          "card": {
+            "x": 189,
+            "y": 328.671875,
+            "width": 390,
+            "height": 440.71875,
+            "right": 579,
+            "bottom": 769.390625,
+            "clientWidth": 390,
+            "scrollWidth": 390,
+            "scrollHeight": 441,
+            "clientHeight": 441
+          },
+          "children": [
+            {
+              "x": 219,
+              "y": 381.671875,
+              "width": 330,
+              "height": 34.71875,
+              "right": 549,
+              "bottom": 416.390625
+            },
+            {
+              "x": 219,
+              "y": 432.390625,
+              "width": 330,
+              "height": 123,
+              "right": 549,
+              "bottom": 555.390625
+            },
+            {
+              "x": 219,
+              "y": 555.390625,
+              "width": 330,
+              "height": 74,
+              "right": 549,
+              "bottom": 629.390625
+            },
+            {
+              "x": 219,
+              "y": 723.390625,
+              "width": 330,
+              "height": 16,
+              "right": 549,
+              "bottom": 739.390625
+            },
+            {
+              "x": 219,
+              "y": 649.390625,
+              "width": 330,
+              "height": 54,
+              "right": 549,
+              "bottom": 703.390625
+            }
+          ],
+          "audio": {
+            "x": 696,
+            "y": 25.5,
+            "width": 44,
+            "height": 44,
+            "right": 740,
+            "bottom": 69.5
+          },
+          "inSession": true,
+          "mode": "finished"
+        }
+      },
+      {
+        "test": "1024x768 finished",
+        "details": {
+          "viewport": {
+            "width": 1024,
+            "height": 768
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "width": 1024,
+            "height": 1048
+          },
+          "frame": {
+            "x": 58,
+            "y": 231.59375,
+            "width": 908,
+            "height": 510,
+            "right": 966,
+            "bottom": 741.59375
+          },
+          "canvas": {
+            "x": 59,
+            "y": 232.59375,
+            "width": 906,
+            "height": 508,
+            "right": 965,
+            "bottom": 740.59375
+          },
+          "card": {
+            "x": 317,
+            "y": 266.234375,
+            "width": 390,
+            "height": 440.71875,
+            "right": 707,
+            "bottom": 706.953125,
+            "clientWidth": 390,
+            "scrollWidth": 390,
+            "scrollHeight": 441,
+            "clientHeight": 441
+          },
+          "children": [
+            {
+              "x": 347,
+              "y": 319.234375,
+              "width": 330,
+              "height": 34.71875,
+              "right": 677,
+              "bottom": 353.953125
+            },
+            {
+              "x": 347,
+              "y": 369.953125,
+              "width": 330,
+              "height": 123,
+              "right": 677,
+              "bottom": 492.953125
+            },
+            {
+              "x": 347,
+              "y": 492.953125,
+              "width": 330,
+              "height": 74,
+              "right": 677,
+              "bottom": 566.953125
+            },
+            {
+              "x": 347,
+              "y": 660.953125,
+              "width": 330,
+              "height": 16,
+              "right": 677,
+              "bottom": 676.953125
+            },
+            {
+              "x": 347,
+              "y": 586.953125,
+              "width": 330,
+              "height": 54,
+              "right": 677,
+              "bottom": 640.953125
+            }
+          ],
+          "audio": {
+            "x": 922,
+            "y": 25.5,
+            "width": 44,
+            "height": 44,
+            "right": 966,
+            "bottom": 69.5
+          },
+          "inSession": true,
+          "mode": "finished"
+        }
+      },
+      {
+        "test": "1440x900 finished",
+        "details": {
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "width": 1440,
+            "height": 1111
+          },
+          "frame": {
+            "x": 58,
+            "y": 247.328125,
+            "width": 1324,
+            "height": 558,
+            "right": 1382,
+            "bottom": 805.328125
+          },
+          "canvas": {
+            "x": 59,
+            "y": 248.328125,
+            "width": 1322,
+            "height": 556,
+            "right": 1381,
+            "bottom": 804.328125
+          },
+          "card": {
+            "x": 525,
+            "y": 305.96875,
+            "width": 390,
+            "height": 440.71875,
+            "right": 915,
+            "bottom": 746.6875,
+            "clientWidth": 390,
+            "scrollWidth": 390,
+            "scrollHeight": 441,
+            "clientHeight": 441
+          },
+          "children": [
+            {
+              "x": 555,
+              "y": 358.96875,
+              "width": 330,
+              "height": 34.71875,
+              "right": 885,
+              "bottom": 393.6875
+            },
+            {
+              "x": 555,
+              "y": 409.6875,
+              "width": 330,
+              "height": 123,
+              "right": 885,
+              "bottom": 532.6875
+            },
+            {
+              "x": 555,
+              "y": 532.6875,
+              "width": 330,
+              "height": 74,
+              "right": 885,
+              "bottom": 606.6875
+            },
+            {
+              "x": 555,
+              "y": 700.6875,
+              "width": 330,
+              "height": 16,
+              "right": 885,
+              "bottom": 716.6875
+            },
+            {
+              "x": 555,
+              "y": 626.6875,
+              "width": 330,
+              "height": 54,
+              "right": 885,
+              "bottom": 680.6875
+            }
+          ],
+          "audio": {
+            "x": 1338,
+            "y": 25.5,
+            "width": 44,
+            "height": 44,
+            "right": 1382,
+            "bottom": 69.5
+          },
+          "inSession": true,
+          "mode": "finished"
+        }
+      },
+      {
+        "test": "360x800 long-score presentation",
+        "details": {
+          "viewport": {
+            "width": 360,
+            "height": 800
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "width": 360,
+            "height": 800
+          },
+          "frame": {
+            "x": 12,
+            "y": 74,
+            "width": 336,
+            "height": 716,
+            "right": 348,
+            "bottom": 790
+          },
+          "canvas": {
+            "x": 13,
+            "y": 75,
+            "width": 334,
+            "height": 714,
+            "right": 347,
+            "bottom": 789
+          },
+          "card": {
+            "x": 25,
+            "y": 214.796875,
+            "width": 310,
+            "height": 434.390625,
+            "right": 335,
+            "bottom": 649.1875,
+            "clientWidth": 310,
+            "scrollWidth": 310,
+            "scrollHeight": 434,
+            "clientHeight": 434
+          },
+          "children": [
+            {
+              "x": 43,
+              "y": 261.796875,
+              "width": 274,
+              "height": 28,
+              "right": 317,
+              "bottom": 289.796875
+            },
+            {
+              "x": 43,
+              "y": 305.796875,
+              "width": 274,
+              "height": 103.40625,
+              "right": 317,
+              "bottom": 409.203125
+            },
+            {
+              "x": 43,
+              "y": 409.203125,
+              "width": 274,
+              "height": 99.59375,
+              "right": 317,
+              "bottom": 508.796875
+            },
+            {
+              "x": 43,
+              "y": 602.796875,
+              "width": 274,
+              "height": 22.390625,
+              "right": 317,
+              "bottom": 625.1875
+            },
+            {
+              "x": 43,
+              "y": 528.796875,
+              "width": 274,
+              "height": 54,
+              "right": 317,
+              "bottom": 582.796875
+            }
+          ],
+          "audio": {
+            "x": 304,
+            "y": 9.5,
+            "width": 44,
+            "height": 44,
+            "right": 348,
+            "bottom": 53.5
+          },
+          "inSession": true,
+          "mode": "finished"
+        }
+      },
+      {
+        "test": "360x800 restarted",
+        "details": {
+          "viewport": {
+            "width": 360,
+            "height": 800
+          },
+          "scroll": {
+            "x": 0,
+            "y": 0,
+            "width": 360,
+            "height": 800
+          },
+          "frame": {
+            "x": 12,
+            "y": 74,
+            "width": 336,
+            "height": 716,
+            "right": 348,
+            "bottom": 790
+          },
+          "canvas": {
+            "x": 13,
+            "y": 75,
+            "width": 334,
+            "height": 714,
+            "right": 347,
+            "bottom": 789
+          },
+          "card": null,
+          "children": [],
+          "audio": {
+            "x": 304,
+            "y": 9.5,
+            "width": 44,
+            "height": 44,
+            "right": 348,
+            "bottom": 53.5
+          },
+          "inSession": true,
+          "mode": "playing"
+        }
+      },
+      {
+        "test": "Console errors",
+        "details": []
+      }
+    ],
+    "errors": []
+  },
+  "commands": {
+    "rootBuild": "passed",
+    "rules": "9 passed",
+    "browser": "passed",
+    "smoke": "passed",
+    "responsive": "passed",
+    "controls": "passed DPR 1/2/3",
+    "balance": "passed with EXPECT_SUPPLY=1",
+    "accessibility": "passed",
+    "nativeSync": "passed",
+    "nativeHostTests": "6 passed",
+    "nativeAssembleDebug": "blocked: SDK location not found"
+  }
+}

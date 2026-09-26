@@ -11,6 +11,7 @@ export interface Snapshot { mode: Mode; score: number; best: number; xp: number;
 interface Entity { id: number; kind: EntityKind; x: number; y: number; originX: number; originY: number; sprite: Phaser.GameObjects.Image; angle: number; phase: number; captured: boolean; }
 interface Particle { sprite: Phaser.GameObjects.Image; vx: number; vy: number; life: number; }
 export class HarborScene extends Phaser.Scene {
+  highContrast = false; reducedMotion = false;
   mode: Mode = 'welcome'; score = 0; xp = 0; remaining: number = CONFIG.roundSeconds; best = 0; captured = 0; largest: EntityKind | null = null;
   player = { x: Number(CONFIG.start.x), y: Number(CONFIG.start.y), vx: 0, vy: 0, radius: 25 };
   entities: Entity[] = []; private particles: Particle[] = []; private feedback: Phaser.GameObjects.Text[] = [];
@@ -27,12 +28,13 @@ export class HarborScene extends Phaser.Scene {
     if (this.scale.width / this.pixelRatio < 650) this.player.y = 280;
     createArt(this); this.add.image(800, 550, 'harbor'); this.wakes = this.add.graphics().setDepth(1); this.effects = this.add.graphics().setDepth(7);
     this.vortex = this.add.image(this.player.x, this.player.y, 'vortex').setDepth(4); this.foam = this.add.image(this.player.x, this.player.y, 'foam').setDepth(6);
-    this.steering = new Steering(this, this.pixelRatio); void Promise.resolve(this.platform.loadBest()).then(best => { this.best = Math.max(this.best, best); this.emitSnapshot(); }).catch(() => {}); this.populate(); this.resize();
-    this.scale.on('resize', this.resize, this); this.input.keyboard!.on('keydown-ESC', () => this.mode === 'playing' ? this.pauseRound() : this.mode === 'paused' ? this.resumeRound() : undefined);
-    this.unsubscribe = this.platform.onPause(() => this.pauseRound());
+    this.steering = new Steering(this, this.pixelRatio, () => this.mode === 'playing'); void Promise.resolve(this.platform.loadBest()).then(best => { this.best = Math.max(this.best, best); this.emitSnapshot(); }).catch(() => {}); this.populate(); this.resize();
+    this.scale.on('resize', this.resize, this);
+    this.unsubscribe = this.platform.onPause(() => { this.pauseRound(); this.audio.pause(); });
     this.events.once('shutdown', () => { this.unsubscribe?.(); this.scale.off('resize', this.resize, this); });
     this.onReady(); this.emitSnapshot();
   }
+  setMenuOpen(open: boolean) { this.steering?.reset(); if (this.input.keyboard) this.input.keyboard.enabled = !open; }
   private resize() {
     const { width, height } = this.scale; const camera = this.cameras.main;
     const zoom = width / this.pixelRatio < 650 ? Math.max(width / 720, height / 1100) : Math.max(width / 1600, height / 1100);
@@ -72,7 +74,7 @@ export class HarborScene extends Phaser.Scene {
     const angle = def.speed ? 0 : this.rng() * Math.PI * 2; const sprite = this.add.image(x, y, kind).setScale(0.5).setRotation(angle).setDepth(3);
     this.entities.push({ id: this.nextId++, kind, x, y, originX: x, originY: y, sprite, angle, phase: this.rng() * Math.PI * 2, captured: false });
     if (arrival) {
-      sprite.setAlpha(0); this.tweens.add({ targets: sprite, alpha: 1, duration: CONFIG.spawn.arrivalFade });
+      if (!this.reducedMotion) { sprite.setAlpha(0); this.tweens.add({ targets: sprite, alpha: 1, duration: CONFIG.spawn.arrivalFade }); }
       if (import.meta.env.DEV) this.spawnEvents.push({ time: CONFIG.roundSeconds - this.remaining, kind, x, y, wait: kind === 'cargo' ? this.missingShips.cargo : kind === 'tug' ? this.missingShips.tug : this.shipWait, distance: Math.hypot(x - this.player.x, y - this.player.y), valuable: this.entities.filter(e => !e.captured && ENTITIES[e.kind].tier >= 3 && ENTITIES[e.kind].tier <= stageFor(this.xp)).length, objects: this.entities.filter(e => !e.captured).length });
     }
     return true;
@@ -105,10 +107,12 @@ export class HarborScene extends Phaser.Scene {
   private capture(e: Entity) {
     if (e.captured) return; e.captured = true; const def = ENTITIES[e.kind], previous = stageFor(this.xp); this.score += def.score; this.xp += def.xp; this.captured++;
     if (def.tier > this.largestTier) { this.largestTier = def.tier; this.largest = e.kind; } this.audio.capture(def.tier); this.growthPulse = 0.16;
+    if (!this.reducedMotion) {
     const label = this.add.text(e.x, e.y - 18, '+' + def.score, { fontFamily: 'Trebuchet MS, sans-serif', fontSize: def.tier >= 3 ? '27px' : '19px', fontStyle: 'bold', color: '#fff6b6', stroke: '#15495b', strokeThickness: 3 }).setOrigin(0.5).setDepth(10);
     this.feedback.push(label); this.tweens.add({ targets: label, y: label.y - 48, alpha: 0, duration: 750, onComplete: () => { this.feedback = this.feedback.filter(t => t !== label); label.destroy(); } });
     this.tweens.add({ targets: e.sprite, scaleX: 0, scaleY: 0, alpha: 0, x: this.player.x, y: this.player.y, angle: e.sprite.angle + 135, duration: 260, onComplete: () => e.sprite.destroy() });
     for (let i = 0; i < 7 + def.tier * 2 && this.particles.length < CONFIG.effects.maxParticles; i++) { const a = this.rng() * Math.PI * 2, speed = 35 + this.rng() * 75; this.particles.push({ sprite: this.add.image(e.x, e.y, 'particle').setScale(0.35 + this.rng() * 0.4).setDepth(8), vx: Math.cos(a) * speed, vy: Math.sin(a) * speed, life: CONFIG.effects.lifetime }); }
+    } else e.sprite.destroy();
     const stage = stageFor(this.xp); if (stage > previous) { this.growthPulse = 0.45; this.audio.growth(); this.onToast(`${CONFIG.stages[stage].target} unlocked!`, 'growth'); } this.emitSnapshot();
   }
   update(_time: number, delta: number) {
@@ -142,21 +146,36 @@ export class HarborScene extends Phaser.Scene {
         if (!blocked && isWater(targetX, targetY, def.radius * CONFIG.spawn.vesselFootprint + 3)) { const change = targetX - e.x; e.x = targetX; e.angle = change < 0 ? Math.PI : 0; }
       }
       if (e.captured) continue;
-      e.sprite.setPosition(e.x, e.y + Math.sin(this.clock * 1.9 + e.phase) * 1.4).setRotation(e.angle);
+      e.sprite.setPosition(e.x, e.y + (this.reducedMotion ? 0 : Math.sin(this.clock * 1.9 + e.phase) * 1.4)).setRotation(this.reducedMotion && attracted ? 0 : e.angle);
       if (def.speed && !attracted) { const direction = Math.cos(e.angle); this.wakes.lineStyle(1.5, 0xb9efe0, 0.28); for (let i = 0; i < 3; i++) { const x = e.x - direction * (def.radius * 1.35 + 7 + i * 8); this.wakes.beginPath(); this.wakes.moveTo(x, e.y - 7 - i * 3); this.wakes.lineTo(x - direction * 5, e.y); this.wakes.lineTo(x, e.y + 7 + i * 3); this.wakes.strokePath(); } }
+      if (this.highContrast) {
+        const py = e.y - def.radius - 16;
+        this.effects.lineStyle(6, 0x000000, 1).strokeEllipse(e.x, e.y, def.radius * 2.8 + 12, def.radius * 1.8 + 12);
+        this.effects.lineStyle(3, eligible ? 0xffffff : 0xffda33, 1).strokeEllipse(e.x, e.y, def.radius * 2.8 + 12, def.radius * 1.8 + 12);
+        this.effects.fillStyle(0x000000, 1).fillCircle(e.x, py, 12).lineStyle(3, 0xffffff, 1);
+        if (eligible) { this.effects.beginPath().moveTo(e.x - 6, py).lineTo(e.x - 1, py + 5).lineTo(e.x + 7, py - 5).strokePath(); }
+        else { this.effects.strokeRect(e.x - 5, py - 1, 10, 7).strokeRoundedRect(e.x - 3, py - 7, 6, 8, 3); }
+      }
       // Shape-coded eligibility: large ships always carry a small padlock until unlocked.
-      if (!eligible && def.tier >= 2) { const near = dist < suction + def.radius + 20, px = e.x, py = e.y - def.radius * 0.55 - 18;
-        if (near && this.mode === 'playing') { this.effects.lineStyle(2, 0xf6b985, 0.7 + Math.sin(this.clock * 5) * 0.2).strokeEllipse(e.x, e.y, def.radius * 3.1, def.radius * 1.65); }
+      if (!this.highContrast && !eligible && def.tier >= 2) { const near = dist < suction + def.radius + 20, px = e.x, py = e.y - def.radius * 0.55 - 18;
+        if (near && this.mode === 'playing') { this.effects.lineStyle(2, 0xf6b985, this.reducedMotion ? 0.9 : 0.7 + Math.sin(this.clock * 5) * 0.2).strokeEllipse(e.x, e.y, def.radius * 3.1, def.radius * 1.65); }
         this.effects.fillStyle(0x153d51, near ? 0.94 : 0.7).fillCircle(px, py, 10); this.effects.lineStyle(1.6, 0xffd19a, 1).strokeRoundedRect(px - 3.5, py - 5, 7, 7, 3); this.effects.fillStyle(0xffd19a).fillRoundedRect(px - 5, py - 1, 10, 7, 2);
-      } else if (def.tier >= 2) { this.effects.fillStyle(0xc6eb98, 0.95).fillCircle(e.x, e.y - def.radius * 0.6 - 16, 4); }
+      } else if (!this.highContrast && def.tier >= 2) { this.effects.fillStyle(0xc6eb98, 0.95).fillCircle(e.x, e.y - def.radius * 0.6 - 16, 4); }
     }
     this.particles = this.particles.filter(p => { p.life -= dt; if (p.life <= 0) { p.sprite.destroy(); return false; } p.sprite.x += p.vx * dt; p.sprite.y += p.vy * dt; p.sprite.setAlpha(p.life / CONFIG.effects.lifetime); return true; });
-    this.growthPulse = Math.max(0, this.growthPulse - dt); const visualRadius = this.mode === 'welcome' ? 58 : radius; const scale = visualRadius * 2.6 / 384 * (1 + Math.sin(this.growthPulse * 8) * 0.11);
-    this.vortex.setPosition(this.player.x, this.player.y).setScale(scale).setRotation(-this.clock * 1.15); this.foam.setPosition(this.player.x, this.player.y).setScale(scale).setRotation(this.clock * 0.65);
+    this.growthPulse = Math.max(0, this.growthPulse - dt); const visualRadius = this.mode === 'welcome' ? 58 : radius; const scale = visualRadius * 2.6 / 384 * (this.reducedMotion ? 1 : 1 + Math.sin(this.growthPulse * 8) * 0.11);
+    this.vortex.setPosition(this.player.x, this.player.y).setScale(scale).setRotation(this.reducedMotion ? 0 : -this.clock * 1.15); this.foam.setPosition(this.player.x, this.player.y).setScale(scale).setRotation(this.reducedMotion ? 0 : this.clock * 0.65);
     if (this.mode === 'playing') { this.effects.lineStyle(1, this.isSlowed() ? 0xffd19a : 0xc0f7d7, 0.2).strokeCircle(this.player.x, this.player.y, suction); this.steering.draw(this.effects); }
+    if (this.highContrast) {
+      this.effects.lineStyle(8, 0x000000, 1).strokeCircle(this.player.x, this.player.y, radius + 5).lineStyle(4, 0xffffff, 1).strokeCircle(this.player.x, this.player.y, radius + 5).strokeCircle(this.player.x, this.player.y, radius - 5);
+      for (const reef of REEFS) {
+        this.effects.lineStyle(6, 0x000000, 1).strokeEllipse(reef.x, reef.y, reef.radius * 2, reef.radius * 1.44).lineStyle(3, 0xffda33, 1).strokeEllipse(reef.x, reef.y, reef.radius * 2, reef.radius * 1.44);
+        for (let x = -reef.radius * .6; x <= reef.radius * .6; x += 20) this.effects.lineBetween(reef.x + x - 12, reef.y + 25, reef.x + x + 12, reef.y - 25);
+      }
+    }
     const camera = this.cameras.main; if (this.mode === 'playing') { const response = this.steering.usingTouch ? CONFIG.movement.touchCameraResponse : 5; const focusX = camera.midPoint.x + (this.player.x - camera.midPoint.x) * (1 - Math.exp(-response * dt)), focusY = camera.midPoint.y + (this.player.y - camera.midPoint.y) * (1 - Math.exp(-response * dt)); camera.centerOn(focusX, focusY); }
     this.lastUi += dt; if (this.lastUi > 0.1) { this.lastUi = 0; this.emitSnapshot(); }
   }
   /** Read-only diagnostic snapshot for repeatable browser tests; no score/position mutation API. */
-  diagnostics() { const c = this.cameras.main; return { ...this.snapshot(), player: { ...this.player }, spawning: { needed: shipNeeded(stageFor(this.xp), this.entities.filter(e => !e.captured).map(e => e.kind), this.missingShips), missing: { ...this.missingShips }, wait: this.shipWait, events: this.spawnEvents.map(e => ({ ...e })) }, entities: this.entities.filter(e => !e.captured).map(e => ({ id: e.id, kind: e.kind, x: e.x, y: e.y, tier: ENTITIES[e.kind].tier, radius: ENTITIES[e.kind].radius })), camera: { scrollX: c.scrollX, scrollY: c.scrollY, zoom: c.zoom, width: c.width, height: c.height, midpoint: { x: c.midPoint.x, y: c.midPoint.y } }, fps: this.frameDurations.length ? 1000 * this.frameDurations.length / this.frameDurations.reduce((a, b) => a + b, 0) : 0, particles: this.particles.length, audio: { contextState: this.audio.contextState, muted: this.audio.muted, suspended: this.audio.suspended } }; }
+  diagnostics() { const c = this.cameras.main; return { ...this.snapshot(), accessibility: { highContrast: this.highContrast, reducedMotion: this.reducedMotion }, player: { ...this.player }, spawning: { needed: shipNeeded(stageFor(this.xp), this.entities.filter(e => !e.captured).map(e => e.kind), this.missingShips), missing: { ...this.missingShips }, wait: this.shipWait, events: this.spawnEvents.map(e => ({ ...e })) }, entities: this.entities.filter(e => !e.captured).map(e => ({ id: e.id, kind: e.kind, x: e.x, y: e.y, tier: ENTITIES[e.kind].tier, radius: ENTITIES[e.kind].radius })), camera: { scrollX: c.scrollX, scrollY: c.scrollY, zoom: c.zoom, width: c.width, height: c.height, midpoint: { x: c.midPoint.x, y: c.midPoint.y } }, fps: this.frameDurations.length ? 1000 * this.frameDurations.length / this.frameDurations.reduce((a, b) => a + b, 0) : 0, particles: this.particles.length, audio: { contextState: this.audio.contextState, muted: this.audio.muted, suspended: this.audio.suspended } }; }
 }

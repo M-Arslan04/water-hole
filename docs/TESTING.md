@@ -156,3 +156,35 @@ The final 90-second input-driven run scored **10,430**, captured **148 objects**
 ## Honest limits
 
 Chrome and the in-app Chromium browser were exercised. No physical Android/iPhone, Safari, Firefox, Edge, low-end GPU, thermal/battery, screen-reader gameplay or long-term soak test was performed. AudioContext behavior was checked, but the tonal balance was not independently audited by listening. There is no offline reload/service-worker cache; play after loading works offline. The single reef type, fixed map and short yielding ship routes are deliberate prototype choices. Perceived fun and first-time learning still need human play sessions. No YouTube integration, portal access, ads availability, certification or release-name clearance is claimed.
+
+## Accessibility / Android preparation — 25 September 2026
+
+See [the current platform report](PLATFORM-REPORT.md) and [accessibility evidence](ACCESSIBILITY.md). Baseline evidence is preserved in PLATFORM-BASELINE.json. The new branch does not deploy the public demo or establish YouTube certification/Android device coverage. The balance test's waypoint stopping logic was repaired; gameplay tuning values were not changed.
+
+### Follow-up: arrow keys and page scrolling
+
+Arrow scroll suppression now runs at window level after Phaser processes keyboard input, and only during active play. It remains effective when focus leaves the harbor for the page or sound button; paused pages and settings retain normal key behavior. The listener is removed on scene shutdown.
+
+Verified with `npm run build`, `node tests/keyboard-scroll.mjs` (development 5188 and production preview 5189), and the accessibility suite. The regression checks actual vertical movement with Up/Down, unchanged page scroll with harbor/body/sound focus, normal paused scrolling, unconsumed settings keys and Space-to-resume.
+
+### Follow-up: keep the status panel off the water (26 September 2026)
+
+The growth panel, minimap, and compact steering tip now occupy a separate grid row below the playfield. The Phaser canvas and camera resize to the remaining water area. Welcome and result screens hide the dock; pause preserves it. Short landscape layouts omit the tip row to preserve water height. No movement, capture, or progression rules changed.
+
+Validation passed: production build; `node tests/hud-layout.mjs` (eight active viewport sizes, high contrast, 200% text, and canvas/dock separation); touch controls at DPR 1/2/3; accessibility suite; and the production responsive suite with a real complete round, pause/rotation, results, long score, and replay. Screenshots and geometry are in `tests/artifacts/hud-layout/`; full-round evidence is in `tests/artifacts/responsive/`.
+
+With owner approval, the updated APK was built, signature-verified, installed, and tested on the Android 16 emulator. All ten runtime checks passed, including a full round (2,695 points), a separate canvas/dock region, rotation, replay, and offline restart with Preferences persistence. See `docs/evidence/android-status-dock-results.json` and the follow-up in `ANDROID-DEVICE-TEST.md`. The previous APK is preserved in ignored `release/water-hole-before-status-dock.apk`.
+
+### Follow-up: compact mobile welcome and separate help (26 September 2026)
+
+The shared mobile welcome now puts the harbor preview, Play, How to play, and personal best in normal document flow. The longer introduction stays on desktop; the detailed instructions and six-stage boat guide are available in a dedicated help dialog from welcome and pause. Touch-capable devices lead with drag instructions, with mouse/keyboard instructions under Other controls. Settings retains preferences and native notices. Short screens and enlarged text scroll naturally.
+
+Production build and `npm run test:welcome` passed: 320×568, 360×740, 390×844, 430×932, short touch landscape, desktop, 200% text, dialog focus/Tab/Escape, and paused-round help. The accessibility and eight-viewport HUD layout suites also passed. The production responsive suite completed a real round, rotation, results, and replay with no console errors. Screenshots and measurements are in `tests/artifacts/welcome/` and `tests/artifacts/responsive/`. These browser checks use Chrome mobile emulation, not Safari or a physical mobile browser.
+
+The Android emulator passed twelve runtime checks, including native Back handling for help, a full round, replay, and offline persistence. Visual inspection also caught and fixed retained pixels in native guide icons by explicitly clearing their canvases. The final APK passed signature verification and targeted native icon/help checks; the final web build passed the welcome suite again. See the compact-welcome follow-up in `ANDROID-DEVICE-TEST.md` for build hashes and exact coverage. No public deployment or physical-phone update was performed.
+
+### Follow-up: fill spare welcome height (26 September 2026)
+
+The mobile welcome shell now fills the dynamic viewport, assigning spare height to the harbor preview. Its 130px minimum preserves a useful preview while the menu can grow and scroll on short screens or enlarged text. Canvas size containment prevents the canvas from forcing its parent track taller as it resizes.
+
+Web and Android builds passed. The welcome browser suite passed all phone sizes, short landscape, desktop, 200% text, help, and play/pause checks; it now asserts the normal-size phone welcome ends 12px above the viewport bottom. Targeted emulator checks and screenshot review also passed: the 731px WebView has its welcome bottom at 719px, with personal best visible at 700px. Evidence is in `docs/evidence/welcome-fill-browser-results.json` and `docs/evidence/android-welcome-fill-results.json`. No full-round retest was needed for this welcome-only CSS change.

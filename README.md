@@ -48,7 +48,7 @@ Collect bottles and driftwood first. A padlock above a vessel means it is too bi
 | `src/audio.ts` | Original Web Audio sound effects, gesture initialization and mute/pause |
 | `src/ui.ts`, `src/style.css`, `src/responsive.css` | Responsive HTML interface, HUD, minimap and accessible buttons |
 | `src/platform.ts` | Browser persistence/focus adapter; accepts asynchronous storage implementations |
-| `src/main.ts` | Phaser startup, capped pixel density and resize handling |
+| `src/main.ts` / `src/bootstrap.ts` | Web adapter entry / shared Phaser startup and resize handling |
 | `tests/` | Rules, real-time browser playthrough and production checks |
 | `docs/` | Initial plan, tuning, actual test report, and separate Playables readiness |
 
@@ -80,6 +80,21 @@ The mobile layout keeps play, pause, results and replay inside the same viewport
 
 ## Prototype scope
 
-One map, one reef hazard type, eight object types and six growth stages. Ships use short, predictable routes with yielding rather than navigation AI. Mobile emulation is not a substitute for real iPhone/Android testing; wider browser, accessibility and novice-player research remain. There is no offline reload cache, cloud save, ads, account system, multiplayer, SDK integration or YouTube certification.
+One map, one reef hazard type, eight object types and six growth stages. Ships use short, predictable routes with yielding rather than navigation AI. Mobile emulation is not a substitute for real iPhone/Android testing; wider browser, accessibility and novice-player research remain. The standalone web build has no offline reload cache, cloud save, ads, account system, multiplayer, YouTube SDK integration or YouTube certification. The separate Android target bundles assets locally and includes disabled-by-default-for-release test-ad code; it is not yet device-validated.
 
 See [tuning](docs/TUNING.md), [test evidence](docs/TESTING.md), and [Playables readiness](docs/YOUTUBE-READINESS.md).
+
+## Accessibility and native preparation
+
+The browser entry remains independent of native dependencies. Settings provides high contrast and reduced decorative motion; mute and preferences persist. How to play is available from welcome and pause, with touch-first instructions on touch devices and expandable alternate controls. The mobile welcome keeps Play and personal best visible on standard phone screens, while short screens and enlarged text can scroll. Menus support keyboard navigation and state announcements. Spatial gameplay is not fully nonvisual.
+
+- [Review report and verification limits](docs/PLATFORM-REPORT.md)
+- [Accessibility changes and future nonvisual mode](docs/ACCESSIBILITY.md)
+- [Android Mac setup, APK and signed AAB steps](docs/ANDROID.md)
+- [AdMob test boundary and owner setup](docs/ADMOB.md)
+- [YouTube application and naming draft](docs/YOUTUBE-APPLICATION.md)
+- [Google Play submission package](docs/GOOGLE-PLAY-SUBMISSION.md)
+- [Privacy policy draft](docs/PRIVACY-POLICY-DRAFT.md)
+- [Later iOS assessment](docs/IOS-ASSESSMENT.md)
+
+Run `npm run test:accessibility` against the development server. Android is an independent package in `apps/android`: run `npm ci --prefix apps/android`, then `npm run sync --prefix apps/android`. It requires Node 22+; native compilation additionally needs Android SDK 36 and JDK 21. No Android dependencies are required for root `npm ci && npm run build` or Vercel.

@@ -1,0 +1,125 @@
+{
+  "checks": [
+    {
+      "viewport": [
+        360,
+        740
+      ],
+      "metrics": {
+        "width": 360,
+        "height": 740,
+        "scrollWidth": 360,
+        "scrollHeight": 740,
+        "play": {
+          "x": 33,
+          "y": 419.65625,
+          "right": 327,
+          "bottom": 473.65625
+        },
+        "best": {
+          "x": 33,
+          "y": 541.65625,
+          "right": 327,
+          "bottom": 570.65625
+        }
+      }
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "metrics": {
+        "width": 390,
+        "height": 844,
+        "scrollWidth": 390,
+        "scrollHeight": 844,
+        "play": {
+          "x": 33,
+          "y": 444.65625,
+          "right": 357,
+          "bottom": 498.65625
+        },
+        "best": {
+          "x": 33,
+          "y": 566.65625,
+          "right": 357,
+          "bottom": 595.65625
+        }
+      }
+    },
+    {
+      "viewport": [
+        320,
+        568
+      ],
+      "metrics": {
+        "width": 320,
+        "height": 568,
+        "scrollWidth": 320,
+        "scrollHeight": 568,
+        "play": {
+          "x": 33,
+          "y": 376.65625,
+          "right": 287,
+          "bottom": 430.65625
+        },
+        "best": {
+          "x": 33,
+          "y": 498.65625,
+          "right": 287,
+          "bottom": 527.65625
+        }
+      }
+    },
+    {
+      "viewport": [
+        430,
+        932
+      ],
+      "metrics": {
+        "width": 430,
+        "height": 932,
+        "scrollWidth": 430,
+        "scrollHeight": 932,
+        "play": {
+          "x": 33,
+          "y": 444.65625,
+          "right": 397,
+          "bottom": 498.65625
+        },
+        "best": {
+          "x": 33,
+          "y": 566.65625,
+          "right": 397,
+          "bottom": 595.65625
+        }
+      }
+    },
+    {
+      "viewport": [
+        800,
+        360
+      ],
+      "metrics": {
+        "width": 800,
+        "height": 360,
+        "scrollWidth": 800,
+        "scrollHeight": 579,
+        "play": {
+          "x": 49,
+          "y": 396.65625,
+          "right": 751,
+          "bottom": 450.65625
+        },
+        "best": {
+          "x": 49,
+          "y": 518.65625,
+          "right": 751,
+          "bottom": 547.65625
+        }
+      }
+    }
+  ],
+  "errors": []
+}
