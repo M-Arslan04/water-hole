@@ -1,5 +1,7 @@
 # YouTube Playables application draft
 
+> **26 September update:** the public mobile demo was rechecked successfully. A separate local YouTube SDK target now exists; see [current audit](YOUTUBE-AUDIT.md). Earlier status/evidence sections below are historical. The owner field drafts remain unsubmitted; portal access and certification have not been obtained.
+
 Prepared 25 September 2026. **Owner review required; nothing submitted. Water Hole is a provisional title.** Public demo: https://water-hole.vercel.app/. This branch's accessibility changes have not been deployed there, so update the support claims below only after an approved deployment and public-URL check.
 
 ## Pitch

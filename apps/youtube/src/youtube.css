@@ -1,0 +1,28 @@
+/* Standalone viewport treatment only in the YouTube target. */
+.youtube body { overflow: hidden; }
+.youtube .shell, .youtube body:not(.in-round) .shell, .youtube .in-round .shell {
+  display: flex; flex-direction: column; width: 100%; max-width: none;
+  height: 100dvh; min-height: 0; padding: 8px; gap: 6px;
+}
+.youtube .topbar, .youtube body:not(.in-round) .topbar, .youtube .in-round .topbar { display: flex; height: 44px; flex: 0 0 44px; }
+.youtube .brand { font-size: 14px; }
+.youtube .game-frame, .youtube body:not(.in-round) .game-frame, .youtube .in-round .game-frame {
+  flex: 1 1 0; min-height: 0; height: auto; max-height: none; width: 100%; margin: 0;
+  grid-template-rows: minmax(0, 1fr) auto;
+}
+.youtube body:not(.in-round) .game-frame > #game { contain: size; }
+.youtube body:not(.in-round) .welcome { position: absolute; inset: 0; display: flex; align-items: center; justify-content: flex-start; flex-direction: column; padding: 12px; overflow: auto; }
+.youtube .welcome .start-card { width: min(390px, 100%); margin: auto 0; padding: 20px; border-radius: 10px; background: var(--cream); }
+.youtube .start-card .card-kicker, .youtube .play-details { display: none; }
+.youtube .start-card h2 { font-size: 2rem; margin: 0 0 12px; }
+.youtube .start-card .best-line { margin-top: 12px; padding-top: 12px; }
+.youtube .harbor-label { display: none; }
+.youtube #save-status { font-size: .75rem; margin: 8px 0 0; }
+.youtube #save-status:empty { display: none; }
+.youtube .welcome-desktop-copy { display: none; }
+.youtube .welcome-mobile-copy { display: inline; }
+.youtube.host-paused *, .youtube.host-paused *::before, .youtube.host-paused *::after { animation-play-state: paused !important; transition: none !important; }
+@media(max-height:420px) {
+  .youtube .game-status .growth-caption { display:none; }
+  .youtube .game-status .growth-track { margin:4px 0 0; }
+}

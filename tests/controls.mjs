@@ -20,6 +20,12 @@ try {
     const row={dpr,shortVelocity:short.player.vx,longVelocity:long.player.vx,reversedVelocityAfter100ms:reverse.player.vx,releaseVelocityAfter180ms:released.player.vx,fps:released.fps};
     if(!baseline){assert.ok(short.player.vx>50&&short.player.vx<200,'Short drag must retain proportional control');assert.ok(long.player.vx>300,'Long drag should reach full speed');assert.ok(reverse.player.vx<0,'Reverse must respond within 100ms after a long drag');assert.ok(Math.abs(released.player.vx)<10,'Release should stop promptly');}
     assert.ok(short.player.x>start.player.x);
+    await touch('touchStart',100,400);await page.waitForTimeout(180);const retouch=await snap();
+    assert.ok(Math.hypot(retouch.player.x-released.player.x,retouch.player.y-released.player.y)<4,'Retouch must reset the stick origin without a jump');
+    await touch('touchMove',106,400);await page.waitForTimeout(250);const fine=await snap();
+    row.fineDragVelocity=fine.player.vx;row.retouchTravel=Math.hypot(retouch.player.x-released.player.x,retouch.player.y-released.player.y);
+    if(!baseline)assert.ok(fine.player.vx>30&&fine.player.vx<60,'Six-pixel drag should permit slow approach');
+    await touch('touchEnd');await page.waitForTimeout(200);
     // Move down to the southern wall, then reverse without lifting the finger.
     await touch('touchStart',145,450);await touch('touchMove',145,640);await page.waitForTimeout(2600);const wall=await snap();
     assert.ok(wall.player.y<=1038&&wall.player.y>=900,'Boundary must stop navigation in water');

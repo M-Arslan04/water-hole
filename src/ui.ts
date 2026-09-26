@@ -1,5 +1,6 @@
-import { CONFIG, ENTITIES, OBSTACLES, type EntityKind } from './config';
+import { CONFIG, type EntityKind } from './config';
 import { entityIcon } from './art';
+import { drawMinimap } from './minimap';
 import type { HarborScene, Snapshot } from './game';
 const icon = (name: 'sound' | 'mute' | 'pause' | 'arrow' | 'wave' | 'trophy') => {
   const paths = { sound: '<path d="m11 4-5 4H3v8h3l5 4z"/><path d="M15 8a6 6 0 0 1 0 8M18 5a10 10 0 0 1 0 14"/>', mute: '<path d="m11 4-5 4H3v8h3l5 4z"/><path d="m16 9 6 6m0-6-6 6"/>', pause: '<path d="M8 5v14M16 5v14"/>', arrow: '<path d="M4 12h16m-6-6 6 6-6 6"/>', wave: '<path d="M2 8c4-5 6 5 10 0s6 5 10 0M2 16c4-5 6 5 10 0s6 5 10 0"/>', trophy: '<path d="M7 3h10v7a5 5 0 0 1-10 0zM7 5H3v3a4 4 0 0 0 4 4m10-7h4v3a4 4 0 0 1-4 4M12 15v5m-5 1h10"/>' };
@@ -31,11 +32,11 @@ export function mountUI() {
     </main>`;
 }
 const get = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
-export function bindUI(scene: HarborScene, hooks: { beforePlay?: () => Promise<void>; beforeReplay?: () => Promise<void> } = {}) {
+export function bindUI(scene: HarborScene, hooks: { beforePlay?: () => Promise<void>; beforeReplay?: () => Promise<void>; canInteract?: () => boolean } = {}) {
   let toastTimeout = 0, previousMode = '', previousScore = 0, bestAtStart = scene.best;
   const hud = get('hud'), welcome = get('welcome'), pauseOverlay = get('pause-overlay'), result = get('result'), growth = get('growth'), hint = get('hint'), mini = get<HTMLCanvasElement>('minimap'), ctx = mini.getContext('2d')!;
-  const focusButton = (id: string) => requestAnimationFrame(() => get<HTMLButtonElement>(id).focus({ preventScroll: true }));
-  const start = async (id: string, hook?: () => Promise<void>) => { const button = get<HTMLButtonElement>(id); button.disabled = true; try { await hook?.(); scene.startRound(); } catch { scene.onToast('Return to the game and try Play again.'); } finally { button.disabled = false; } };
+  const focusButton = (id: string) => requestAnimationFrame(() => { if (hooks.canInteract?.() !== false) get<HTMLButtonElement>(id).focus({ preventScroll: true }); });
+  const start = async (id: string, hook?: () => Promise<void>) => { const button = get<HTMLButtonElement>(id); button.disabled = true; try { await hook?.(); if (hooks.canInteract?.() !== false) scene.startRound(); } catch { scene.onToast('Return to the game and try Play again.'); } finally { button.disabled = false; } };
   get('play').onclick = () => { void start('play', hooks.beforePlay); }; get('again').onclick = () => { void start('again', hooks.beforeReplay); }; get('pause').onclick = () => scene.pauseRound(); get('resume').onclick = () => scene.resumeRound();
   get('sound').onclick = () => { scene.audio.setMuted(!scene.audio.muted); const muted = scene.audio.muted; get('sound').innerHTML = icon(muted ? 'mute' : 'sound'); get('sound').setAttribute('aria-label', muted ? 'Unmute sound' : 'Mute sound'); get('sound').setAttribute('aria-pressed', String(muted)); };
   scene.onToast = (message, type = '') => { const toast = get('toast'); toast.textContent = message; toast.className = `toast visible toast-${type}`; window.clearTimeout(toastTimeout); toastTimeout = window.setTimeout(() => { toast.className = 'toast'; }, 2400); };
@@ -56,10 +57,10 @@ export function bindUI(scene: HarborScene, hooks: { beforePlay?: () => Promise<v
     document.querySelector('.growth-track')!.setAttribute('aria-valuetext', s.stage === 5 ? 'Maximum stage reached' : `${Math.round(s.progress * 100)} percent to ${CONFIG.stages[s.stage + 1].name}`);
     get('growth-fill').style.width = `${Math.max(3, s.progress * 100)}%`;
     get('current-target').textContent = `Collect ${CONFIG.stages[s.stage].target.toLowerCase()}`; get('next-target').textContent = s.stage === 5 ? 'CHASE SHIPS · BEAT YOUR BEST' : `NEXT: ${CONFIG.stages[s.stage + 1].target.toUpperCase()}`;
-    hint.hidden = !active; get('hint-text').textContent = s.mode === 'paused' ? 'Paused · take your time' : navigator.maxTouchPoints > 0 ? 'Drag to steer · lift to stop' : 'Hold & drag · WASD / arrows';
+    hint.hidden = !active; get('hint-text').textContent = s.mode === 'paused' ? 'Paused · take your time' : s.stage >= 3 && s.moved ? 'Map: diamonds = ships · ring = nearest' : navigator.maxTouchPoints > 0 ? 'Drag to steer · lift to stop' : 'Hold & drag · WASD / arrows';
     document.querySelectorAll<HTMLElement>('.ladder-item').forEach(el => { el.classList.toggle('unlocked', Number(el.dataset.tier) <= s.stage); el.classList.toggle('current', Number(el.dataset.tier) === s.stage); });
     if (s.mode === 'finished') { get('final-score').textContent = s.score.toLocaleString(); get('largest').textContent = s.largest; get('captured').textContent = String(s.captured); get('result-best').textContent = s.best.toLocaleString(); get('result-kicker').textContent = s.score > bestAtStart ? 'A NEW PERSONAL BEST' : 'THAT WAS A GOOD RUN'; }
-    if (active) { ctx.clearRect(0, 0, 160, 110); ctx.fillStyle = '#a9b69d'; OBSTACLES.forEach(o => { if (o.kind === 'circle') { ctx.beginPath(); ctx.arc(o.x / 10, o.y / 10, o.radius / 10, 0, Math.PI * 2); ctx.fill(); } else ctx.fillRect(o.x / 10, o.y / 10, o.width / 10, o.height / 10); }); scene.entities.forEach(e => { if (!e.captured && ENTITIES[e.kind].tier >= 2) { ctx.fillStyle = ENTITIES[e.kind].tier <= s.stage ? '#c5e697' : '#9cb4b7'; ctx.fillRect(e.x / 10 - 1, e.y / 10 - 1, 2, 2); } }); ctx.fillStyle = '#ffe3a0'; ctx.beginPath(); ctx.arc(scene.player.x / 10, scene.player.y / 10, 4, 0, Math.PI * 2); ctx.fill(); ctx.strokeStyle = '#ffe3a077'; ctx.beginPath(); ctx.arc(scene.player.x / 10, scene.player.y / 10, 7, 0, Math.PI * 2); ctx.stroke(); }
+    if (active) mini.setAttribute('aria-label', drawMinimap(ctx, scene, s));
   };
   get('game').tabIndex = 0;
 }

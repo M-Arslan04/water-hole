@@ -1,4 +1,6 @@
-# YouTube Playables readiness — standalone release assessment
+# YouTube Playables readiness — historical assessment
+
+> **Superseded on 26 September 2026 by [YOUTUBE-AUDIT.md](YOUTUBE-AUDIT.md).** A dedicated target and local SDK integration now exist. The assessment below records the earlier standalone baseline, not current integration status.
 
 Reviewed against the official English documentation on **2026-09-24**. The game at https://water-hole.vercel.app/ is a standalone browser release. This local gameplay revision has **not** been deployed. Neither build is a YouTube submission or certified Playable. No interest form, account action or upload was performed.
 
