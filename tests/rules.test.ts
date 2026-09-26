@@ -37,3 +37,14 @@ test('arrival paths reject capture-range, distant and obstructed locations', () 
   assert.equal(reachableArrival({x:450,y:795},80,795),false);
   assert.equal(reachableArrival({x:790,y:620},1250,400),true);
 });
+
+test('capture presentation reaches center without changing its initial position or reversing inward progress', async () => {
+  const { capturePose } = await import('../src/capture-visual');
+  for (const reduced of [false, true]) {
+    const f = { distance: 55, angle: .7, rotation: .4, scale: .3, reduced };
+    const start = capturePose(f, 0); assert.ok(Math.abs(Math.hypot(start.x, start.y) - 55) < 1e-9);
+    let previous = 56;
+    for (let elapsed = 0; elapsed <= .4; elapsed += .01) { const p = capturePose(f, elapsed), d = Math.hypot(p.x, p.y); assert.ok(d <= previous + 1e-9); previous = d; if (reduced) assert.equal(p.rotation, .4); }
+    const end = capturePose(f, 1); assert.equal(end.done, true); assert.equal(Math.hypot(end.x, end.y), 0); assert.equal(end.alpha, 0);
+  }
+});

@@ -8,10 +8,10 @@ All distances are world pixels unless explicitly described as CSS pixels. `src/c
 | --- | --- | --- |
 | `movement.speed` | 285 → 285 px/s | Desktop mouse/keyboard top speed |
 | `movement.acceleration` | 11 → 11 /s | Desktop response |
-| `movement.joystickRadius` | 58 → 36 CSS px | Full touch-stick travel; still proportional for short movements |
+| `movement.joystickRadius` | 58 → 36 → **42 CSS px** | Latest mobile polish softens proportional short drags by 14.3%; full-speed chase retained |
 | `movement.touchSpeed` | shared 285 → 340 px/s | Phone traversal (+19.3%); independent of suction |
 | `movement.touchAcceleration` | shared 11 → 24 /s | Touch acceleration/braking; exponential 95% response ≈125 ms instead of ≈272 ms |
-| `movement.touchDeadzone` | shared 0.08 → 0.06 | Approximately 2.2 CSS px; avoids stationary finger jitter |
+| `movement.touchDeadzone` | shared 0.08 → 0.06 | Approximately 2.52 CSS px at the current 42px radius; avoids stationary finger jitter |
 | `movement.touchCameraResponse` | shared 5 → 10 /s | Less camera lag while touching; desktop remains 5 |
 | `movement.navigationRadius` | 24 → 24 px | Compact collision body at every growth stage |
 | `reef.speedMultiplier` | 0.48 → 0.48 | Intentional shallow-water penalty; unchanged |
@@ -26,7 +26,7 @@ Phaser pointer coordinates use the backing canvas scale. Multiplying the CSS sti
 
 ## Harbor supply
 
-The old system attempted one uniformly chosen replacement every 1.1s, with eligible classes capped at tier 3 (fishing). Initial tugs and cargo were finite: **none could ever respawn**. No entity lifetime or off-screen entry queue exists. Ships oscillate ±64px around safe origins rather than entering from outside the map. The 100-object cap includes live debris, not just useful ships. Captured ships leave supply counts immediately, even while their 260ms effect finishes.
+The old system attempted one uniformly chosen replacement every 1.1s, with eligible classes capped at tier 3 (fishing). Initial tugs and cargo were finite: **none could ever respawn**. No entity lifetime or off-screen entry queue exists. Ships oscillate ±64px around safe origins rather than entering from outside the map. The 100-object cap includes live debris, not just useful ships. Captured ships leave supply counts immediately, even while their presentation effect finishes (now 360ms, or 180ms with reduced motion).
 
 The new `shipNeeded` policy counts **capturable fishing/tug/cargo only**. Locked vessels and low-value objects do not satisfy the targets.
 
@@ -52,3 +52,7 @@ Tugs/cargo reuse established clear shipping lanes. Replacements cycle candidate 
 An initial experiment replaced missing cargo every three seconds. A ship-focused bot scored 24,635 against 11,940 on the original game: rejected as excessive inflation. Current pacing separates fishing availability from tug/cargo replacement. See `docs/TESTING.md` for final complete-round counts, delays and score comparisons. Automated navigation is more efficient than a new human player; final phone feel and score economy still need human review before deploying.
 
 The final-stage HUD now says **CHASE SHIPS · BEAT YOUR BEST**. It does not promise another growth level. Particle cap remains 95; no unlimited spawner or late-round rate multiplier was introduced.
+
+## Mobile polish — 27 September 2026
+
+Only joystick radius changed in gameplay configuration: 36 → 42 CSS pixels. Touch top speed (340), response (24), normalized deadzone (0.06), camera response (10), desktop movement, capture rules and ship replenishment remain unchanged. The HUD now occupies a separate top row on narrow/short viewports. Captured sprites have a foreground inward spiral; eligible ships have clearer minimap markers. See [MOBILE-POLISH.md](MOBILE-POLISH.md) for measured controls, route-dependent scores, limits and review evidence.

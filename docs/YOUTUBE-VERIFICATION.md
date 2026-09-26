@@ -1,5 +1,7 @@
 # YouTube preparation verification — 26 September 2026
 
+Historical verification of commit `79b8eda`. The later mobile polish rebuild and measurements are recorded in [MOBILE-POLISH.md](MOBILE-POLISH.md); its current ZIP supersedes the artifact sizes below.
+
 Local macOS / Google Chrome 149 testing. Touch and device sizes below are Chrome emulation, **not physical-phone testing or YouTube Android/iOS certification**. Android APK was regression-built, not installed onto a physical device during this task. No changes were deployed.
 
 | Check | Result |

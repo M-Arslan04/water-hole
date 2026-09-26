@@ -1,0 +1,744 @@
+{
+  "baseline": "79b8eda",
+  "branch": "mobile-playability-polish",
+  "date": "2026-09-27",
+  "deviceNote": "Chrome touch emulation and Android API 36 emulator. No physical phone or iOS testing.",
+  "runs": {
+    "before-strong": {
+      "label": "before-strong",
+      "mobile": true,
+      "score": 19620,
+      "captures": 159,
+      "unlocks": {
+        "1": 0,
+        "2": 0,
+        "3": 3,
+        "4": 9,
+        "5": 16,
+        "6": 32
+      },
+      "seconds": 90.175,
+      "scoreAt60Remaining": 5310,
+      "scoreAt30Remaining": 12965,
+      "lateValuableMin": 0,
+      "lateValuableMedian": 1,
+      "lateCargoMin": 0,
+      "lateZeroSamples": 4,
+      "lateSamples": 114,
+      "maxObjects": 88,
+      "medianFps": 59.017360939997275,
+      "errors": [],
+      "profile": "strong",
+      "travelledWorldPixels": 25129,
+      "lateMeasuredSeconds": 30.157999999999973,
+      "lateNoVisibleSeconds": 10.930999999999997,
+      "lateNoTargetWithin8s": 1.0460000000000065,
+      "nearestDistanceMedian": 397.5845977718588,
+      "nearestDistanceMax": 892.4006665907825,
+      "estimatedTravelSecondsMedian": 1.1693664640348789,
+      "estimatedTravelSecondsMax": 2.6247078429140664,
+      "minimapCue": "eligible pixel under 1 CSS px"
+    },
+    "after-strong": {
+      "label": "after-strong",
+      "mobile": true,
+      "score": 20430,
+      "captures": 150,
+      "unlocks": {
+        "1": 0,
+        "2": 0,
+        "3": 3,
+        "4": 8,
+        "5": 15,
+        "6": 29
+      },
+      "seconds": 90.184,
+      "scoreAt60Remaining": 5990,
+      "scoreAt30Remaining": 14035,
+      "lateValuableMin": 0,
+      "lateValuableMedian": 1,
+      "lateCargoMin": 0,
+      "lateZeroSamples": 11,
+      "lateSamples": 115,
+      "maxObjects": 88,
+      "medianFps": 58.99124963165039,
+      "errors": [],
+      "profile": "strong",
+      "travelledWorldPixels": 25344,
+      "lateMeasuredSeconds": 29.965999999999994,
+      "lateNoVisibleSeconds": 10.034999999999975,
+      "lateNoTargetWithin8s": 2.8789999999999907,
+      "nearestDistanceMedian": 402.0626997576826,
+      "nearestDistanceMax": 891.2495043366663,
+      "estimatedTravelSecondsMedian": 1.1825373522284781,
+      "estimatedTravelSecondsMax": 2.6213220715784304,
+      "minimapCue": "outlined eligible ship diamond + nearest ring + camera outline"
+    },
+    "before-average": {
+      "label": "before-average",
+      "mobile": true,
+      "score": 16625,
+      "captures": 152,
+      "unlocks": {
+        "1": 0,
+        "2": 3,
+        "3": 6,
+        "4": 12,
+        "5": 25,
+        "6": 40
+      },
+      "seconds": 90.148,
+      "scoreAt60Remaining": 3645,
+      "scoreAt30Remaining": 10380,
+      "lateValuableMin": 1,
+      "lateValuableMedian": 3,
+      "lateCargoMin": 0,
+      "lateZeroSamples": 0,
+      "lateSamples": 116,
+      "maxObjects": 88,
+      "medianFps": 58.988349801432825,
+      "errors": [],
+      "profile": "average",
+      "travelledWorldPixels": 19913,
+      "lateMeasuredSeconds": 29.96599999999998,
+      "lateNoVisibleSeconds": 4.448999999999998,
+      "lateNoTargetWithin8s": 0,
+      "nearestDistanceMedian": 349.7346968804557,
+      "nearestDistanceMax": 926.6979994740074,
+      "estimatedTravelSecondsMedian": 1.0286314614131051,
+      "estimatedTravelSecondsMax": 2.7255823513941393,
+      "minimapCue": "eligible pixel under 1 CSS px"
+    },
+    "after-average": {
+      "label": "after-average",
+      "mobile": true,
+      "score": 18265,
+      "captures": 158,
+      "unlocks": {
+        "1": 0,
+        "2": 3,
+        "3": 6,
+        "4": 13,
+        "5": 21,
+        "6": 33
+      },
+      "seconds": 90.166,
+      "scoreAt60Remaining": 5845,
+      "scoreAt30Remaining": 12375,
+      "lateValuableMin": 0,
+      "lateValuableMedian": 2,
+      "lateCargoMin": 0,
+      "lateZeroSamples": 4,
+      "lateSamples": 118,
+      "maxObjects": 88,
+      "medianFps": 58.92751915127125,
+      "errors": [],
+      "profile": "average",
+      "travelledWorldPixels": 20303,
+      "lateMeasuredSeconds": 30.066999999999993,
+      "lateNoVisibleSeconds": 6.300000000000004,
+      "lateNoTargetWithin8s": 1.036999999999992,
+      "nearestDistanceMedian": 369.00031174868684,
+      "nearestDistanceMax": 1007.5856518268424,
+      "estimatedTravelSecondsMedian": 1.0852950345549612,
+      "estimatedTravelSecondsMax": 2.9634872112554187,
+      "minimapCue": "outlined eligible ship diamond + nearest ring + camera outline"
+    },
+    "before-edge": {
+      "label": "before-edge",
+      "mobile": true,
+      "score": 13185,
+      "captures": 132,
+      "unlocks": {
+        "1": 0,
+        "2": 0,
+        "3": 3,
+        "4": 8,
+        "5": 17,
+        "6": 28
+      },
+      "seconds": 90.014,
+      "scoreAt60Remaining": 5935,
+      "scoreAt30Remaining": 13185,
+      "lateValuableMin": 3,
+      "lateValuableMedian": 5,
+      "lateCargoMin": 0,
+      "lateZeroSamples": 0,
+      "lateSamples": 127,
+      "maxObjects": 88,
+      "medianFps": 59.01445854216988,
+      "errors": [],
+      "profile": "edge",
+      "travelledWorldPixels": 15813,
+      "lateMeasuredSeconds": 29.860999999999976,
+      "lateNoVisibleSeconds": 16.079,
+      "lateNoTargetWithin8s": 0,
+      "nearestDistanceMedian": 792.7109040817896,
+      "nearestDistanceMax": 956.0547895668489,
+      "estimatedTravelSecondsMedian": 2.3315026590640873,
+      "estimatedTravelSecondsMax": 2.8119258516672025,
+      "minimapCue": "eligible pixel under 1 CSS px"
+    },
+    "after-edge": {
+      "label": "after-edge",
+      "mobile": true,
+      "score": 12375,
+      "captures": 126,
+      "unlocks": {
+        "1": 0,
+        "2": 0,
+        "3": 3,
+        "4": 10,
+        "5": 17,
+        "6": 29
+      },
+      "seconds": 90.096,
+      "scoreAt60Remaining": 5950,
+      "scoreAt30Remaining": 12375,
+      "lateValuableMin": 3,
+      "lateValuableMedian": 3,
+      "lateCargoMin": 1,
+      "lateZeroSamples": 0,
+      "lateSamples": 127,
+      "maxObjects": 88,
+      "medianFps": 58.97385492397139,
+      "errors": [],
+      "profile": "edge",
+      "travelledWorldPixels": 15560,
+      "lateMeasuredSeconds": 29.914,
+      "lateNoVisibleSeconds": 0,
+      "lateNoTargetWithin8s": 0,
+      "nearestDistanceMedian": 555.7082721207066,
+      "nearestDistanceMax": 611.3010410833505,
+      "estimatedTravelSecondsMedian": 1.6344360944726666,
+      "estimatedTravelSecondsMax": 1.7979442384804425,
+      "minimapCue": "outlined eligible ship diamond + nearest ring + camera outline"
+    },
+    "before-repeat-average": {
+      "label": "before-repeat-average",
+      "mobile": true,
+      "score": 16805,
+      "captures": 143,
+      "unlocks": {
+        "1": 0,
+        "2": 3,
+        "3": 7,
+        "4": 11,
+        "5": 22,
+        "6": 41
+      },
+      "seconds": 90.131,
+      "scoreAt60Remaining": 5165,
+      "scoreAt30Remaining": 10430,
+      "lateValuableMin": 1,
+      "lateValuableMedian": 2,
+      "lateCargoMin": 0,
+      "lateZeroSamples": 0,
+      "lateSamples": 119,
+      "maxObjects": 88,
+      "medianFps": 59.011556429800834,
+      "errors": [],
+      "profile": "average",
+      "travelledWorldPixels": 20471,
+      "lateMeasuredSeconds": 30.05299999999997,
+      "lateNoVisibleSeconds": 6.677000000000021,
+      "lateNoTargetWithin8s": 0,
+      "nearestDistanceMedian": 302.96806502584354,
+      "nearestDistanceMax": 841.144196007573,
+      "estimatedTravelSecondsMedian": 0.8910825441936575,
+      "estimatedTravelSecondsMax": 2.473953517669332,
+      "observedNearestCaptures": [
+        {
+          "id": 128,
+          "kind": "tug",
+          "started": 60.078,
+          "initialRouteDistance": 260.44789117033025,
+          "travelStart": 13613.182485630508,
+          "seconds": 3.6340000000000003,
+          "travelledWorldPixels": 200.8003763435736
+        },
+        {
+          "id": 133,
+          "kind": "fishing",
+          "started": 63.712,
+          "initialRouteDistance": 463.962106594518,
+          "travelStart": 13813.982861974082,
+          "seconds": 1.2929999999999922,
+          "travelledWorldPixels": 378.073125945848
+        },
+        {
+          "id": 136,
+          "kind": "fishing",
+          "started": 65.005,
+          "initialRouteDistance": 440.97186136610725,
+          "travelStart": 14192.05598791993,
+          "seconds": 1.274000000000001,
+          "travelledWorldPixels": 400.2005568482473
+        },
+        {
+          "id": 139,
+          "kind": "cargo",
+          "started": 66.279,
+          "initialRouteDistance": 586.4384095179017,
+          "travelStart": 14592.256544768177,
+          "seconds": 1.7920000000000016,
+          "travelledWorldPixels": 547.9322569852029
+        },
+        {
+          "id": 142,
+          "kind": "fishing",
+          "started": 68.071,
+          "initialRouteDistance": 661.0461004862677,
+          "travelStart": 15140.18880175338,
+          "seconds": 2.0490000000000066,
+          "travelledWorldPixels": 623.7508259346541
+        },
+        {
+          "id": 145,
+          "kind": "fishing",
+          "started": 70.12,
+          "initialRouteDistance": 358.6876259659395,
+          "travelStart": 15763.939627688034,
+          "seconds": 1.0249999999999915,
+          "travelledWorldPixels": 305.2966780310144
+        },
+        {
+          "id": 148,
+          "kind": "tug",
+          "started": 71.145,
+          "initialRouteDistance": 547.3356134457018,
+          "travelStart": 16069.236305719049,
+          "seconds": 1.534000000000006,
+          "travelledWorldPixels": 474.0295603064769
+        },
+        {
+          "id": 153,
+          "kind": "fishing",
+          "started": 73.196,
+          "initialRouteDistance": 650.9784065367074,
+          "travelStart": 16677.51854779805,
+          "seconds": 1.7830000000000013,
+          "travelledWorldPixels": 560.824237025543
+        },
+        {
+          "id": 151,
+          "kind": "fishing",
+          "started": 72.679,
+          "initialRouteDistance": 837.4927479110311,
+          "travelStart": 16543.265866025526,
+          "seconds": 6.474999999999994,
+          "travelledWorldPixels": 1065.681335737143
+        },
+        {
+          "id": 156,
+          "kind": "fishing",
+          "started": 79.154,
+          "initialRouteDistance": 538.7281217721206,
+          "travelStart": 17608.94720176267,
+          "seconds": 1.534000000000006,
+          "travelledWorldPixels": 459.6951646812413
+        },
+        {
+          "id": 160,
+          "kind": "tug",
+          "started": 80.688,
+          "initialRouteDistance": 338.74099442801867,
+          "travelStart": 18068.64236644391,
+          "seconds": 1.0180000000000007,
+          "travelledWorldPixels": 243.43897217829362
+        },
+        {
+          "id": 159,
+          "kind": "cargo",
+          "started": 81.706,
+          "initialRouteDistance": 255.27938435053315,
+          "travelStart": 18312.081338622203,
+          "seconds": 1.0229999999999961,
+          "travelledWorldPixels": 183.79730133782869
+        },
+        {
+          "id": 162,
+          "kind": "fishing",
+          "started": 82.729,
+          "initialRouteDistance": 841.144196007573,
+          "travelStart": 18495.878639960032,
+          "seconds": 2.823999999999998,
+          "travelledWorldPixels": 753.6965325978636
+        },
+        {
+          "id": 163,
+          "kind": "fishing",
+          "started": 85.553,
+          "initialRouteDistance": 413.82612311024803,
+          "travelStart": 19249.575172557896,
+          "seconds": 1.2540000000000049,
+          "travelledWorldPixels": 313.5316844125555
+        },
+        {
+          "id": 164,
+          "kind": "fishing",
+          "started": 86.807,
+          "initialRouteDistance": 323.24360217018835,
+          "travelStart": 19563.10685697045,
+          "seconds": 0.7729999999999961,
+          "travelledWorldPixels": 225.649903071695
+        },
+        {
+          "id": 166,
+          "kind": "tug",
+          "started": 87.58,
+          "initialRouteDistance": 732.7563797563403,
+          "travelStart": 19788.756760042146,
+          "seconds": 2.293999999999997,
+          "travelledWorldPixels": 681.8336277083181
+        }
+      ],
+      "minimapCue": "eligible pixel under 1 CSS px"
+    },
+    "after-repeat-average": {
+      "label": "after-repeat-average",
+      "mobile": true,
+      "score": 15940,
+      "captures": 141,
+      "unlocks": {
+        "1": 0,
+        "2": 3,
+        "3": 6,
+        "4": 13,
+        "5": 27,
+        "6": 42
+      },
+      "seconds": 90.203,
+      "scoreAt60Remaining": 3420,
+      "scoreAt30Remaining": 10195,
+      "lateValuableMin": 0,
+      "lateValuableMedian": 2,
+      "lateCargoMin": 0,
+      "lateZeroSamples": 2,
+      "lateSamples": 118,
+      "maxObjects": 88,
+      "medianFps": 57.8619991327352,
+      "errors": [],
+      "profile": "average",
+      "travelledWorldPixels": 19825,
+      "lateMeasuredSeconds": 29.925999999999988,
+      "lateNoVisibleSeconds": 7.4210000000000065,
+      "lateNoTargetWithin8s": 0.5169999999999959,
+      "nearestDistanceMedian": 420.0105543329511,
+      "nearestDistanceMax": 977.1642088473905,
+      "estimatedTravelSecondsMedian": 1.2353251598027972,
+      "estimatedTravelSecondsMax": 2.874012378962913,
+      "observedNearestCaptures": [
+        {
+          "id": 140,
+          "kind": "tug",
+          "started": 60.277,
+          "initialRouteDistance": 476.7349704010205,
+          "travelStart": 13086.59538795906,
+          "seconds": 4.1769999999999925,
+          "travelledWorldPixels": 447.0245255642276
+        },
+        {
+          "id": 143,
+          "kind": "fishing",
+          "started": 64.454,
+          "initialRouteDistance": 163.09101295903997,
+          "travelStart": 13533.619913523287,
+          "seconds": 0.26900000000000546,
+          "travelledWorldPixels": 65.24180719082506
+        },
+        {
+          "id": 145,
+          "kind": "fishing",
+          "started": 64.723,
+          "initialRouteDistance": 219.14665374330468,
+          "travelStart": 13598.861720714112,
+          "seconds": 0.7800000000000011,
+          "travelledWorldPixels": 115.37063141389808
+        },
+        {
+          "id": 147,
+          "kind": "fishing",
+          "started": 66.795,
+          "initialRouteDistance": 457.62644099811547,
+          "travelStart": 13957.000597674933,
+          "seconds": 1.2909999999999968,
+          "travelledWorldPixels": 394.25063865721313
+        },
+        {
+          "id": 146,
+          "kind": "fishing",
+          "started": 65.503,
+          "initialRouteDistance": 977.1642088473905,
+          "travelStart": 13714.23235212801,
+          "seconds": 4.132000000000005,
+          "travelledWorldPixels": 1023.6176197331934
+        },
+        {
+          "id": 150,
+          "kind": "tug",
+          "started": 70.904,
+          "initialRouteDistance": 518.4237606823675,
+          "travelStart": 15011.383772858802,
+          "seconds": 1.5320000000000107,
+          "travelledWorldPixels": 457.2723609788245
+        },
+        {
+          "id": 148,
+          "kind": "cargo",
+          "started": 69.635,
+          "initialRouteDistance": 913.429975542439,
+          "travelStart": 14737.849971861204,
+          "seconds": 3.573999999999998,
+          "travelledWorldPixels": 963.979056603066
+        },
+        {
+          "id": 152,
+          "kind": "fishing",
+          "started": 73.209,
+          "initialRouteDistance": 445.9772093639136,
+          "travelStart": 15701.82902846427,
+          "seconds": 1.2759999999999962,
+          "travelledWorldPixels": 387.73358441052005
+        },
+        {
+          "id": 154,
+          "kind": "fishing",
+          "started": 75.002,
+          "initialRouteDistance": 615.2345083594696,
+          "travelStart": 16207.71361952502,
+          "seconds": 4.685000000000002,
+          "travelledWorldPixels": 583.4979326052198
+        },
+        {
+          "id": 156,
+          "kind": "fishing",
+          "started": 79.687,
+          "initialRouteDistance": 608.8739485032098,
+          "travelStart": 16791.21155213024,
+          "seconds": 1.7950000000000017,
+          "travelledWorldPixels": 530.6265656125506
+        },
+        {
+          "id": 157,
+          "kind": "tug",
+          "started": 81.482,
+          "initialRouteDistance": 763.6442674184589,
+          "travelStart": 17321.83811774279,
+          "seconds": 2.304000000000002,
+          "travelledWorldPixels": 692.0850365161205
+        },
+        {
+          "id": 159,
+          "kind": "cargo",
+          "started": 83.786,
+          "initialRouteDistance": 547.7167444156939,
+          "travelStart": 18013.92315425891,
+          "seconds": 1.5339999999999918,
+          "travelledWorldPixels": 464.70959219848373
+        },
+        {
+          "id": 163,
+          "kind": "fishing",
+          "started": 85.577,
+          "initialRouteDistance": 623.113644322921,
+          "travelStart": 18540.8265223546,
+          "seconds": 1.7920000000000016,
+          "travelledWorldPixels": 557.8462233984246
+        },
+        {
+          "id": 162,
+          "kind": "fishing",
+          "started": 85.32,
+          "initialRouteDistance": 768.2320939398696,
+          "travelStart": 18478.632746457395,
+          "seconds": 2.307000000000002,
+          "travelledWorldPixels": 701.6738458944856
+        },
+        {
+          "id": 164,
+          "kind": "fishing",
+          "started": 87.627,
+          "initialRouteDistance": 743.8432590158388,
+          "travelStart": 19180.30659235188,
+          "seconds": 2.3119999999999976,
+          "travelledWorldPixels": 645.0893793850773
+        }
+      ],
+      "minimapCue": "outlined eligible ship diamond + nearest ring + camera outline"
+    }
+  },
+  "controlsBefore": {
+    "results": [
+      {
+        "dpr": 1,
+        "shortVelocity": 113.27469148317424,
+        "longVelocity": 338.7382062871987,
+        "reversedVelocityAfter100ms": -277.6647487758461,
+        "releaseVelocityAfter180ms": -3.5195545945906384,
+        "fps": 58.950824566904146,
+        "boundaryY": 1037.5497180033792,
+        "afterBoundaryReverseY": 953.5931810896917
+      },
+      {
+        "dpr": 2,
+        "shortVelocity": 113.24479384858478,
+        "longVelocity": 338.71815150577504,
+        "reversedVelocityAfter100ms": -298.4529056388123,
+        "releaseVelocityAfter180ms": -3.7851751078214635,
+        "fps": 58.402118050690085,
+        "boundaryY": 1034.9605254462945,
+        "afterBoundaryReverseY": 952.9428682330613
+      },
+      {
+        "dpr": 3,
+        "shortVelocity": 113.244460313525,
+        "longVelocity": 338.708578089515,
+        "reversedVelocityAfter100ms": -277.2904330076904,
+        "releaseVelocityAfter180ms": -3.5193117752031124,
+        "fps": 59.51448707909162,
+        "boundaryY": 1035.3674900062495,
+        "afterBoundaryReverseY": 952.8681499889461
+      }
+    ],
+    "errors": []
+  },
+  "controlsAfter": {
+    "results": [
+      {
+        "dpr": 1,
+        "shortVelocity": 97.06714807588007,
+        "longVelocity": 338.64889526810566,
+        "reversedVelocityAfter100ms": -248.66831413673157,
+        "releaseVelocityAfter180ms": -5.023777997808708,
+        "fps": 58.57087075361187,
+        "fineDragVelocity": 48.48764688767585,
+        "retouchTravel": 0.16827462917399316,
+        "boundaryY": 1033.605039056181,
+        "afterBoundaryReverseY": 951.326640549339
+      },
+      {
+        "dpr": 2,
+        "shortVelocity": 97.09138823328958,
+        "longVelocity": 338.65394831986555,
+        "reversedVelocityAfter100ms": -248.06733450730655,
+        "releaseVelocityAfter180ms": -3.4242906729240783,
+        "fps": 59.09986361516554,
+        "fineDragVelocity": 48.445171557820736,
+        "retouchTravel": 0.11478793934770692,
+        "boundaryY": 1037.8816754199925,
+        "afterBoundaryReverseY": 960.3042414103645
+      },
+      {
+        "dpr": 3,
+        "shortVelocity": 97.06612367764843,
+        "longVelocity": 338.6397809338941,
+        "reversedVelocityAfter100ms": -248.41837206418938,
+        "releaseVelocityAfter180ms": -5.065771885061357,
+        "fps": 58.902065499924014,
+        "fineDragVelocity": 48.44734218691573,
+        "retouchTravel": 0.16969949742565404,
+        "boundaryY": 1037.6698316880982,
+        "afterBoundaryReverseY": 953.6604247529534
+      }
+    ],
+    "errors": []
+  },
+  "android": {
+    "target": "Installed debug APK, Android 16 API 36 emulator only",
+    "bounds": {
+      "hud": {
+        "x": 13,
+        "y": 75,
+        "width": 334,
+        "height": 55,
+        "bottom": 130
+      },
+      "game": {
+        "x": 13,
+        "y": 130,
+        "width": 334,
+        "height": 472.96875,
+        "bottom": 602.96875
+      },
+      "dock": {
+        "x": 13,
+        "y": 602.96875,
+        "width": 334,
+        "height": 117.03125,
+        "bottom": 720
+      },
+      "pause": {
+        "x": 293,
+        "y": 80,
+        "width": 44,
+        "height": 44,
+        "bottom": 124
+      },
+      "viewport": {
+        "width": 360,
+        "height": 731
+      }
+    },
+    "paused": {
+      "mode": "paused",
+      "score": "165",
+      "time": "0:55"
+    },
+    "passed": [
+      "actual APK launch",
+      "touch input",
+      "HUD and dock outside water",
+      "44px pause target",
+      "pause freezes displayed score/timer",
+      "settings open/close",
+      "resume"
+    ],
+    "physicalDevice": false
+  },
+  "youtubePackage": {
+    "archive": "/Users/codingcops/Documents/AAA/water-hole/release/water-hole-youtube.zip",
+    "sha256": "c6cb0add76a98cbe97fea265c29f2c6c5f50cec69cd443c03ec14354f67e6349",
+    "uncompressedBytes": 1395652,
+    "zipBytes": 367288,
+    "fileCount": 7,
+    "files": [
+      {
+        "name": "assets/bootstrap-Bf-sFj9Q.js",
+        "bytes": 47560
+      },
+      {
+        "name": "assets/bootstrap-C-wmYdsa.css",
+        "bytes": 28010
+      },
+      {
+        "name": "assets/index-CRixiDJd.js",
+        "bytes": 7391
+      },
+      {
+        "name": "assets/phaser-CIsPQPIM.js",
+        "bytes": 1208149
+      },
+      {
+        "name": "assets/youtube-sIOc-hCI.css",
+        "bytes": 1609
+      },
+      {
+        "name": "index.html",
+        "bytes": 584
+      },
+      {
+        "name": "third-party-licenses.txt",
+        "bytes": 102349
+      }
+    ]
+  },
+  "methodLimits": [
+    "Automated profiles are proxies, not human skill cohorts.",
+    "Visible valuable = eligible fishing/tug/cargo center inside water and outside the old full HUD bounding band.",
+    "Route time = obstacle-aware route distance / 340; excludes shallow-water penalty, acceleration and decisions.",
+    "Observed capture intervals include pauses and target switches; omit targets not captured before round end.",
+    "Navigation ring uses straight-line proximity, not pathfinding.",
+    "Score differences are trajectory-dependent; only average proxy repeated."
+  ]
+}

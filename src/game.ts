@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { capturePose, type CaptureFlight } from './capture-visual';
 import { CONFIG, ENTITIES, REEFS, type EntityKind } from './config';
 import { clamp, isWater, moveInWater, progressFor, randomGenerator, stageFor } from './rules';
 import { createArt } from './art';
@@ -14,7 +15,7 @@ export class HarborScene extends Phaser.Scene {
   highContrast = false; reducedMotion = false;
   mode: Mode = 'welcome'; score = 0; xp = 0; remaining: number = CONFIG.roundSeconds; best = 0; captured = 0; largest: EntityKind | null = null;
   player = { x: Number(CONFIG.start.x), y: Number(CONFIG.start.y), vx: 0, vy: 0, radius: 25 };
-  entities: Entity[] = []; private particles: Particle[] = []; private feedback: Phaser.GameObjects.Text[] = [];
+  entities: Entity[] = []; private particles: Particle[] = []; private captureFlights: (CaptureFlight & { id: number; sprite: Phaser.GameObjects.Image; elapsed: number })[] = []; private feedback: Phaser.GameObjects.Text[] = [];
   private vortex!: Phaser.GameObjects.Image; private foam!: Phaser.GameObjects.Image; private effects!: Phaser.GameObjects.Graphics; private wakes!: Phaser.GameObjects.Graphics; private steering!: Steering;
   private nextId = 0; private rng = randomGenerator(23891); private spawnClock = 0; private clock = 0; private hazardCooldown = 0; private growthPulse = 0; private lastUi = 0; private largestTier = -1;
   private shipClock = 0; private shipWait = 0; private shipRetry = 0;
@@ -47,10 +48,10 @@ export class HarborScene extends Phaser.Scene {
     this.audio.resume(); this.mode = 'playing'; this.score = 0; this.xp = 0; this.remaining = CONFIG.roundSeconds; this.captured = 0; this.largest = null; this.largestTier = -1; this.spawnClock = 0; this.hazardCooldown = 0; this.growthPulse = 0;
     this.player = { x: CONFIG.start.x, y: CONFIG.start.y, vx: 0, vy: 0, radius: 25 }; this.steering.reset(); this.steering.moved = false; this.clearEffects(); this.populate(); this.resize(); this.emitSnapshot();
   }
-  pauseRound() { if (this.mode !== 'playing') return; this.mode = 'paused'; this.steering.reset(); this.audio.pause(); this.emitSnapshot(); }
-  resumeRound() { if (this.mode !== 'paused') return; this.audio.resume(); this.steering.reset(); this.mode = 'playing'; this.emitSnapshot(); }
+  pauseRound() { if (this.mode !== 'playing') return; this.mode = 'paused'; this.tweens.pauseAll(); this.steering.reset(); this.audio.pause(); this.emitSnapshot(); }
+  resumeRound() { if (this.mode !== 'paused') return; this.audio.resume(); this.steering.reset(); this.mode = 'playing'; this.tweens.resumeAll(); this.emitSnapshot(); }
   private finishRound() { this.mode = 'finished'; this.steering.reset(); this.audio.finish(); if (this.score > this.best) { this.best = this.score; void Promise.resolve(this.platform.saveBest(this.best)).catch(() => {}); } void Promise.resolve(this.platform.roundFinished(this.score)).catch(() => {}); this.emitSnapshot(); }
-  private clearEffects() { this.particles.forEach(p => p.sprite.destroy()); this.particles = []; this.feedback.forEach(t => t.destroy()); this.feedback = []; this.tweens.killAll(); }
+  private clearEffects() { this.captureFlights.forEach(f => f.sprite.destroy()); this.captureFlights = []; this.particles.forEach(p => p.sprite.destroy()); this.particles = []; this.feedback.forEach(t => t.destroy()); this.feedback = []; this.tweens.killAll(); }
   private populate() {
     this.entities.forEach(e => e.sprite.destroy()); this.entities = []; this.rng = randomGenerator(23891); this.nextId = 0;
     // A readable opening ring ensures the first movement always finds something edible.
@@ -107,12 +108,15 @@ export class HarborScene extends Phaser.Scene {
   private capture(e: Entity) {
     if (e.captured) return; e.captured = true; const def = ENTITIES[e.kind], previous = stageFor(this.xp); this.score += def.score; this.xp += def.xp; this.captured++;
     if (def.tier > this.largestTier) { this.largestTier = def.tier; this.largest = e.kind; } this.audio.capture(def.tier); this.growthPulse = 0.16;
+    // The entity leaves simulation immediately; only its existing sprite continues.
+    const dx = e.x - this.player.x, dy = e.y - this.player.y;
+    e.sprite.setPosition(e.x, e.y).setDepth(9).setAlpha(1);
+    this.captureFlights.push({ id: e.id, sprite: e.sprite, elapsed: 0, distance: Math.hypot(dx, dy), angle: Math.atan2(dy, dx), rotation: e.sprite.rotation, scale: e.sprite.scaleX, reduced: this.reducedMotion });
     if (!this.reducedMotion) {
     const label = this.add.text(e.x, e.y - 18, '+' + def.score, { fontFamily: 'Trebuchet MS, sans-serif', fontSize: def.tier >= 3 ? '27px' : '19px', fontStyle: 'bold', color: '#fff6b6', stroke: '#15495b', strokeThickness: 3 }).setOrigin(0.5).setDepth(10);
     this.feedback.push(label); this.tweens.add({ targets: label, y: label.y - 48, alpha: 0, duration: 750, onComplete: () => { this.feedback = this.feedback.filter(t => t !== label); label.destroy(); } });
-    this.tweens.add({ targets: e.sprite, scaleX: 0, scaleY: 0, alpha: 0, x: this.player.x, y: this.player.y, angle: e.sprite.angle + 135, duration: 260, onComplete: () => e.sprite.destroy() });
     for (let i = 0; i < 7 + def.tier * 2 && this.particles.length < CONFIG.effects.maxParticles; i++) { const a = this.rng() * Math.PI * 2, speed = 35 + this.rng() * 75; this.particles.push({ sprite: this.add.image(e.x, e.y, 'particle').setScale(0.35 + this.rng() * 0.4).setDepth(8), vx: Math.cos(a) * speed, vy: Math.sin(a) * speed, life: CONFIG.effects.lifetime }); }
-    } else e.sprite.destroy();
+    }
     const stage = stageFor(this.xp); if (stage > previous) { this.growthPulse = 0.45; this.audio.growth(); this.onToast(`${CONFIG.stages[stage].target} unlocked!`, 'growth'); } this.emitSnapshot();
   }
   update(_time: number, delta: number) {
@@ -146,6 +150,8 @@ export class HarborScene extends Phaser.Scene {
         if (!blocked && isWater(targetX, targetY, def.radius * CONFIG.spawn.vesselFootprint + 3)) { const change = targetX - e.x; e.x = targetX; e.angle = change < 0 ? Math.PI : 0; }
       }
       if (e.captured) continue;
+      // Keep eligible objects visible as they cross the outer ring, before scoring.
+      e.sprite.setDepth(attracted && dist < radius * 1.3 + def.radius ? 5 : 3);
       e.sprite.setPosition(e.x, e.y + (this.reducedMotion ? 0 : Math.sin(this.clock * 1.9 + e.phase) * 1.4)).setRotation(this.reducedMotion && attracted ? 0 : e.angle);
       if (def.speed && !attracted) { const direction = Math.cos(e.angle); this.wakes.lineStyle(1.5, 0xb9efe0, 0.28); for (let i = 0; i < 3; i++) { const x = e.x - direction * (def.radius * 1.35 + 7 + i * 8); this.wakes.beginPath(); this.wakes.moveTo(x, e.y - 7 - i * 3); this.wakes.lineTo(x - direction * 5, e.y); this.wakes.lineTo(x, e.y + 7 + i * 3); this.wakes.strokePath(); } }
       if (this.highContrast) {
@@ -162,6 +168,13 @@ export class HarborScene extends Phaser.Scene {
         this.effects.fillStyle(0x153d51, near ? 0.94 : 0.7).fillCircle(px, py, 10); this.effects.lineStyle(1.6, 0xffd19a, 1).strokeRoundedRect(px - 3.5, py - 5, 7, 7, 3); this.effects.fillStyle(0xffd19a).fillRoundedRect(px - 5, py - 1, 10, 7, 2);
       } else if (!this.highContrast && def.tier >= 2) { this.effects.fillStyle(0xc6eb98, 0.95).fillCircle(e.x, e.y - def.radius * 0.6 - 16, 4); }
     }
+    this.captureFlights = this.captureFlights.filter(f => {
+      f.elapsed += dt;
+      const pose = capturePose(f, f.elapsed);
+      if (pose.done) { f.sprite.destroy(); return false; }
+      f.sprite.setPosition(this.player.x + pose.x, this.player.y + pose.y).setScale(pose.scale).setRotation(pose.rotation).setAlpha(pose.alpha);
+      return true;
+    });
     this.particles = this.particles.filter(p => { p.life -= dt; if (p.life <= 0) { p.sprite.destroy(); return false; } p.sprite.x += p.vx * dt; p.sprite.y += p.vy * dt; p.sprite.setAlpha(p.life / CONFIG.effects.lifetime); return true; });
     this.growthPulse = Math.max(0, this.growthPulse - dt); const visualRadius = this.mode === 'welcome' ? 58 : radius; const scale = visualRadius * 2.6 / 384 * (this.reducedMotion ? 1 : 1 + Math.sin(this.growthPulse * 8) * 0.11);
     this.vortex.setPosition(this.player.x, this.player.y).setScale(scale).setRotation(this.reducedMotion ? 0 : -this.clock * 1.15); this.foam.setPosition(this.player.x, this.player.y).setScale(scale).setRotation(this.reducedMotion ? 0 : this.clock * 0.65);
@@ -177,5 +190,5 @@ export class HarborScene extends Phaser.Scene {
     this.lastUi += dt; if (this.lastUi > 0.1) { this.lastUi = 0; this.emitSnapshot(); }
   }
   /** Read-only diagnostic snapshot for repeatable browser tests; no score/position mutation API. */
-  diagnostics() { const c = this.cameras.main; return { ...this.snapshot(), accessibility: { highContrast: this.highContrast, reducedMotion: this.reducedMotion }, player: { ...this.player }, spawning: { needed: shipNeeded(stageFor(this.xp), this.entities.filter(e => !e.captured).map(e => e.kind), this.missingShips), missing: { ...this.missingShips }, wait: this.shipWait, events: this.spawnEvents.map(e => ({ ...e })) }, entities: this.entities.filter(e => !e.captured).map(e => ({ id: e.id, kind: e.kind, x: e.x, y: e.y, tier: ENTITIES[e.kind].tier, radius: ENTITIES[e.kind].radius })), camera: { scrollX: c.scrollX, scrollY: c.scrollY, zoom: c.zoom, width: c.width, height: c.height, midpoint: { x: c.midPoint.x, y: c.midPoint.y } }, fps: this.frameDurations.length ? 1000 * this.frameDurations.length / this.frameDurations.reduce((a, b) => a + b, 0) : 0, particles: this.particles.length, audio: { contextState: this.audio.contextState, muted: this.audio.muted, suspended: this.audio.suspended } }; }
+  diagnostics() { const c = this.cameras.main; return { ...this.snapshot(), accessibility: { highContrast: this.highContrast, reducedMotion: this.reducedMotion }, player: { ...this.player }, spawning: { needed: shipNeeded(stageFor(this.xp), this.entities.filter(e => !e.captured).map(e => e.kind), this.missingShips), missing: { ...this.missingShips }, wait: this.shipWait, events: this.spawnEvents.map(e => ({ ...e })) }, entities: this.entities.filter(e => !e.captured).map(e => ({ id: e.id, kind: e.kind, x: e.x, y: e.y, tier: ENTITIES[e.kind].tier, radius: ENTITIES[e.kind].radius })), camera: { scrollX: c.scrollX, scrollY: c.scrollY, zoom: c.zoom, width: c.width, height: c.height, midpoint: { x: c.midPoint.x, y: c.midPoint.y } }, fps: this.frameDurations.length ? 1000 * this.frameDurations.length / this.frameDurations.reduce((a, b) => a + b, 0) : 0, captureEffects: this.captureFlights.map(f => ({ id: f.id, elapsed: f.elapsed, x: f.sprite.x, y: f.sprite.y, scale: f.sprite.scaleX, depth: f.sprite.depth, reduced: f.reduced })), particles: this.particles.length, audio: { contextState: this.audio.contextState, muted: this.audio.muted, suspended: this.audio.suspended } }; }
 }

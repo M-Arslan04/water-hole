@@ -3,7 +3,7 @@ export const CONFIG = {
   roundSeconds: 90,
   world: { width: 1600, height: 1100, margin: 38 },
   start: { x: 790, y: 620 },
-  movement: { speed: 285, acceleration: 11, joystickRadius: 36, navigationRadius: 24,
+  movement: { speed: 285, acceleration: 11, joystickRadius: 42, navigationRadius: 24,
     touchSpeed: 340, touchAcceleration: 24, touchDeadzone: 0.06, touchCameraResponse: 10 },
   suction: { extraRadius: 68, force: 170, swirl: 0.6, captureFraction: 0.58 },
   reef: { speedMultiplier: 0.48, warningCooldown: 4 },
