@@ -1,0 +1,6 @@
+{
+  "enabled": false,
+  "applicationId": "OWNER_ADMOB_APP_ID",
+  "interstitialUnitId": "OWNER_ADMOB_INTERSTITIAL_ID",
+  "note": "Review consent, audience, policies and device tests before implementing production activation. This file is not loaded."
+}

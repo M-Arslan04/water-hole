@@ -1,0 +1,14 @@
+{
+  "serial": "emulator-5554",
+  "alphas": [
+    0,
+    0,
+    0
+  ],
+  "layout": {
+    "height": 731,
+    "bottom": 719,
+    "bestBottom": 700
+  },
+  "passed": true
+}

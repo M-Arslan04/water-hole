@@ -7,3 +7,16 @@ dist/
 
 release/
 tests/artifacts/
+
+# Native outputs and private signing material
+apps/android/dist/
+apps/android/android/.gradle/
+apps/android/android/.idea/
+apps/android/android/**/build/
+apps/android/android/local.properties
+apps/android/android/app/src/main/assets/public/
+apps/android/android/app/src/main/assets/capacitor.config.json
+apps/android/android/app/src/main/assets/capacitor.plugins.json
+**/keystore.properties
+*.keystore
+*.jks

@@ -16,7 +16,7 @@ async function fit(state) {
     const rect=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,right:r.right,bottom:r.bottom};};
     const frame=document.querySelector('#game-frame'), card=document.querySelector('#result:not([hidden]) .modal-card, #pause-overlay:not([hidden]) .modal-card');
     const selectors=card?['h2','.final-score','.result-stats','.result-best','.primary-button']:[];
-    return {viewport:{width:innerWidth,height:innerHeight},scroll:{x:scrollX,y:scrollY,width:document.documentElement.scrollWidth,height:document.documentElement.scrollHeight},frame:rect(frame),canvas:rect(document.querySelector('#game canvas')),card:card?{...rect(card),clientWidth:card.clientWidth,scrollWidth:card.scrollWidth,scrollHeight:card.scrollHeight,clientHeight:card.clientHeight}:null,children:card?selectors.flatMap(s=>[...card.querySelectorAll(s)].map(rect)):[],audio:rect(document.querySelector('#sound')),inSession:document.body.classList.contains('in-round'),mode:frame.dataset.mode};
+    return {viewport:{width:innerWidth,height:innerHeight},scroll:{x:scrollX,y:scrollY,width:document.documentElement.scrollWidth,height:document.documentElement.scrollHeight},frame:rect(frame),canvas:rect(document.querySelector('#game canvas')),playfield:rect(document.querySelector('#game')),dock:document.querySelector('#game-status').hidden?null:rect(document.querySelector('#game-status')),card:card?{...rect(card),clientWidth:card.clientWidth,scrollWidth:card.scrollWidth,scrollHeight:card.scrollHeight,clientHeight:card.clientHeight}:null,children:card?selectors.flatMap(s=>[...card.querySelectorAll(s)].map(rect)):[],audio:rect(document.querySelector('#sound')),inSession:document.body.classList.contains('in-round'),mode:frame.dataset.mode};
   });
   const {viewport,frame,card}=metrics;
   assert.ok(metrics.scroll.width<=viewport.width+1,`${state}: document is wider than viewport`);
@@ -26,7 +26,11 @@ async function fit(state) {
     assert.ok(metrics.audio.width>=44 && metrics.audio.height>=44,`${state}: mute touch target too small`);
     assert.ok(metrics.audio.y>=0 && metrics.audio.bottom<=viewport.height,`${state}: mute is unavailable`);
   }
-  assert.ok(Math.abs(metrics.canvas.width-(frame.width-2))<2 && Math.abs(metrics.canvas.height-(frame.height-2))<2,`${state}: canvas and harbor sizes disagree`);
+  assert.ok(Math.abs(metrics.canvas.width-metrics.playfield.width)<2 && Math.abs(metrics.canvas.height-metrics.playfield.height)<2,`${state}: canvas and playfield sizes disagree`);
+  if(metrics.dock) {
+    assert.ok(metrics.canvas.bottom<=metrics.dock.y+1,`${state}: status dock covers playable water`);
+    assert.ok(metrics.dock.bottom<=frame.bottom+1,`${state}: status dock leaves harbor`);
+  }
   if(card){
     assert.ok(card.x>=frame.x&&card.right<=frame.right&&card.y>=frame.y&&card.bottom<=frame.bottom,`${state}: modal is clipped by harbor`);
     assert.ok(card.scrollWidth<=card.clientWidth+1,`${state}: modal content has horizontal overflow`);
@@ -37,8 +41,8 @@ async function fit(state) {
 try{
  await page.goto(url);await page.waitForFunction(()=>!document.querySelector('#play').disabled);
  await fit('360x800 welcome');await page.screenshot({path:`folder/welcome.png`.replace('folder',folder)});
- // Start from a scrolled landing page, as a user who read the instructions would.
- await page.locator('.field-guide').scrollIntoViewIfNeeded();await page.locator('#play').tap();await page.waitForTimeout(350);
+ // Start after scrolling any overflow on the welcome screen; Play must reset it.
+ await page.evaluate(()=>window.scrollTo(0,document.documentElement.scrollHeight));await page.locator('#play').tap();await page.waitForTimeout(350);
  await fit('360x800 playing');assert.equal(await page.evaluate(()=>scrollY),0);
  const cdp=await context.newCDPSession(page);
  let touching=false;

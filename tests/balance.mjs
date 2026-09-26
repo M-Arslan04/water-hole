@@ -12,7 +12,7 @@ const context = await browser.newContext(mobile ? { viewport: { width: 390, heig
 const page = await context.newPage(), errors = [], samples = [], unlocks = {};
 page.on('pageerror', e => errors.push(e.message));
 page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
-const water = (x,y) => x >= 63 && x <= 1537 && y >= 63 && y <= 1037 && Math.hypot(x-253,y-795) >= 124 && Math.hypot(x-1348,y-241) >= 133 && ![[0,275,233,58],[1360,670,240,65],[55,0,48,160]].some(([rx,ry,w,h])=>Math.hypot(x-Math.max(rx,Math.min(rx+w,x)),y-Math.max(ry,Math.min(ry+h,y)))<25);
+const water = (x,y) => x >= 62 && x <= 1538 && y >= 62 && y <= 1038 && Math.hypot(x-253,y-795) >= 123 && Math.hypot(x-1348,y-241) >= 132 && ![[0,275,233,58],[1360,670,240,65],[55,0,48,160]].some(([rx,ry,w,h])=>Math.hypot(x-Math.max(rx,Math.min(rx+w,x)),y-Math.max(ry,Math.min(ry+h,y)))<24);
 const clear = (p,e) => { const steps=Math.max(1,Math.ceil(Math.hypot(e.x-p.x,e.y-p.y)/10)); return Array.from({length:steps},(_,i)=>(i+1)/steps).every(t=>water(p.x+(e.x-p.x)*t,p.y+(e.y-p.y)*t)); };
 // Waypoint search only chooses input directions; the scene still performs all navigation.
 const nodes=[];
@@ -60,8 +60,9 @@ try {
     const eligible=s.entities.filter(e=>e.tier<=s.stage), valuable=eligible.filter(e=>e.tier>=3);
     const pool=s.stage===5&&valuable.length?valuable:eligible;
     const candidates=pool.filter(e=>clear(s.player,e));
-    const target=candidates.sort((a,b)=>Math.hypot(a.x-s.player.x,a.y-s.player.y)/(1+a.tier*.18)-Math.hypot(b.x-s.player.x,b.y-s.player.y)/(1+b.tier*.18))[0] || detour(s.player,pool);
-    const dx=target?target.x-s.player.x:200,dy=target?target.y-s.player.y:0,d=Math.hypot(dx,dy),moving=d>s.player.radius*.8;
+    const direct=candidates.sort((a,b)=>Math.hypot(a.x-s.player.x,a.y-s.player.y)/(1+a.tier*.18)-Math.hypot(b.x-s.player.x,b.y-s.player.y)/(1+b.tier*.18))[0];
+    const target=direct || detour(s.player,pool);
+    const dx=target?target.x-s.player.x:200,dy=target?target.y-s.player.y:0,d=Math.hypot(dx,dy),moving=d>(direct?s.player.radius*.8:12);
     if(mobile){
       if(touching)await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
       touching=false;

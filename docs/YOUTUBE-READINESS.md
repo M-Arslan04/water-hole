@@ -43,3 +43,7 @@ The official [integration requirements](https://developers.google.com/youtube/ga
 “Water Hole” remains provisional and unchanged. The indexed Android listing for **Water Hole**, package `com.redlinegames.waterhole2`, remains discoverable: [listing](https://chrome-stats.com/d/com.redlinegames.waterhole2). Current Play Store availability is unverified; the existing name creates a practical discovery/confusion risk regardless. This is not trademark clearance.
 
 Creative alternatives for a separate name check: **Brine Banquet**, **Sunbreak Swirl**, **Portside Appetite**, **Wharf Gobbler**. These are proposals, not assertions of availability. Before adopting one, check stores, web search, relevant trademark registers and domain/channel availability; change the visible title and submission metadata only after selection.
+
+## Application preparation update — 25 September 2026
+
+See [YOUTUBE-APPLICATION.md](YOUTUBE-APPLICATION.md) for the inspected interest-form fields, owner placeholders and preliminary naming research. New accessibility work and the independent Android target do not change the absent YouTube SDK/portal/certification status. The deployed Vercel demo has not been updated by this preparation task.

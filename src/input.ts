@@ -8,15 +8,25 @@ export class Steering {
   private touch = false;
   usingTouch = false;
   moved = false;
-  constructor(private scene: Phaser.Scene, private pixelRatio = 1) {
-    this.keys = scene.input.keyboard!.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT') as Record<string, Phaser.Input.Keyboard.Key>;
+  constructor(private scene: Phaser.Scene, private pixelRatio = 1, private isPlaying: () => boolean = () => false) {
+    this.keys = scene.input.keyboard!.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT', false) as Record<string, Phaser.Input.Keyboard.Key>;
     scene.input.on('pointerdown', (p: Phaser.Input.Pointer) => { if (this.pointer) return; this.pointer = p; this.touch = p.wasTouch; this.origin = { x: p.x, y: p.y }; });
     scene.input.on('pointermove', (p: Phaser.Input.Pointer) => {
       if (this.touch && p.id === this.pointer?.id && p.isDown) this.origin = floatingOrigin(this.origin, p, CONFIG.movement.joystickRadius * this.pixelRatio);
     });
     const release = (p: Phaser.Input.Pointer) => { if (p.id === this.pointer?.id) this.pointer = undefined; };
     scene.input.on('pointerup', release); scene.input.on('pointerupoutside', release);
-    scene.input.keyboard!.addCapture(['UP', 'DOWN', 'LEFT', 'RIGHT', 'SPACE']);
+    // Phaser receives keys at window level, even after the canvas loses DOM focus.
+    // Suppress the matching browser scroll only while those keys control a round.
+    const preventGameScroll = (event: KeyboardEvent) => {
+      if (!this.isPlaying() || !scene.input.keyboard?.enabled) return;
+      const target = event.target instanceof Element ? event.target : null;
+      if (target?.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="textbox"], dialog')) return;
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) event.preventDefault();
+    };
+    // Register after Phaser's window handler: preventing earlier would discard steering input.
+    window.addEventListener('keydown', preventGameScroll);
+    scene.events.once('shutdown', () => window.removeEventListener('keydown', preventGameScroll));
   }
   reset() { this.pointer = undefined; this.scene.input.keyboard?.resetKeys(); }
   vector(x: number, y: number): { x: number; y: number } {
