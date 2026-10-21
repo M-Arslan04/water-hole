@@ -91,3 +91,11 @@ body.ocean { margin:0; overscroll-behavior:none; background:#041421; }
 .ocean .ocean-dialog-close { position:sticky; top:0; float:right; z-index:2; display:grid; place-items:center; width:44px; height:44px; margin:-8px -8px 8px 10px; border:1px solid #7295a5; border-radius:50%; background:#09283d; color:var(--cream); font-size:1.7rem; }
 .ocean #ocean-leave-round .help-button { margin-top:14px; color:var(--cream); }
 .ocean #pause-home { margin-top:22px; }
+
+/* Only suppress rings on scripted screen transitions after mouse/touch input.
+   Keyboard input clears this marker; normal control focus styling is unchanged. */
+.ocean [data-pointer-focus]:focus-visible { outline:none; }
+.ocean #game[data-pointer-focus]:focus-visible { box-shadow:none; }
+
+/* Results focus announces the screen; the heading is not an interactive control. */
+.ocean #result-title:focus { outline:none; }
