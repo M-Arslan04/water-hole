@@ -2,6 +2,7 @@ import {CONFIG} from '../config';
 import {drawMinimap} from '../minimap';
 import type {HarborScene} from '../game';
 import {icon} from './icons';
+import {createScreenFocus} from './focus';
 const el=<T extends HTMLElement=HTMLElement>(id:string)=>document.getElementById(id) as T;
 export function mountOcean(){
  document.body.classList.add("ocean");
@@ -27,6 +28,7 @@ export function mountOcean(){
  </main><p id="ocean-start-error" role="alert" hidden></p>`;
 }
 export function bindOcean(scene:HarborScene,startLoop:()=>void,stopLoop:()=>void,hooks:{playLabel?:'Play'|'Play solo';beforePlay?:()=>Promise<void>;beforeReplay?:()=>Promise<void>;canInteract?:()=>boolean}={}){
+ const focusScreen=createScreenFocus();
  let bestAtStart=scene.best,previous='',stage=-1,toastTimer=0;
  const start=async(id:string,hook?:()=>Promise<void>)=>{const button=el<HTMLButtonElement>(id);button.disabled=true;try{await hook?.();if(hooks.canInteract?.()===false)return;bestAtStart=scene.best;startLoop();scene.startRound();}catch{el('ocean-start-error').hidden=false;el('ocean-start-error').textContent='Return to the game and try Play again.';}finally{button.disabled=false;}};
  el('play').onclick=()=>void start('play',hooks.beforePlay);el('again').onclick=()=>void start('again',hooks.beforeReplay);el('pause').onclick=()=>scene.pauseRound();el('resume').onclick=()=>scene.resumeRound();el('ocean-home').onclick=()=>scene.home();el('pause-settings').onclick=()=>el('settings').click();
@@ -39,10 +41,10 @@ export function bindOcean(scene:HarborScene,startLoop:()=>void,stopLoop:()=>void
   if(s.mode!==previous){
    shell.dataset.screen=s.mode;document.body.classList.toggle('ocean-playing',active);document.body.classList.toggle('in-round',active);el('game-frame').dataset.mode=s.mode;document.body.classList.toggle('ocean-finished',s.mode==='finished');
    el('welcome').hidden=s.mode!=='welcome';el('result').hidden=s.mode!=='finished';el('pause-overlay').hidden=s.mode!=='paused';el('game-frame').inert=s.mode!=='playing';el('game-frame').setAttribute('aria-hidden',String(!active));
-   if(s.mode==='playing'){el('game').focus({preventScroll:true});if(previous!=='paused'){el('toast').className='';stage=-1;}}
-   if(s.mode==='paused')requestAnimationFrame(()=>{if(!document.querySelector('dialog[open]'))el('resume').focus({preventScroll:true});});
-   if(s.mode==='finished'){el('result').scrollTop=0;requestAnimationFrame(()=>el('result-title').focus({preventScroll:true}));stopLoop();}
-   if(s.mode==='welcome'){requestAnimationFrame(()=>{if(scene.mode!=='welcome')return;if(scene.game?.isBooted)stopLoop();if(previous)el('play').focus({preventScroll:true});});}
+   if(s.mode==='playing'){focusScreen(el('game'));if(previous!=='paused'){el('toast').className='';stage=-1;}}
+   if(s.mode==='paused')requestAnimationFrame(()=>{if(!document.querySelector('dialog[open]'))focusScreen(el('resume'));});
+   if(s.mode==='finished'){el('result').scrollTop=0;requestAnimationFrame(()=>focusScreen(el('result-title')));stopLoop();}
+   if(s.mode==='welcome'){const returningHome=previous!=='';requestAnimationFrame(()=>{if(scene.mode!=='welcome')return;if(scene.game?.isBooted)stopLoop();if(returningHome)focusScreen(el('play'));});}
    previous=s.mode;
   }
   el('welcome-best').textContent=s.best?s.best.toLocaleString('en'):'Set your first';el('score').textContent=s.score.toLocaleString('en');el('timer').textContent=`${Math.floor(s.time/60)}:${String(s.time%60).padStart(2,'0')}`;el('timer').classList.toggle('urgent',s.time<=15);
