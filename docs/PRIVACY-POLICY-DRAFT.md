@@ -13,3 +13,11 @@ Where required, you can make consent choices before ads are requested and revisi
 The current development package uses test units; production serving is disabled. The ordinary browser game has no AdMob/Capacitor integration. Its local score/settings storage and hosting-provider traffic processing require a separate accurate web notice. Do not imply that “offline game” means an ad-enabled Android version never contacts a service.
 
 `[EXPLAIN HOW MATERIAL POLICY CHANGES WILL BE COMMUNICATED AND HOW USERS CAN CONTACT THE OPERATOR.]`
+
+## Regular website analytics — proposed disclosure for this integration
+
+After this change is deployed, `https://water-hole.vercel.app` uses Vercel Web Analytics for website visitor and page-view statistics. The integration sends no custom gameplay events, player names, scores, saved preferences or game diagnostics. Page URLs are normalized to the site root without query strings or fragments. Collection is skipped when the referring URL contains query strings, fragments or credentials, since that referrer is handled separately by the provider's script. Resource requests use an origin-only referrer policy.
+
+Vercel's basic analytics processes request information to provide traffic statistics, including approximate geography and browser/device categories. See [Vercel's analytics privacy documentation](https://vercel.com/docs/analytics/privacy-policy) for the provider's description of its visitor identification and processing. These statistics do not identify unique players across devices/platforms or count game rounds. This integration does not run in Android, YouTube Playables, local development, Vercel Preview deployments or supported automated tests. Website personal bests/settings remain in local browser storage and are not sent by this integration.
+
+This is a factual addition to an existing unpublished draft, not a completed public privacy policy or a claim of legal compliance. The operator/contact/rights placeholders above still require owner review.
