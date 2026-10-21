@@ -1,5 +1,6 @@
 import { CONFIG } from './config';
 import { entityIcon } from './art';
+import { boatURLs } from './ocean/art';
 import type { HarborScene } from './game';
 import type { PlatformAdapter } from './platform';
 export interface Settings { highContrast: boolean; motion: 'system' | 'reduce'; muted: boolean; }
@@ -7,34 +8,39 @@ export function attachAccessibility(scene: HarborScene, platform: PlatformAdapte
   document.querySelector('#app')!.insertAdjacentHTML('beforeend', `
     <div id="announcer" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
     <dialog id="preferences" aria-labelledby="preferences-title">
-      <h2 id="preferences-title">Make yourself comfortable</h2>
-      <label class="setting-row"><input id="contrast-setting" type="checkbox"> High contrast</label>
-      <p>Double rings mark your whirlpool. Check marks mean you can collect a target; locks mean grow first. Striped shallows slow you down.</p>
+      <h2 id="preferences-title">Settings</h2>
+      <div class="settings-options"><label class="setting-row"><input id="contrast-setting" type="checkbox"> High contrast</label>
       <label class="setting-row" for="motion-setting">Motion effects</label>
-      <select id="motion-setting"><option value="system">Follow device preference</option><option value="reduce">Reduce motion</option></select>
-      <p>Reduces decorative rotation, bobbing, particles and score animations. Steering, camera tracking and moving ships remain.</p>
+      <select id="motion-setting"><option value="system">Follow device preference</option><option value="reduce">Reduce motion</option></select></div>
+      <button id="accessibility-open" class="help-button" aria-haspopup="dialog">Controls & accessibility</button>
       <div id="platform-settings"></div>
       <button id="close-preferences" class="primary-button">Done</button>
     </dialog>
     <dialog id="how-to-play" aria-labelledby="help-title">
-      <h2 id="help-title" tabindex="-1">A little guide to big waves</h2>
+      <h2 id="help-title" tabindex="-1">How to play</h2>
       <p id="primary-controls" class="primary-controls"></p>
       <ol class="help-steps">
-        <li><strong>Start with the little things.</strong> Collect driftwood and bottles to grow.</li>
-        <li><strong>Work up an appetite.</strong> Bigger whirlpools can swallow bigger boats. Locks mean you need to grow first.</li>
-        <li><strong>Make your 90 seconds count.</strong> Chase a new best. Shallows slow you down; islands and docks block your path.</li>
+        <li><strong>Move:</strong> Drag to steer. Drag farther to go faster. Lift to stop.</li>
+        <li><strong>Grow:</strong> Collect small objects to swallow bigger boats. Locks mean you need to grow.</li>
+        <li><strong>Score:</strong> You have 90 seconds. Avoid obstacles; shallows slow you down.</li>
       </ol>
-      <h3>On the menu</h3>
-      <ol class="help-catches" aria-label="Growth progression">
-        ${(['driftwood','crate','rowboat','fishing','tug','cargo'] as const).map((kind,i)=>`<li><img src="${entityIcon(kind)}" alt=""><span>${i+1}. ${['Little things','Crates & buoys','Rowboats','Fishing boats','Tugboats','Cargo ships'][i]}</span></li>`).join('')}
+      <ol class="help-catches" aria-label="Six growth stages">
+        ${(['driftwood','crate','rowboat','fishing','tug','cargo'] as const).map((kind,i)=>`<li><img src="${kind in boatURLs ? boatURLs[kind as keyof typeof boatURLs] : entityIcon(kind)}" alt="${CONFIG.stages[i].target}"><span>${i+1}. ${CONFIG.stages[i].name}</span></li>`).join('')}
       </ol>
-      <details id="other-controls"><summary>Other controls</summary><div id="alternative-controls"></div></details>
+      <div class="help-actions"><button id="other-controls-open" class="help-button" aria-haspopup="dialog">Controls & accessibility</button><button id="close-help" class="primary-button">Got it</button></div>
+    </dialog>
+    <dialog id="other-controls-open-view" class="detail-dialog" aria-labelledby="other-controls-title">
+      <button id="close-other-controls" class="ocean-dialog-close" aria-label="Close controls and accessibility">Close</button>
+      <h2 id="other-controls-title" tabindex="-1">Controls & accessibility</h2>
+      <div id="alternative-controls"></div>
+      <p>High contrast: double rings mark your whirlpool. Check marks mean you can collect a target; locks mean grow first. Striped shallows slow you down.</p>
+      <p>Reduced motion removes decorative rotation, bobbing, particles and score animations. Steering, camera tracking and moving ships remain.</p>
       <p class="help-note">Use Pause to take a break and the sound button to mute. Sounds mark catches, growth, shallows and the end of a round.</p>
-      <p class="help-note">Menus and results support screen readers. The real-time harbor still requires visual play; a complete nonvisual mode is not available.</p>
-      <button id="close-help" class="primary-button">Got it</button>
+      <p>Menus and results support screen readers. The real-time harbor still requires visual play; a complete nonvisual mode is not available.</p>
     </dialog>`);
   const dialog = document.querySelector<HTMLDialogElement>('#preferences')!;
   const help = document.querySelector<HTMLDialogElement>('#how-to-play')!;
+  const other = document.querySelector<HTMLDialogElement>('#other-controls-open-view')!;
   const contrast = document.querySelector<HTMLInputElement>('#contrast-setting')!;
   const motion = document.querySelector<HTMLSelectElement>('#motion-setting')!;
   const sound = document.querySelector<HTMLButtonElement>('#sound')!;
@@ -43,13 +49,12 @@ export function attachAccessibility(scene: HarborScene, platform: PlatformAdapte
   const returnFocus = new Map<HTMLDialogElement, HTMLElement>();
   const touchControls = 'Drag to steer. Drag farther to move faster. Lift to stop.';
   const mouseControls = 'Hold the mouse button toward your destination to steer.';
-  const keyboardControls = 'Use arrow keys or W, A, S, D to steer. Escape pauses or resumes. Tab moves between menu controls; Space or Enter activates them.';
   const updateInstructions = () => {
     const touchFirst = navigator.maxTouchPoints > 0 || matchMedia('(pointer: coarse)').matches;
-    document.querySelector('#primary-controls')!.textContent = touchFirst ? touchControls : `${mouseControls} You can also use WASD or arrow keys.`;
+    const primary=document.querySelector<HTMLElement>('#primary-controls')!;primary.hidden=touchFirst;primary.textContent=`Mouse: hold to steer. Keyboard: WASD or arrow keys.`;
     document.querySelector('#alternative-controls')!.innerHTML = touchFirst
-      ? `<p><strong>Mouse:</strong> ${mouseControls}</p><p><strong>Keyboard:</strong> ${keyboardControls}</p>`
-      : `<p><strong>Touch:</strong> ${touchControls}</p><p><strong>Keyboard:</strong> ${keyboardControls}</p>`;
+      ? `<p><strong>Mouse:</strong> ${mouseControls}</p><p><strong>Keyboard:</strong> Use arrow keys or W, A, S, D to steer.</p><p>Escape pauses or resumes. Tab moves between menu controls; Space or Enter activates them.</p>`
+      : `<p><strong>Touch:</strong> ${touchControls}</p><p><strong>Keyboard:</strong> Use arrow keys or W, A, S, D to steer.</p><p>Escape pauses or resumes. Tab moves between menu controls; Space or Enter activates them.</p>`;
     document.querySelector('#game')!.setAttribute('aria-label', `Harbor. ${touchFirst ? touchControls : 'Hold the mouse button to steer, or use WASD or arrow keys.'}`);
   };
   updateInstructions();
@@ -79,17 +84,19 @@ export function attachAccessibility(scene: HarborScene, platform: PlatformAdapte
   document.querySelector<HTMLButtonElement>('#settings')!.onclick = () => openDialog(dialog, contrast);
   document.querySelectorAll<HTMLButtonElement>('[data-open-help]').forEach(button => {
     button.onclick = () => {
-      updateInstructions(); document.querySelector<HTMLDetailsElement>('#other-controls')!.open = false;
+      updateInstructions();
       openDialog(help, document.querySelector<HTMLElement>('#help-title')!);
     };
   });
+  for(const id of ['other-controls-open','accessibility-open'])document.getElementById(id)!.onclick=()=>openDialog(other,document.getElementById('other-controls-title')!);
+  document.getElementById('close-other-controls')!.onclick=()=>other.close();
   document.querySelector<HTMLButtonElement>('#close-preferences')!.onclick = () => dialog.close();
   document.querySelector<HTMLButtonElement>('#close-help')!.onclick = () => help.close();
   document.addEventListener('keydown', event => {
     if (event.key !== 'Escape' || document.querySelector('dialog[open]') || event.defaultPrevented) return;
     if (scene.mode === 'playing') scene.pauseRound(); else if (scene.mode === 'paused') scene.resumeRound();
   });
-  for (const target of [dialog, help]) {
+  for (const target of [dialog, help, other]) {
   target.addEventListener('keydown', event => {
     if (event.key === 'Escape') { if (!options.preserveEscape) event.preventDefault(); event.stopPropagation(); target.close(); return; }
     if (event.key !== 'Tab') return;
@@ -98,7 +105,13 @@ export function attachAccessibility(scene: HarborScene, platform: PlatformAdapte
     if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   });
-  target.addEventListener('close', () => { scene.setMenuOpen(Boolean(document.querySelector('dialog[open]'))); returnFocus.get(target)?.focus({ preventScroll: true }); });
+  target.addEventListener('close', () => {
+    scene.setMenuOpen(Boolean(document.querySelector('dialog[open]')));
+    // Native dialogs restore focus synchronously; their close event arrives later.
+    // Only supply a fallback if focus was lost, not after the user moved elsewhere.
+    const focused = document.activeElement;
+    if (!focused || focused === document.body || target.contains(focused)) returnFocus.get(target)?.focus({ preventScroll: true });
+  });
   }
   // Preserve the UI subscriber. Only transitions enter the live region, never per-frame scores.
   const update = scene.onSnapshot;

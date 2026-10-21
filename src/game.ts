@@ -1,8 +1,9 @@
+import {boatURLs} from './ocean/art';
 import Phaser from 'phaser';
 import { capturePose, type CaptureFlight } from './capture-visual';
 import { CONFIG, ENTITIES, REEFS, type EntityKind } from './config';
 import { clamp, isWater, moveInWater, progressFor, randomGenerator, stageFor } from './rules';
-import { createArt } from './art';
+import { createArt } from './ocean/art';
 import { Steering } from './input';
 import { reachableArrival, shipNeeded } from './spawning';
 import { GameAudio } from './audio';
@@ -25,6 +26,8 @@ export class HarborScene extends Phaser.Scene {
   private unsubscribe?: () => void;
   onSnapshot: (s: Snapshot) => void = () => {}; onToast: (text: string, type?: string) => void = () => {}; onReady: () => void = () => {};
   constructor(public audio: GameAudio, private platform: PlatformAdapter, private pixelRatio = 1) { super('harbor'); }
+  preload() { for(const [kind,url] of Object.entries(boatURLs)) this.load.image(`ocean-${kind}`,url); }
+  home() { this.pauseRound(); this.mode='welcome'; this.audio.pause(); this.onSnapshot(this.snapshot()); }
   create() {
     if (this.scale.width / this.pixelRatio < 650) this.player.y = 280;
     createArt(this); this.add.image(800, 550, 'harbor'); this.wakes = this.add.graphics().setDepth(1); this.effects = this.add.graphics().setDepth(7);
@@ -35,7 +38,7 @@ export class HarborScene extends Phaser.Scene {
     this.events.once('shutdown', () => { this.unsubscribe?.(); this.scale.off('resize', this.resize, this); });
     this.onReady(); this.emitSnapshot();
   }
-  setMenuOpen(open: boolean) { this.steering?.reset(); if (this.input.keyboard) this.input.keyboard.enabled = !open; }
+  setMenuOpen(open: boolean) { this.steering?.reset(); if (this.input?.keyboard) this.input.keyboard.enabled = !open; }
   private resize() {
     const { width, height } = this.scale; const camera = this.cameras.main;
     const zoom = width / this.pixelRatio < 650 ? Math.max(width / 720, height / 1100) : Math.max(width / 1600, height / 1100);
@@ -143,7 +146,7 @@ export class HarborScene extends Phaser.Scene {
       if (this.mode === 'playing' && eligible && dist < suction + def.radius * 0.3) {
         attracted = true; const force = CONFIG.suction.force * (0.55 + (1 - dist / (suction + def.radius)) * 2.5), spin = CONFIG.suction.swirl * clamp(dist / suction, 0, 1);
         const moved = moveInWater(e.x, e.y, (dx / dist - dy / dist * spin) * force * dt, (dy / dist + dx / dist * spin) * force * dt, Math.min(def.radius, 20)); e.x = moved.x; e.y = moved.y; e.angle += dt * 2.7; e.originX = e.x; e.originY = e.y;
-        e.sprite.setScale(0.5 * clamp(dist / Math.max(1, radius), 0.45, 1)); if (dist < radius * CONFIG.suction.captureFraction + def.radius * 0.2) this.capture(e);
+        e.sprite.setScale(0.5); if (dist < radius * CONFIG.suction.captureFraction + def.radius * 0.2) this.capture(e);
       } else if (def.speed && (this.mode === 'welcome' || this.mode === 'playing')) {
         const targetX = e.originX + Math.sin(this.clock * def.speed / 85 + e.phase) * CONFIG.spawn.vesselExcursion, targetY = e.originY;
         const blocked = this.entities.some(other => other !== e && !other.captured && ENTITIES[other.kind].speed > 0 && Math.hypot(targetX - other.x, targetY - other.y) < (def.radius + ENTITIES[other.kind].radius) * CONFIG.spawn.vesselFootprint + 5);
@@ -153,7 +156,7 @@ export class HarborScene extends Phaser.Scene {
       // Keep eligible objects visible as they cross the outer ring, before scoring.
       e.sprite.setDepth(attracted && dist < radius * 1.3 + def.radius ? 5 : 3);
       e.sprite.setPosition(e.x, e.y + (this.reducedMotion ? 0 : Math.sin(this.clock * 1.9 + e.phase) * 1.4)).setRotation(this.reducedMotion && attracted ? 0 : e.angle);
-      if (def.speed && !attracted) { const direction = Math.cos(e.angle); this.wakes.lineStyle(1.5, 0xb9efe0, 0.28); for (let i = 0; i < 3; i++) { const x = e.x - direction * (def.radius * 1.35 + 7 + i * 8); this.wakes.beginPath(); this.wakes.moveTo(x, e.y - 7 - i * 3); this.wakes.lineTo(x - direction * 5, e.y); this.wakes.lineTo(x, e.y + 7 + i * 3); this.wakes.strokePath(); } }
+      if (def.speed && !attracted && !this.reducedMotion && !this.registry.get("oceanSmooth")) { const direction = Math.cos(e.angle); this.wakes.lineStyle(1.5, 0xb9efe0, 0.28); for (let i = 0; i < 3; i++) { const x = e.x - direction * (def.radius * 1.35 + 7 + i * 8); this.wakes.beginPath(); this.wakes.moveTo(x, e.y - 7 - i * 3); this.wakes.lineTo(x - direction * 5, e.y); this.wakes.lineTo(x, e.y + 7 + i * 3); this.wakes.strokePath(); } }
       if (this.highContrast) {
         const py = e.y - def.radius - 16;
         this.effects.lineStyle(6, 0x000000, 1).strokeEllipse(e.x, e.y, def.radius * 2.8 + 12, def.radius * 1.8 + 12);
@@ -176,7 +179,7 @@ export class HarborScene extends Phaser.Scene {
       return true;
     });
     this.particles = this.particles.filter(p => { p.life -= dt; if (p.life <= 0) { p.sprite.destroy(); return false; } p.sprite.x += p.vx * dt; p.sprite.y += p.vy * dt; p.sprite.setAlpha(p.life / CONFIG.effects.lifetime); return true; });
-    this.growthPulse = Math.max(0, this.growthPulse - dt); const visualRadius = this.mode === 'welcome' ? 58 : radius; const scale = visualRadius * 2.6 / 384 * (this.reducedMotion ? 1 : 1 + Math.sin(this.growthPulse * 8) * 0.11);
+    this.growthPulse = Math.max(0, this.growthPulse - dt); const visualRadius = this.mode === 'welcome' ? 58 : radius; const scale = visualRadius * 2.6 / 384;
     this.vortex.setPosition(this.player.x, this.player.y).setScale(scale).setRotation(this.reducedMotion ? 0 : -this.clock * 1.15); this.foam.setPosition(this.player.x, this.player.y).setScale(scale).setRotation(this.reducedMotion ? 0 : this.clock * 0.65);
     if (this.mode === 'playing') { this.effects.lineStyle(1, this.isSlowed() ? 0xffd19a : 0xc0f7d7, 0.2).strokeCircle(this.player.x, this.player.y, suction); this.steering.draw(this.effects); }
     if (this.highContrast) {
